@@ -1,0 +1,23 @@
+{
+  "name": "ts-dynamic-query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "class-transformer": "^0.1.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wz2cool/ts-dynamic-query.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wz2cool/ts-dynamic-query/issues"
+  },
+  "homepage": "https://github.com/wz2cool/ts-dynamic-query#readme"
+}
