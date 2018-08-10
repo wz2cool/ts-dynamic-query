@@ -1,0 +1,1 @@
+# ts-dynamic-query
