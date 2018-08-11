@@ -13,6 +13,9 @@ describe(".FilterDescriptor", () => {
         propertyPath: "name"
       });
 
+      const student = new Student();
+      console.log(student)
+
       expect("name").to.be.eq(nameFilter.propertyPath);
     });
 

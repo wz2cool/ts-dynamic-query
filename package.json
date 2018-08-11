@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "class-transformer": "^0.1.9"
+    "class-transformer": "^0.1.9",
+    "ts-commons": "0.0.16"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
