@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { FilterDescriptor } from "../../src/models";
 import { FilterOperator, FilterCondition } from "../../src/enums";
-import { deserialize } from "class-transformer";
 
 describe(".FilterDescriptor", () => {
   class Student {
@@ -31,7 +30,7 @@ describe(".FilterDescriptor", () => {
         value: "Frank"
       });
 
-      const result = JSON.stringify(nameFilter);
+      const result = nameFilter.toJSON();
       expect(
         `{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}`
       ).to.be.eq(result);
@@ -41,7 +40,7 @@ describe(".FilterDescriptor", () => {
   describe("#deserialize", () => {
     it("should to json", () => {
       const json = `{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}`;
-      const result = deserialize<FilterDescriptor<{}>>(FilterDescriptor, json);
+      const result = new FilterDescriptor<{}>().fromJSON(json);
       expect(FilterCondition.AND).to.be.eq(result.condition);
       expect(FilterOperator.EQUAL).to.be.eq(result.operator);
       expect("name").to.be.eq(result.propertyPath);

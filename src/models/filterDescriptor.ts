@@ -31,6 +31,11 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
     return serialize(this);
   }
   public fromJSON(json: string): FilterDescriptor<T> {
-    return deserialize<FilterDescriptor<T>>(FilterDescriptor, json);
+    const obj = deserialize<FilterDescriptor<T>>(FilterDescriptor, json);
+    this.condition = obj.condition;
+    this.operator = obj.operator;
+    this.propertyPath = obj.propertyPath;
+    this.value = obj.value;
+    return this;
   }
 }
