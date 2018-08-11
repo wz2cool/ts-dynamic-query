@@ -1,6 +1,9 @@
 import { SortDescriptorBase } from "./sortDescriptorBase";
 import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { deserialize, serialize } from "class-transformer";
+import { FilterDescriptor } from "./filterDescriptor";
+import { FilterGroupDescriptor } from "./filterGroupDescriptor";
+import { FilterHelper } from "../helpers";
 
 export class DynamicQuery {
   public filters: FilterDescriptorBase[];
@@ -25,8 +28,8 @@ export class DynamicQuery {
   }
   public fromJSON(json: string): DynamicQuery {
     const obj = deserialize<DynamicQuery>(DynamicQuery, json);
-    this.filters = obj.filters || [];
-    this.sorts = obj.sorts || [];
+    this.filters = FilterHelper.getRealFilters(obj.filters);
+    this.sorts = FilterHelper.getRealSorts(obj.sorts);
     return this;
   }
 }

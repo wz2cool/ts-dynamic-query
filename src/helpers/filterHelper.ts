@@ -1,6 +1,13 @@
-import { FilterDescriptor } from "../models";
+import {
+  FilterDescriptor,
+  FilterDescriptorBase,
+  FilterGroupDescriptor,
+  SortDescriptorBase,
+  SortDescriptor
+} from "../models";
 import { FilterOperator } from "../enums";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
+import { deserialize, serialize } from "class-transformer";
 
 export class FilterHelper {
   public static predicate<T>(
@@ -196,6 +203,47 @@ export class FilterHelper {
       }
     } else {
       result.push(filterValue);
+    }
+    return result;
+  }
+
+  public static getRealFilters(
+    filters: FilterDescriptorBase[]
+  ): FilterDescriptorBase[] {
+    if (ObjectUtils.isNullOrUndefined(filters) && ArrayUtils.isEmpty(filters)) {
+      return [];
+    }
+
+    const result: FilterDescriptorBase[] = [];
+    for (const filterBase of filters || []) {
+      const filterJson = serialize(filterBase);
+      switch (filterBase.type) {
+        case "FilterDescriptor":
+          result.push(new FilterDescriptor().fromJSON(filterJson));
+          break;
+        case "FilterGroupDescriptor":
+          result.push(new FilterGroupDescriptor().fromJSON(filterJson));
+          break;
+      }
+    }
+    return result;
+  }
+
+  public static getRealSorts(
+    sorts: SortDescriptorBase[]
+  ): SortDescriptorBase[] {
+    if (ObjectUtils.isNullOrUndefined(sorts) && ArrayUtils.isEmpty(sorts)) {
+      return [];
+    }
+
+    const result: SortDescriptorBase[] = [];
+    for (const filterBase of sorts || []) {
+      const filterJson = serialize(filterBase);
+      switch (filterBase.type) {
+        case "SortDescriptor":
+          result.push(new SortDescriptor().fromJSON(filterJson));
+          break;
+      }
     }
     return result;
   }

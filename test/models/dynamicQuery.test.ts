@@ -20,14 +20,14 @@ describe(".FilterDescriptor", () => {
       query.addFilters(nameFilter);
       const result = query.toJSON();
       expect(
-        `{"filters":[{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
+        `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
       ).to.be.eq(result);
     });
   });
 
   describe("#deserialize", () => {
     it("should to json", () => {
-      const json = `{"filters":[{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
+      const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
       const result = new DynamicQuery().fromJSON(json);
         
     });

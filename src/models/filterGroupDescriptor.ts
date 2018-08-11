@@ -1,5 +1,7 @@
 import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { deserialize, serialize } from "class-transformer";
+import { FilterDescriptor } from "./filterDescriptor";
+import { FilterHelper } from "../helpers";
 
 export class FilterGroupDescriptor extends FilterDescriptorBase {
   public filters: FilterDescriptorBase[];
@@ -12,11 +14,8 @@ export class FilterGroupDescriptor extends FilterDescriptorBase {
     return serialize(this);
   }
   public fromJSON(json: string): FilterGroupDescriptor {
-    const objs = deserialize<FilterGroupDescriptor>(
-      FilterGroupDescriptor,
-      json
-    );
-    this.filters = objs.filters || [];
+    const obj = deserialize<FilterGroupDescriptor>(FilterGroupDescriptor, json);
+    this.filters = FilterHelper.getRealFilters(obj.filters);
     return this;
   }
 }
