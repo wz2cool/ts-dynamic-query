@@ -15,7 +15,7 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
     | null = null;
 
   constructor(options?: FilterOptions<T>) {
-    super();
+    super("FilterDescriptor");
 
     if (options) {
       this.condition = options.condition || this.condition;

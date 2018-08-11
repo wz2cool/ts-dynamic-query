@@ -8,7 +8,7 @@ export class SortDescriptor<T> extends SortDescriptorBase {
   public direction: SortDirection;
 
   constructor(options?: SortOptions<T>) {
-    super();
+    super("SortDescriptor");
 
     if (options) {
       this.direction = options.direction || this.direction;

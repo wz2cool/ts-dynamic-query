@@ -35,7 +35,7 @@ describe(".FilterDescriptor", () => {
 
       const result = nameFilter.toJSON();
       expect(
-        `{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}`
+        `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
       ).to.be.eq(result);
     });
   });

@@ -1,9 +1,10 @@
 import { SortDirection } from "../enums";
 
 export abstract class SortDescriptorBase {
-  public direction: SortDirection;
-  constructor() {
-    this.direction = SortDirection.ASC;
+  public direction: SortDirection = SortDirection.ASC;
+  public readonly type: string;
+  constructor(type: string) {
+    this.type = type;
   }
 
   public abstract toJSON(): string;

@@ -4,7 +4,7 @@ import { deserialize, serialize } from "class-transformer";
 export class FilterGroupDescriptor extends FilterDescriptorBase {
   public filters: FilterDescriptorBase[];
   constructor() {
-    super();
+    super("FilterGroupDescriptor");
     this.filters = [];
   }
 
