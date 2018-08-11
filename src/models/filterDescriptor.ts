@@ -13,8 +13,11 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
     if (options) {
       this.condition = options.condition || this.condition;
       this.operator = options.operator || this.operator;
+      this.propertyPath = options.propertyPath
+        ? options.propertyPath.toString()
+        : this.propertyPath;
 
-      const va = options.propertyPath.toString();
+      console.log(this.propertyPath);
     }
   }
 }
