@@ -1,8 +1,6 @@
 import { SortDescriptorBase } from "./sortDescriptorBase";
 import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { deserialize, serialize } from "class-transformer";
-import { FilterDescriptor } from "./filterDescriptor";
-import { FilterGroupDescriptor } from "./filterGroupDescriptor";
 import { FilterHelper } from "../helpers";
 
 export class DynamicQuery {

@@ -6,3 +6,4 @@ export * from "./dynamicQuery";
 export * from "./sortDescriptor";
 export * from "./sortDescriptorBase";
 export * from "./sortOptions";
+export * from "./predicteResult";

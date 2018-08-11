@@ -3,14 +3,42 @@ import {
   FilterDescriptorBase,
   FilterGroupDescriptor,
   SortDescriptorBase,
-  SortDescriptor
+  SortDescriptor,
+  PredicteResult
 } from "../models";
-import { FilterOperator } from "../enums";
+import { FilterOperator, FilterCondition } from "../enums";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
 import { deserialize, serialize } from "class-transformer";
 
 export class FilterHelper {
-  public static predicate<T>(
+  public static predicateByFilterGroupDescriptor<T>(
+    obj: T,
+    filterGroupDescriptor: FilterGroupDescriptor
+  ): boolean {
+    const filters = filterGroupDescriptor.filters;
+    let result = true;
+
+    for (const filter of filters) {
+      let predictResult = true;
+      if (filter instanceof FilterDescriptor) {
+        predictResult = this.predicateByFilterDescriptor(obj, filter);
+      } else if (filter instanceof FilterGroupDescriptor) {
+        predictResult = this.predicateByFilterGroupDescriptor(obj, filter);
+      }
+
+      switch (filter.condition) {
+        case FilterCondition.AND:
+          result = result && predictResult;
+          break;
+        case FilterCondition.OR:
+          result = result || predictResult;
+          break;
+      }
+    }
+    return result;
+  }
+
+  public static predicateByFilterDescriptor<T>(
     obj: T,
     filterDescriptor: FilterDescriptor<T>
   ): boolean {
