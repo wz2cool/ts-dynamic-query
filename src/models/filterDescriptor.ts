@@ -14,10 +14,7 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
       this.condition = options.condition || this.condition;
       this.operator = options.operator || this.operator;
 
-      const a = new FilterDescriptor<FilterDescriptor<any>>({
-        operator: FilterOperator.BETWEEN,
-        propertyPath: "value"
-      });
+      const va = options.propertyPath.toString();
     }
   }
 }
