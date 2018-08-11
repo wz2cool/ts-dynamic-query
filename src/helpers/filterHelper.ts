@@ -11,6 +11,38 @@ import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
 import { deserialize, serialize } from "class-transformer";
 
 export class FilterHelper {
+  public static predicateByFilters<T>(
+    obj: T,
+    filters: FilterDescriptorBase[]
+  ): boolean {
+    let result = true;
+    for (const filter of filters) {
+      let predictResult = this.predicateByFilterDescriptorBase(obj, filter);
+      switch (filter.condition) {
+        case FilterCondition.AND:
+          result = result && predictResult;
+          break;
+        case FilterCondition.OR:
+          result = result || predictResult;
+          break;
+      }
+    }
+    return result;
+  }
+
+  public static predicateByFilterDescriptorBase<T>(
+    obj: T,
+    filter: FilterDescriptorBase
+  ): boolean {
+    let predictResult = true;
+    if (filter instanceof FilterDescriptor) {
+      predictResult = this.predicateByFilterDescriptor(obj, filter);
+    } else if (filter instanceof FilterGroupDescriptor) {
+      predictResult = this.predicateByFilterGroupDescriptor(obj, filter);
+    }
+    return predictResult;
+  }
+
   public static predicateByFilterGroupDescriptor<T>(
     obj: T,
     filterGroupDescriptor: FilterGroupDescriptor
