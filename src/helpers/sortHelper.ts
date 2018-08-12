@@ -2,14 +2,14 @@ import { SortDescriptor, SortDescriptorBase } from "../models";
 import { SortDirection } from "../enums";
 
 export class SortHelper {
-  public static sortBySorts<T>(
+  public static predicateBySorts<T>(
     obj1,
     obj2,
     sorts: SortDescriptorBase[]
   ): number {
     let result = 0;
     for (const sort of sorts) {
-      result = this.sortBySortDescriptorBase<T>(obj1, obj2, sort);
+      result = this.predicateBySortDescriptorBase<T>(obj1, obj2, sort);
       if (result !== 0) {
         break;
       }
@@ -17,19 +17,19 @@ export class SortHelper {
     return result;
   }
 
-  public static sortBySortDescriptorBase<T>(
+  public static predicateBySortDescriptorBase<T>(
     obj1: T,
     obj2: T,
     sort: SortDescriptorBase
   ): number {
     let result = 0;
     if (sort instanceof SortDescriptor) {
-      result = this.sortBySortDescriptor<T>(obj1, obj2, sort);
+      result = this.predicateBySortDescriptor<T>(obj1, obj2, sort);
     }
     return result;
   }
 
-  public static sortBySortDescriptor<T>(
+  public static predicateBySortDescriptor<T>(
     obj1: T,
     obj2: T,
     sortDescriptor: SortDescriptor<T>

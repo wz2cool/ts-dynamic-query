@@ -300,7 +300,7 @@ export class FilterHelper {
   public static getRealFilters(
     filters: FilterDescriptorBase[]
   ): FilterDescriptorBase[] {
-    if (ObjectUtils.isNullOrUndefined(filters) && ArrayUtils.isEmpty(filters)) {
+    if (ArrayUtils.isEmpty(filters)) {
       return [];
     }
 
@@ -322,7 +322,7 @@ export class FilterHelper {
   public static getRealSorts(
     sorts: SortDescriptorBase[]
   ): SortDescriptorBase[] {
-    if (ObjectUtils.isNullOrUndefined(sorts) && ArrayUtils.isEmpty(sorts)) {
+    if (ArrayUtils.isEmpty(sorts)) {
       return [];
     }
 
