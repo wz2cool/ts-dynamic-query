@@ -21,6 +21,10 @@ export class FilterHelper {
         continue;
       }
 
+      if (result === true && filter.condition === FilterCondition.OR) {
+        continue;
+      }
+
       let predictResult = this.predicateByFilterDescriptorBase<T>(obj, filter);
       switch (filter.condition) {
         case FilterCondition.AND:
@@ -55,6 +59,10 @@ export class FilterHelper {
     let result = true;
     for (const filter of filters) {
       if (result === false && filter.condition === FilterCondition.AND) {
+        continue;
+      }
+
+      if (result === true && filter.condition === FilterCondition.OR) {
         continue;
       }
 
