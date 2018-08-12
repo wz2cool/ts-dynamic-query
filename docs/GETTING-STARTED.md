@@ -31,6 +31,7 @@ function simpleFilter(): void {
 ```
 
 ## 组筛选
+
 FilterGroupDescriptor 可以把多个筛选组装到一起执行
 
 ```bash
@@ -69,5 +70,62 @@ function groupFilter(): void {
   const result = QueryProvider.query(users, query);
   console.log("result: ", result);
   console.log("================== group end =================");
+}
+```
+
+# 排序
+
+## 基本筛选
+
+# 其他
+
+## 链式调用
+
+new 完 Dynamic 直接加 filter 和 sort 最后执行 query 返回结果。
+
+```bash
+function filterByDynamicQuery(): User[] {
+  const startTime = new Date();
+  // 链式调用
+  const result = new DynamicQuery<User>()
+    .addFilter({
+      propertyPath: "id",
+      operator: FilterOperator.GREATER_THAN,
+      value: 200
+    })
+    .addFilter({
+      propertyPath: "id",
+      operator: FilterOperator.LESS_THAN_OR_EQUAL,
+      value: 900
+    })
+    .addFilterGroup({
+      options: [
+        {
+          propertyPath: "firstName",
+          operator: FilterOperator.START_WITH,
+          value: "t",
+          ignoreCase: true
+        },
+        {
+          condition: FilterCondition.OR,
+          propertyPath: "firstName",
+          operator: FilterOperator.START_WITH,
+          value: "g",
+          ignoreCase: true
+        }
+      ]
+    })
+    .addSort({
+      propertyPath: "id",
+      direction: SortDirection.DESC
+    })
+    .query(users);
+
+  const endTime = new Date();
+  console.log(
+    "'DynamicQuery' query time: ",
+    endTime.getTime() - startTime.getTime()
+  );
+  return result;
 }
 ```
