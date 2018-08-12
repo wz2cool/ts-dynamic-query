@@ -10,6 +10,7 @@ import { SortDescriptor } from "./sortDescriptor";
 import { FilterGroupOptions } from "./filterGroupOptions";
 import { ObjectUtils } from "ts-commons";
 import { FilterCondition } from "../enums";
+import { QueryProvider } from "../providers";
 
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];
@@ -54,6 +55,10 @@ export class DynamicQuery<T> {
     this.sorts.push(sort);
     sortOption;
     return this;
+  }
+
+  public query(datas: T[]): T[] {
+    return QueryProvider.query(datas, this);
   }
 
   public toJSON(): string {
