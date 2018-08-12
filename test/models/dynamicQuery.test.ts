@@ -16,7 +16,7 @@ describe(".FilterDescriptor", () => {
         value: "Frank"
       });
 
-      const query = new DynamicQuery();
+      const query = new DynamicQuery<Student>();
       query.addFilters(nameFilter);
       const result = query.toJSON();
       expect(
@@ -27,9 +27,8 @@ describe(".FilterDescriptor", () => {
 
   describe("#deserialize", () => {
     it("should to json", () => {
-      const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
-      const result = new DynamicQuery().fromJSON(json);
-        
+      const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`;
+      const result = new DynamicQuery<Student>().fromJSON(json);
     });
   });
 });

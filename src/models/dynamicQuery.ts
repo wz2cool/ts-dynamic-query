@@ -43,8 +43,8 @@ export class DynamicQuery<T> {
   }
   public fromJSON(json: string): DynamicQuery<T> {
     const obj = deserialize<DynamicQuery<T>>(DynamicQuery, json);
-    this.filters = FilterHelper.getRealFilters(obj.filters);
-    this.sorts = FilterHelper.getRealSorts(obj.sorts);
+    this.filters = FilterHelper.getRealFilters<T>(obj.filters);
+    this.sorts = FilterHelper.getRealSorts<T>(obj.sorts);
     return this;
   }
 }

@@ -299,7 +299,7 @@ export class FilterHelper {
     return result;
   }
 
-  public static getRealFilters(
+  public static getRealFilters<T>(
     filters: FilterDescriptorBase[]
   ): FilterDescriptorBase[] {
     if (ArrayUtils.isEmpty(filters)) {
@@ -311,7 +311,7 @@ export class FilterHelper {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {
         case "FilterDescriptor":
-          result.push(new FilterDescriptor().fromJSON(filterJson));
+          result.push(new FilterDescriptor<T>().fromJSON(filterJson));
           break;
         case "FilterGroupDescriptor":
           result.push(new FilterGroupDescriptor().fromJSON(filterJson));
@@ -321,7 +321,7 @@ export class FilterHelper {
     return result;
   }
 
-  public static getRealSorts(
+  public static getRealSorts<T>(
     sorts: SortDescriptorBase[]
   ): SortDescriptorBase[] {
     if (ArrayUtils.isEmpty(sorts)) {
@@ -333,7 +333,7 @@ export class FilterHelper {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {
         case "SortDescriptor":
-          result.push(new SortDescriptor().fromJSON(filterJson));
+          result.push(new SortDescriptor<T>().fromJSON(filterJson));
           break;
       }
     }
