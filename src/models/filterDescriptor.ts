@@ -2,6 +2,7 @@ import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { FilterOperator, FilterCondition } from "../enums";
 import { FilterOptions } from "./filterOptions";
 import { deserialize, serialize } from "class-transformer";
+import { ObjectUtils } from "ts-commons";
 
 export class FilterDescriptor<T> extends FilterDescriptorBase {
   public operator: FilterOperator = FilterOperator.EQUAL;
@@ -19,13 +20,21 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
     super("FilterDescriptor");
 
     if (options) {
-      this.condition = options.condition || this.condition;
-      this.operator = options.operator || this.operator;
-      this.value = options.value || this.value;
-      this.ignoreCase = options.ignoreCase || this.ignoreCase;
-      this.propertyPath = options.propertyPath
-        ? options.propertyPath.toString()
-        : this.propertyPath;
+      this.condition = ObjectUtils.isNullOrUndefined(options.condition)
+        ? this.condition
+        : options.condition;
+      this.operator = ObjectUtils.isNullOrUndefined(options.operator)
+        ? this.operator
+        : options.operator;
+      this.value = ObjectUtils.isNullOrUndefined(options.value)
+        ? this.value
+        : options.value;
+      this.ignoreCase = ObjectUtils.isNullOrUndefined(options.ignoreCase)
+        ? this.ignoreCase
+        : options.ignoreCase;
+      this.propertyPath = ObjectUtils.isNullOrUndefined(options.propertyPath)
+        ? this.propertyPath
+        : options.propertyPath.toString();
     }
   }
 
@@ -34,11 +43,21 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
   }
   public fromJSON(json: string): FilterDescriptor<T> {
     const obj = deserialize<FilterDescriptor<T>>(FilterDescriptor, json);
-    this.condition = obj.condition || FilterCondition.AND;
-    this.operator = obj.operator || FilterOperator.EQUAL;
-    this.propertyPath = obj.propertyPath;
-    this.value = obj.value;
-    this.ignoreCase = obj.ignoreCase || false;
+    this.condition = ObjectUtils.isNullOrUndefined(obj.condition)
+      ? this.condition
+      : obj.condition;
+    this.operator = ObjectUtils.isNullOrUndefined(obj.operator)
+      ? this.operator
+      : obj.operator;
+    this.value = ObjectUtils.isNullOrUndefined(obj.value)
+      ? this.value
+      : obj.value;
+    this.ignoreCase = ObjectUtils.isNullOrUndefined(obj.ignoreCase)
+      ? this.ignoreCase
+      : obj.ignoreCase;
+    this.propertyPath = ObjectUtils.isNullOrUndefined(obj.propertyPath)
+      ? this.propertyPath
+      : obj.propertyPath.toString();
     return this;
   }
 }
