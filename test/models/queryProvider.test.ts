@@ -24,7 +24,8 @@ describe(".QueryProvider", () => {
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.EQUAL,
-        value: "Frank"
+        value: "Frank",
+        ignoreCase: true
       });
 
       const query = new DynamicQuery();

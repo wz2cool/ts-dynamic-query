@@ -136,7 +136,9 @@ export class FilterHelper {
   ): boolean {
     const propValue = obj[propertyPath];
     if (typeof propValue === "string" && typeof filterValue === "string") {
-      return StringUtils.equalsIgnoreCase(propValue, filterValue);
+      return ignoreCase
+        ? StringUtils.equalsIgnoreCase(propValue, filterValue)
+        : StringUtils.equals(propValue, filterValue);
     } else {
       const userPropValue = this.getValue(propValue);
       const useFilterValue = this.getValue(filterValue);
