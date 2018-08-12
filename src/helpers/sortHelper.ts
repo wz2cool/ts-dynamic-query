@@ -45,18 +45,18 @@ export class SortHelper {
         if (propValue1 === propValue2) {
           result = 0;
         } else if (propValue1 > propValue2) {
-          result = -1;
-        } else {
           result = 1;
+        } else {
+          result = -1;
         }
         break;
       case SortDirection.DESC:
         if (propValue1 === propValue2) {
           result = 0;
         } else if (propValue1 < propValue2) {
-          result = -1;
-        } else {
           result = 1;
+        } else {
+          result = -1;
         }
         break;
     }
