@@ -5,4 +5,5 @@ export interface FilterOptions<T> {
   value?: any;
   condition?: FilterCondition;
   operator?: FilterOperator;
+  ignoreCase?: boolean;
 }

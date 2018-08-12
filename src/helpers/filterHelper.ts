@@ -77,9 +77,17 @@ export class FilterHelper {
     const operator = filterDescriptor.operator;
     const propertyPath = filterDescriptor.propertyPath;
     const filterValue = filterDescriptor.value;
+    const ignoreCase = filterDescriptor.ignoreCase;
     switch (operator) {
+      case FilterOperator.EQUAL:
+        return this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);
       case FilterOperator.NOT_EQUAL:
-        return this.predicateNotEqual(obj, propertyPath, filterValue);
+        return this.predicateNotEqual(
+          obj,
+          propertyPath,
+          filterValue,
+          ignoreCase
+        );
       case FilterOperator.LESS_THAN:
         return this.predicateLessThan(obj, propertyPath, filterValue);
       case FilterOperator.LESS_THAN_OR_EQUAL:
@@ -89,11 +97,26 @@ export class FilterHelper {
       case FilterOperator.GREATER_THAN:
         return this.predicateGreaterThan(obj, propertyPath, filterValue);
       case FilterOperator.START_WITH:
-        return this.predicateStartWith(obj, propertyPath, filterValue);
+        return this.predicateStartWith(
+          obj,
+          propertyPath,
+          filterValue,
+          ignoreCase
+        );
       case FilterOperator.END_WITH:
-        return this.predicateEndWith(obj, propertyPath, filterValue);
+        return this.predicateEndWith(
+          obj,
+          propertyPath,
+          filterValue,
+          ignoreCase
+        );
       case FilterOperator.CONTAINS:
-        return this.predicateContains(obj, propertyPath, filterValue);
+        return this.predicateContains(
+          obj,
+          propertyPath,
+          filterValue,
+          ignoreCase
+        );
       case FilterOperator.IN:
         return this.predicateIn(obj, propertyPath, filterValue);
       case FilterOperator.NOT_IN:
@@ -108,23 +131,26 @@ export class FilterHelper {
   public static predicateEqual<T>(
     obj: T,
     propertyPath: string,
-    filterValue: any
+    filterValue: any,
+    ignoreCase
   ): boolean {
     const propValue = obj[propertyPath];
-    const userPropValue = this.getValue(propValue);
-    const useFilterValue = this.getValue(filterValue);
-    return userPropValue === useFilterValue;
+    if (typeof propValue === "string" && typeof filterValue === "string") {
+      return StringUtils.equalsIgnoreCase(propValue, filterValue);
+    } else {
+      const userPropValue = this.getValue(propValue);
+      const useFilterValue = this.getValue(filterValue);
+      return userPropValue === useFilterValue;
+    }
   }
 
   public static predicateNotEqual<T>(
     obj: T,
     propertyPath: string,
-    filterValue: any
+    filterValue: any,
+    ignoreCase
   ): boolean {
-    const propValue = obj[propertyPath];
-    const userPropValue = this.getValue(propValue);
-    const useFilterValue = this.getValue(filterValue);
-    return userPropValue !== useFilterValue;
+    return !this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);
   }
 
   public static predicateLessThan<T>(
@@ -174,7 +200,8 @@ export class FilterHelper {
   public static predicateStartWith<T>(
     obj: T,
     propertyPath: string,
-    filterValue: any
+    filterValue: any,
+    ignoreCase: boolean
   ): boolean {
     const propValue = obj[propertyPath];
     if (ObjectUtils.isNullOrUndefined(propValue)) {
@@ -182,13 +209,16 @@ export class FilterHelper {
     }
     const usePropValue = ObjectUtils.toSafeString(propValue);
     const useFilterValue = ObjectUtils.toSafeString(filterValue);
-    return StringUtils.startWith(usePropValue, useFilterValue);
+    return ignoreCase
+      ? StringUtils.startWithIgnoreCase(usePropValue, useFilterValue)
+      : StringUtils.startWith(usePropValue, useFilterValue);
   }
 
   public static predicateEndWith<T>(
     obj: T,
     propertyPath: string,
-    filterValue: any
+    filterValue: any,
+    ignoreCase: boolean
   ): boolean {
     const propValue = obj[propertyPath];
     if (ObjectUtils.isNullOrUndefined(propValue)) {
@@ -196,13 +226,16 @@ export class FilterHelper {
     }
     const usePropValue = ObjectUtils.toSafeString(propValue);
     const useFilterValue = ObjectUtils.toSafeString(filterValue);
-    return StringUtils.endWith(usePropValue, useFilterValue);
+    return ignoreCase
+      ? StringUtils.endWithIgnoreCase(usePropValue, useFilterValue)
+      : StringUtils.endWith(usePropValue, useFilterValue);
   }
 
   public static predicateContains<T>(
     obj: T,
     propertyPath: string,
-    filterValue: any
+    filterValue: any,
+    ignoreCase: boolean
   ): boolean {
     const propValue = obj[propertyPath];
     if (ObjectUtils.isNullOrUndefined(propValue)) {
@@ -210,7 +243,9 @@ export class FilterHelper {
     }
     const usePropValue = ObjectUtils.toSafeString(propValue);
     const useFilterValue = ObjectUtils.toSafeString(filterValue);
-    return StringUtils.contains(usePropValue, useFilterValue);
+    return ignoreCase
+      ? StringUtils.containsIgnoreCase(usePropValue, useFilterValue)
+      : StringUtils.contains(usePropValue, useFilterValue);
   }
 
   public static predicateIn<T>(
@@ -231,12 +266,7 @@ export class FilterHelper {
     propertyPath: string,
     filterValue: any
   ): boolean {
-    const propValue = obj[propertyPath];
-    const useFilterValues = this.getFilterValues(
-      FilterOperator.NOT_IN,
-      filterValue
-    );
-    return !ArrayUtils.contains(useFilterValues, propValue);
+    return !this.predicateIn(obj, propertyPath, filterValue);
   }
 
   private static getFilterValues(
