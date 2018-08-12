@@ -8,7 +8,7 @@ import {
 } from "../models";
 import { FilterOperator, FilterCondition } from "../enums";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
-import { deserialize, serialize } from "class-transformer";
+import { serialize } from "class-transformer";
 
 export class FilterHelper {
   public static predicateByFilters<T>(
@@ -17,7 +17,7 @@ export class FilterHelper {
   ): boolean {
     let result = true;
     for (const filter of filters) {
-      let predictResult = this.predicateByFilterDescriptorBase(obj, filter);
+      let predictResult = this.predicateByFilterDescriptorBase<T>(obj, filter);
       switch (filter.condition) {
         case FilterCondition.AND:
           result = result && predictResult;
@@ -36,9 +36,9 @@ export class FilterHelper {
   ): boolean {
     let predictResult = true;
     if (filter instanceof FilterDescriptor) {
-      predictResult = this.predicateByFilterDescriptor(obj, filter);
+      predictResult = this.predicateByFilterDescriptor<T>(obj, filter);
     } else if (filter instanceof FilterGroupDescriptor) {
-      predictResult = this.predicateByFilterGroupDescriptor(obj, filter);
+      predictResult = this.predicateByFilterGroupDescriptor<T>(obj, filter);
     }
     return predictResult;
   }
@@ -53,9 +53,9 @@ export class FilterHelper {
     for (const filter of filters) {
       let predictResult = true;
       if (filter instanceof FilterDescriptor) {
-        predictResult = this.predicateByFilterDescriptor(obj, filter);
+        predictResult = this.predicateByFilterDescriptor<T>(obj, filter);
       } else if (filter instanceof FilterGroupDescriptor) {
-        predictResult = this.predicateByFilterGroupDescriptor(obj, filter);
+        predictResult = this.predicateByFilterGroupDescriptor<T>(obj, filter);
       }
 
       switch (filter.condition) {
