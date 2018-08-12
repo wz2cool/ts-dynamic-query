@@ -2,6 +2,7 @@ import { SortDescriptorBase } from "./sortDescriptorBase";
 import { SortDirection } from "../enums";
 import { SortOptions } from "./sortOptions";
 import { deserialize, serialize } from "class-transformer";
+import { ObjectUtils } from "ts-commons";
 
 export class SortDescriptor<T> extends SortDescriptorBase {
   public propertyPath: string;
@@ -11,10 +12,12 @@ export class SortDescriptor<T> extends SortDescriptorBase {
     super("SortDescriptor");
 
     if (options) {
-      this.direction = options.direction || this.direction;
-      this.propertyPath = options.propertyPath
-        ? options.propertyPath.toString()
-        : this.propertyPath;
+      this.direction = ObjectUtils.isNullOrUndefined(options.direction)
+        ? this.direction
+        : options.direction;
+      this.propertyPath = ObjectUtils.isNullOrUndefined(options.propertyPath)
+        ? this.propertyPath
+        : options.propertyPath.toString();
     }
   }
 
@@ -24,8 +27,12 @@ export class SortDescriptor<T> extends SortDescriptorBase {
 
   public fromJSON(json: string): SortDescriptor<T> {
     const obj = deserialize<SortDescriptor<T>>(SortDescriptor, json);
-    this.propertyPath = obj.propertyPath;
-    this.direction = obj.direction;
+    this.direction = ObjectUtils.isNullOrUndefined(obj.direction)
+      ? this.direction
+      : obj.direction;
+    this.propertyPath = ObjectUtils.isNullOrUndefined(obj.propertyPath)
+      ? this.propertyPath
+      : obj.propertyPath.toString();
     return this;
   }
 }
