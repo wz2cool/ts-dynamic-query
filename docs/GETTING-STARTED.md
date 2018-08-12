@@ -2,7 +2,7 @@
 
 ## 基本筛选
 
-FilterDescriptor 是一个基本的筛选描述， 使用方法如下：
+FilterDescriptor 是一个基本的筛选描述，比如按照那个字段筛选，是大于/小于/等于 某一个值
 
 ```bash
 function simpleFilter(): void {
@@ -77,6 +77,31 @@ function groupFilter(): void {
 
 ## 基本筛选
 
+SortDescriptor 是一个基本筛选描述，比如按照那个字段排序， 是升序还是降序：
+
+```bash
+function simpleSort(): void {
+  console.log("================== simpleSort start =================");
+  const idSort = new SortDescriptor<User>({
+    propertyPath: "id",
+    direction: SortDirection.DESC
+  });
+
+  const query = new DynamicQuery<User>();
+  query.addSorts(idSort);
+
+  const result = QueryProvider.query(users, query);
+
+  const maxId = lodash.max(lodash.map(users, x => x.id));
+  if (result[0].id !== maxId) {
+    console.error("id should be maxid");
+    return;
+  }
+
+  console.log("================== simpleSort end =================");
+}
+```
+
 # 其他
 
 ## 链式调用
@@ -127,5 +152,96 @@ function filterByDynamicQuery(): User[] {
     endTime.getTime() - startTime.getTime()
   );
   return result;
+}
+```
+
+## 序列化/反序列化
+
+这个就是这个项目特点之一，我们可以把我们筛选结构化成一个 json。 当然DynamicQuery.fromJSON 可以把这个json 还原成为一个 DynamicQuery
+``` bash
+function serializeDynamicQuery() {
+  console.log(
+    "================== serializeDynamicQuery start ================="
+  );
+  const query = new DynamicQuery<User>()
+    .addFilter({
+      propertyPath: "id",
+      operator: FilterOperator.GREATER_THAN,
+      value: 200
+    })
+    .addFilter({
+      propertyPath: "id",
+      operator: FilterOperator.LESS_THAN_OR_EQUAL,
+      value: 900
+    })
+    .addFilterGroup({
+      options: [
+        {
+          propertyPath: "firstName",
+          operator: FilterOperator.START_WITH,
+          value: "t",
+          ignoreCase: true
+        },
+        {
+          condition: FilterCondition.OR,
+          propertyPath: "firstName",
+          operator: FilterOperator.START_WITH,
+          value: "g",
+          ignoreCase: true
+        }
+      ]
+    })
+    .addSort({
+      propertyPath: "id",
+      direction: SortDirection.DESC
+    });
+
+  const queryJSON = query.toJSON();
+  console.log("queryJSON: ", queryJSON);
+  console.log("================== serializeDynamicQuery end =================");
+}
+```
+
+序列化json 为：
+``` bash
+{
+	"filters": [{
+		"condition": 0,
+		"type": "FilterDescriptor",
+		"operator": 5,
+		"propertyPath": "id",
+		"ignoreCase": false,
+		"value": 200
+	}, {
+		"condition": 0,
+		"type": "FilterDescriptor",
+		"operator": 1,
+		"propertyPath": "id",
+		"ignoreCase": false,
+		"value": 900
+	}, {
+		"condition": 0,
+		"type": "FilterGroupDescriptor",
+		"filters": [{
+			"condition": 0,
+			"type": "FilterDescriptor",
+			"operator": 6,
+			"propertyPath": "firstName",
+			"ignoreCase": true,
+			"value": "t"
+		}, {
+			"condition": 1,
+			"type": "FilterDescriptor",
+			"operator": 6,
+			"propertyPath": "firstName",
+			"ignoreCase": true,
+			"value": "g"
+		}]
+	}],
+	"sorts": [{
+		"direction": 1,
+		"type": "SortDescriptor",
+		"propertyPath": "id"
+	}]
 }
 ```
