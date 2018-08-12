@@ -5,6 +5,8 @@ import { FilterHelper } from "../helpers";
 import { FilterDescriptor } from "./filterDescriptor";
 import { FilterGroupDescriptor } from "./filterGroupDescriptor";
 import { FilterOptions } from "./filterOptions";
+import { SortOptions } from "./sortOptions";
+import { SortDescriptor } from "./sortDescriptor";
 
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];
@@ -27,6 +29,12 @@ export class DynamicQuery<T> {
 
   public addSorts(...sorts: SortDescriptorBase[]): DynamicQuery<T> {
     this.sorts = this.sorts.concat(sorts);
+    return this;
+  }
+
+  public addSort(sortOptions: SortOptions<T>) {
+    const sort = new SortDescriptor<T>(sortOptions);
+    this.sorts.push(sort);
     return this;
   }
 
