@@ -7,6 +7,9 @@ import { FilterGroupDescriptor } from "./filterGroupDescriptor";
 import { FilterOptions } from "./filterOptions";
 import { SortOptions } from "./sortOptions";
 import { SortDescriptor } from "./sortDescriptor";
+import { FilterGroupOptions } from "./filterGroupOptions";
+import { ObjectUtils } from "ts-commons";
+import { FilterCondition } from "../enums";
 
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];
@@ -21,9 +24,23 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addFilter(filterOptions: FilterOptions<T>) {
-    const filter = new FilterDescriptor<T>(filterOptions);
+  public addFilter(filterOption: FilterOptions<T>): DynamicQuery<T> {
+    const filter = new FilterDescriptor<T>(filterOption);
     this.filters.push(filter);
+    return this;
+  }
+
+  public addFilterGroup(option: FilterGroupOptions<T>): DynamicQuery<T> {
+    const filterGroupDescriptor = new FilterGroupDescriptor<T>();
+    filterGroupDescriptor.condition = ObjectUtils.isNullOrUndefined(
+      option.condition
+    )
+      ? FilterCondition.AND
+      : option.condition;
+    for (const subOption of option.options) {
+      filterGroupDescriptor.filters.push(new FilterDescriptor<T>(subOption));
+    }
+    this.filters.push(filterGroupDescriptor);
     return this;
   }
 
@@ -32,9 +49,10 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addSort(sortOptions: SortOptions<T>) {
-    const sort = new SortDescriptor<T>(sortOptions);
+  public addSort(sortOption: SortOptions<T>): DynamicQuery<T> {
+    const sort = new SortDescriptor<T>(sortOption);
     this.sorts.push(sort);
+    sortOption;
     return this;
   }
 

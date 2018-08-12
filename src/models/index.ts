@@ -7,3 +7,4 @@ export * from "./sortDescriptor";
 export * from "./sortDescriptorBase";
 export * from "./sortOptions";
 export * from "./predicteResult";
+export * from "./filterGroupOptions";
