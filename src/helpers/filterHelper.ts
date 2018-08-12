@@ -45,7 +45,7 @@ export class FilterHelper {
 
   public static predicateByFilterGroupDescriptor<T>(
     obj: T,
-    filterGroupDescriptor: FilterGroupDescriptor
+    filterGroupDescriptor: FilterGroupDescriptor<T>
   ): boolean {
     const filters = filterGroupDescriptor.filters;
     let result = true;
