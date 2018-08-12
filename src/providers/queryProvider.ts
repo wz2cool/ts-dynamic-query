@@ -3,7 +3,7 @@ import { ArrayUtils, ObjectUtils } from "ts-commons";
 import { FilterHelper, SortHelper } from "../helpers";
 
 export class QueryProvider {
-  public static query<T>(datas: T[], query: DynamicQuery): T[] {
+  public static query<T>(datas: T[], query: DynamicQuery<T>): T[] {
     if (ArrayUtils.isEmpty(datas)) {
       return [];
     }
