@@ -2,7 +2,8 @@
   "name": "ts-dynamic-query",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "class-transformer": "^0.1.9",
     "ts-commons": "0.0.16"
