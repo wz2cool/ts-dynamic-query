@@ -37,21 +37,12 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
   }
   public fromJSON(json: string): FilterDescriptor<T> {
     const obj = deserialize<FilterDescriptor<T>>(FilterDescriptor, json);
-    this.condition = ObjectUtils.isNullOrUndefined(obj.condition)
-      ? this.condition
-      : obj.condition;
-    this.operator = ObjectUtils.isNullOrUndefined(obj.operator)
-      ? this.operator
-      : obj.operator;
-    this.value = ObjectUtils.isNullOrUndefined(obj.value)
-      ? this.value
-      : obj.value;
-    this.ignoreCase = ObjectUtils.isNullOrUndefined(obj.ignoreCase)
-      ? this.ignoreCase
-      : obj.ignoreCase;
-    this.propertyPath = ObjectUtils.isNullOrUndefined(obj.propertyPath)
-      ? this.propertyPath
-      : obj.propertyPath.toString();
+
+    this.condition = obj.condition;
+    this.operator = obj.operator;
+    this.value = obj.value;
+    this.ignoreCase = obj.ignoreCase;
+    this.propertyPath = obj.propertyPath;
     return this;
   }
 }
