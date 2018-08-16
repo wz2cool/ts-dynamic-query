@@ -26,7 +26,7 @@ describe(".FilterDescriptor", () => {
   });
 
   describe("#serialize", () => {
-    it("should to json", () => {
+    it("should serialize to json", () => {
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.EQUAL,
@@ -35,14 +35,14 @@ describe(".FilterDescriptor", () => {
 
       const result = nameFilter.toJSON();
       expect(
-        `{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}`
+        '{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"Frank"}'
       ).to.be.eq(result);
     });
   });
 
   describe("#deserialize", () => {
-    it("should to json", () => {
-      const json = `{"condition":0,"operator":2,"propertyPath":"name","value":"Frank"}`;
+    it("should deserialize from json", () => {
+      const json = '{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"Frank"}';
       const result = new FilterDescriptor<{}>().fromJSON(json);
       expect(FilterCondition.AND).to.be.eq(result.condition);
       expect(FilterOperator.EQUAL).to.be.eq(result.operator);

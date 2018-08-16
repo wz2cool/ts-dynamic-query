@@ -1,34 +1,34 @@
-import { expect } from "chai";
-import { FilterDescriptor, DynamicQuery } from "../../src/models";
-import { FilterOperator, FilterCondition } from "../../src/enums";
+// import { expect } from "chai";
+// import { FilterDescriptor, DynamicQuery } from "../../src/models";
+// import { FilterOperator, FilterCondition } from "../../src/enums";
 
-describe(".FilterDescriptor", () => {
-  class Student {
-    name: string;
-    age: number;
-  }
+// describe(".FilterDescriptor", () => {
+//   class Student {
+//     name: string;
+//     age: number;
+//   }
 
-  describe("#serialize", () => {
-    it("should to json", () => {
-      const nameFilter = new FilterDescriptor<Student>({
-        propertyPath: "name",
-        operator: FilterOperator.EQUAL,
-        value: "Frank"
-      });
+//   describe("#serialize", () => {
+//     it("should to json", () => {
+//       const nameFilter = new FilterDescriptor<Student>({
+//         propertyPath: "name",
+//         operator: FilterOperator.EQUAL,
+//         value: "Frank"
+//       });
 
-      const query = new DynamicQuery<Student>();
-      query.addFilters(nameFilter);
-      const result = query.toJSON();
-      expect(
-        `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
-      ).to.be.eq(result);
-    });
-  });
+//       const query = new DynamicQuery<Student>();
+//       query.addFilters(nameFilter);
+//       const result = query.toJSON();
+//       expect(
+//         `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`
+//       ).to.be.eq(result);
+//     });
+//   });
 
-  describe("#deserialize", () => {
-    it("should to json", () => {
-      const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`;
-      const result = new DynamicQuery<Student>().fromJSON(json);
-    });
-  });
-});
+//   describe("#deserialize", () => {
+//     it("should to json", () => {
+//       const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","value":"Frank"}],"sorts":[]}`;
+//       const result = new DynamicQuery<Student>().fromJSON(json);
+//     });
+//   });
+// });
