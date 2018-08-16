@@ -5,34 +5,26 @@ import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 
 export class SortDescriptor<T> extends SortDescriptorBase {
-  public propertyPath: string;
-  public direction: SortDirection;
+  public propertyPath: string = null;
+  public direction: SortDirection = SortDirection.ASC;
 
   constructor(options?: SortOptions<T>) {
     super("SortDescriptor");
 
     if (options) {
-      this.direction = ObjectUtils.isNullOrUndefined(options.direction)
-        ? this.direction
-        : options.direction;
-      this.propertyPath = ObjectUtils.isNullOrUndefined(options.propertyPath)
-        ? this.propertyPath
-        : options.propertyPath.toString();
+      this.direction = options.direction;
+      this.propertyPath = options.propertyPath.toString();
     }
   }
 
   public toJSON(): string {
-    throw serialize(this);
+    return serialize(this);
   }
 
   public fromJSON(json: string): SortDescriptor<T> {
     const obj = deserialize<SortDescriptor<T>>(SortDescriptor, json);
-    this.direction = ObjectUtils.isNullOrUndefined(obj.direction)
-      ? this.direction
-      : obj.direction;
-    this.propertyPath = ObjectUtils.isNullOrUndefined(obj.propertyPath)
-      ? this.propertyPath
-      : obj.propertyPath.toString();
+    this.direction = obj.direction;
+    this.propertyPath = obj.propertyPath;
     return this;
   }
 }
