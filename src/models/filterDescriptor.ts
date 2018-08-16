@@ -23,18 +23,12 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
       this.condition = ObjectUtils.isNullOrUndefined(options.condition)
         ? this.condition
         : options.condition;
-      this.operator = ObjectUtils.isNullOrUndefined(options.operator)
-        ? this.operator
-        : options.operator;
-      this.value = ObjectUtils.isNullOrUndefined(options.value)
-        ? this.value
-        : options.value;
       this.ignoreCase = ObjectUtils.isNullOrUndefined(options.ignoreCase)
         ? this.ignoreCase
         : options.ignoreCase;
-      this.propertyPath = ObjectUtils.isNullOrUndefined(options.propertyPath)
-        ? this.propertyPath
-        : options.propertyPath.toString();
+      this.operator = options.operator;
+      this.value = options.value;
+      this.propertyPath = options.propertyPath.toString();
     }
   }
 

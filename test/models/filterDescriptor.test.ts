@@ -10,18 +10,15 @@ describe(".FilterDescriptor", () => {
   describe("#propertyPath", () => {
     it("shoud return 'name' if propertyPath is 'name'", () => {
       const nameFilter = new FilterDescriptor<Student>({
-        propertyPath: "name"
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "test"
       });
 
       const student = new Student();
-      console.log(student)
+      console.log(student);
 
       expect("name").to.be.eq(nameFilter.propertyPath);
-    });
-
-    it("shoud return 'null' if propertyPath is not set", () => {
-      const nameFilter = new FilterDescriptor<Student>({});
-      expect(null).to.be.eq(nameFilter.propertyPath);
     });
   });
 
@@ -42,7 +39,8 @@ describe(".FilterDescriptor", () => {
 
   describe("#deserialize", () => {
     it("should deserialize from json", () => {
-      const json = '{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"Frank"}';
+      const json =
+        '{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"Frank"}';
       const result = new FilterDescriptor<{}>().fromJSON(json);
       expect(FilterCondition.AND).to.be.eq(result.condition);
       expect(FilterOperator.EQUAL).to.be.eq(result.operator);
