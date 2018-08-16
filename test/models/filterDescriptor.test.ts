@@ -81,19 +81,23 @@ describe(".FilterDescriptor", () => {
   describe("#deserialize", () => {
     it("should deserialize from json", () => {
       const json =
-        '{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"Frank"}';
+        '{"condition":1,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":true,"value":"Frank"}';
       const result = new FilterDescriptor<{}>().fromJSON(json);
-      expect(FilterCondition.AND).to.be.eq(result.condition);
+      expect(FilterCondition.OR).to.be.eq(result.condition);
       expect(FilterOperator.EQUAL).to.be.eq(result.operator);
       expect("name").to.be.eq(result.propertyPath);
       expect("Frank").to.be.eq(result.value);
+      expect(true).to.be.eq(result.ignoreCase);
     });
 
-    it("propertyPath is null if json don't have propertyPath", () => {
-      const json =
-        '{"condition":0,"type":"FilterDescriptor","operator":2,"ignoreCase":false,"value":"Frank"}';
+    it("deserialize default value", () => {
+      const json = "{}";
       const result = new FilterDescriptor<{}>().fromJSON(json);
+      expect(FilterCondition.AND).to.be.eq(result.condition);
       expect(null).to.be.eq(result.propertyPath);
+      expect(FilterOperator.EQUAL).to.be.eq(result.operator);
+      expect(null).to.be.eq(result.value);
+      expect(false).to.be.eq(result.ignoreCase);
     });
   });
 });
