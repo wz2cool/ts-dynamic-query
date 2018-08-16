@@ -7,6 +7,47 @@ describe(".FilterDescriptor", () => {
     name: string;
     age: number;
   }
+
+  describe("#init", () => {
+    it("condition defualt value is AND", () => {
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "test"
+      });
+      expect(FilterCondition.AND).to.be.eq(nameFilter.condition);
+    });
+
+    it("condition will be set value", () => {
+      const nameFilter = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "test"
+      });
+      expect(FilterCondition.OR).to.be.eq(nameFilter.condition);
+    });
+
+    it("ignoreCase default value is false", () => {
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "test"
+      });
+      expect(false).to.be.eq(nameFilter.ignoreCase);
+    });
+
+    it("ignoreCase will be set value", () => {
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "test",
+        ignoreCase: true
+      });
+      expect(true).to.be.eq(nameFilter.ignoreCase);
+    });
+  });
+
   describe("#propertyPath", () => {
     it("shoud return 'name' if propertyPath is 'name'", () => {
       const nameFilter = new FilterDescriptor<Student>({
@@ -46,6 +87,13 @@ describe(".FilterDescriptor", () => {
       expect(FilterOperator.EQUAL).to.be.eq(result.operator);
       expect("name").to.be.eq(result.propertyPath);
       expect("Frank").to.be.eq(result.value);
+    });
+
+    it("propertyPath is null if json don't have propertyPath", () => {
+      const json =
+        '{"condition":0,"type":"FilterDescriptor","operator":2,"ignoreCase":false,"value":"Frank"}';
+      const result = new FilterDescriptor<{}>().fromJSON(json);
+      expect(null).to.be.eq(result.propertyPath);
     });
   });
 });
