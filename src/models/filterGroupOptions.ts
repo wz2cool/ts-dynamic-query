@@ -3,5 +3,5 @@ import { FilterOptions } from "./filterOptions";
 
 export interface FilterGroupOptions<T> {
   condition?: FilterCondition;
-  options?: FilterOptions<T>[];
+  options: FilterOptions<T>[];
 }
