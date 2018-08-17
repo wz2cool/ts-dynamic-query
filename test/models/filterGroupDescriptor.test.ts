@@ -21,7 +21,7 @@ describe(".FilterGroupDescriptor", () => {
     it("filter can be added", () => {
       const filter = new FilterDescriptor();
       const groupFilter = new FilterGroupDescriptor();
-      groupFilter.addFilters(filter);
+      groupFilter.addFilters([filter]);
       expect(filter).to.be.eq(groupFilter.filters[0]);
     });
   });

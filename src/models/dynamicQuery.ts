@@ -20,7 +20,7 @@ export class DynamicQuery<T> {
     this.sorts = [];
   }
 
-  public addFilters(...filters: FilterDescriptorBase[]): DynamicQuery<T> {
+  public addFilters(filters: FilterDescriptorBase[]): DynamicQuery<T> {
     this.filters = this.filters.concat(filters);
     return this;
   }
@@ -45,7 +45,7 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addSorts(...sorts: SortDescriptorBase[]): DynamicQuery<T> {
+  public addSorts(sorts: SortDescriptorBase[]): DynamicQuery<T> {
     this.sorts = this.sorts.concat(sorts);
     return this;
   }

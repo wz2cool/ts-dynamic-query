@@ -11,9 +11,7 @@ export class FilterGroupDescriptor<T> extends FilterDescriptorBase {
     this.filters = [];
   }
 
-  public addFilters(
-    ...filters: FilterDescriptorBase[]
-  ): FilterGroupDescriptor<T> {
+  public addFilters(filters: FilterDescriptorBase[]): FilterGroupDescriptor<T> {
     this.filters = this.filters.concat(filters);
     return this;
   }
