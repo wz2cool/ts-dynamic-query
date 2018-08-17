@@ -25,8 +25,8 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addFilter(filterOption: FilterOptions<T>): DynamicQuery<T> {
-    const filter = new FilterDescriptor<T>(filterOption);
+  public addFilter(option: FilterOptions<T>): DynamicQuery<T> {
+    const filter = new FilterDescriptor<T>(option);
     this.filters.push(filter);
     return this;
   }
