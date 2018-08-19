@@ -13,9 +13,10 @@ describe(".FilterDescriptor", () => {
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.CONTAINS,
-        value: "test"
+        value: true
       });
       expect(FilterCondition.AND).to.be.eq(nameFilter.condition);
+      expect(true).to.be.eq(nameFilter.value);
     });
 
     it("condition will be set value", () => {

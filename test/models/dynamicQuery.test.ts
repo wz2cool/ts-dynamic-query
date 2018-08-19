@@ -56,13 +56,15 @@ describe(".dynamicQuery", () => {
       const query = new DynamicQuery<Student>().addFilter({
         propertyPath: "name",
         operator: FilterOperator.EQUAL,
-        value: "test"
+        value: true
       });
 
       const filter = query.filters[0] as FilterDescriptor<any>;
       expect("name").to.be.eq(filter.propertyPath);
       expect(FilterOperator.EQUAL).to.be.eq(filter.operator);
-      expect("test").to.be.eq(filter.value);
+      expect(true).to.be.eq(filter.value);
+
+      console.log("========================", query.toJSON());
     });
   });
 
