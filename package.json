@@ -3,32 +3,41 @@
   "version": "1.0.14",
   "description": "",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/dist/index.d.ts",
   "dependencies": {
     "class-transformer": "^0.1.9",
-    "ts-commons": "0.0.16"
+    "ts-commons": "0.0.31"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.5",
+    "babel-loader": "^8.0.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
     "del-cli": "^1.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^12.0.2",
-    "tslint": "^5.11.0"
+    "ts-loader": "^4.5.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
   },
   "scripts": {
     "pretest": "npm run deletedist && tsc -p tsconfig.test.json",
     "test": "nyc mocha dist/test --recursive",
     "posttest": "npm run removenyc && del-cli coverage",
-    "prepublish": "tsc",
+    "prepublish": "npm run build",
     "cover": "tsc -p tsconfig.test.json && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/**/*.test.js --recursive",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && del-cli ./coverage",
     "removenyc": "del-cli .nyc_output",
-    "deletedist": "del-cli dist"
+    "deletedist": "del-cli dist",
+    "build": "npm run deletedist && cross-env NODE_ENV=production webpack"
   },
   "repository": {
     "type": "git",
