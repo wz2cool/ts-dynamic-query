@@ -1,6 +1,6 @@
 {
   "name": "ts-dynamic-query",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/dist/index.d.ts",

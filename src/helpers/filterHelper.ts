@@ -1,7 +1,7 @@
 import { FilterDescriptor } from "../models/filterDescriptor";
 import { FilterDescriptorBase } from "../models/filterDescriptorBase";
 import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
-import { SortDescriptorBase } from "../models/SortDescriptorBase";
+import { SortDescriptorBase } from "../models/sortDescriptorBase";
 import { SortDescriptor } from "../models/sortDescriptor";
 import { FilterOperator } from "../enums/filterOperator";
 import { FilterCondition } from "../enums/filterCondition";
