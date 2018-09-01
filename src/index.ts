@@ -1,6 +1,6 @@
 import { FilterCondition } from "../src/enums/filterCondition";
 import { FilterOperator } from "../src/enums/filterOperator";
-import { SortDirection } from "../src/enums/SortDirection";
+import { SortDirection } from "../src/enums/sortDirection";
 import { SortHelper } from "../src/helpers/sortHelper";
 import { FilterHelper } from "../src/helpers/filterHelper";
 import { DynamicQuery } from "../src/models/dynamicQuery";
