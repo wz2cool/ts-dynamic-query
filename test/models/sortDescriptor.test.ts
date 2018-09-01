@@ -1,10 +1,5 @@
 import { expect } from "chai";
-import { FilterDescriptor, SortDescriptor } from "../../src/models";
-import {
-  FilterOperator,
-  FilterCondition,
-  SortDirection
-} from "../../src/enums";
+import { FilterDescriptor, SortDescriptor, SortDirection } from "../../src";
 
 describe(".SortDescriptor", () => {
   class Student {

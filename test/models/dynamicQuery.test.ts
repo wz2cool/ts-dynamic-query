@@ -3,13 +3,11 @@ import {
   FilterDescriptor,
   DynamicQuery,
   SortDescriptor,
-  FilterGroupDescriptor
-} from "../../src/models";
-import {
+  FilterGroupDescriptor,
   FilterOperator,
   FilterCondition,
   SortDirection
-} from "../../src/enums";
+} from "../../src";
 import { ObjectUtils } from "ts-commons";
 
 describe(".dynamicQuery", () => {

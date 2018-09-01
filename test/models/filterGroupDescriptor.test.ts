@@ -1,6 +1,10 @@
 import { expect } from "chai";
-import { FilterDescriptor, FilterGroupDescriptor } from "../../src/models";
-import { FilterOperator, FilterCondition } from "../../src/enums";
+import {
+  FilterDescriptor,
+  FilterGroupDescriptor,
+  FilterOperator,
+  FilterCondition
+} from "../../src";
 import { ObjectUtils, ArrayUtils } from "ts-commons";
 
 describe(".FilterGroupDescriptor", () => {

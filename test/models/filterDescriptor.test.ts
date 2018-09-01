@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { FilterDescriptor } from "../../src/models";
-import { FilterOperator, FilterCondition } from "../../src/enums";
+import { FilterDescriptor, FilterOperator, FilterCondition } from "../../src";
 
 describe(".FilterDescriptor", () => {
   class Student {
