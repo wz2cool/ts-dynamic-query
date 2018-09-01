@@ -12,7 +12,9 @@ export class SortDescriptor<T> extends SortDescriptorBase {
     super("SortDescriptor");
 
     if (options) {
-      this.direction = options.direction;
+      this.direction = ObjectUtils.isNullOrUndefined(options.direction)
+        ? SortDirection.ASC
+        : options.direction;
       this.propertyPath = options.propertyPath.toString();
     }
   }
