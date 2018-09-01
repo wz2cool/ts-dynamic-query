@@ -1,5 +1,5 @@
 import { FilterDescriptorBase } from "./filterDescriptorBase";
-import { FilterOperator, FilterCondition } from "../enums";
+import { FilterOperator } from "../enums/filterOperator";
 import { FilterOptions } from "./filterOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";

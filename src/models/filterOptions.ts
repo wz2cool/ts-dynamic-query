@@ -1,4 +1,5 @@
-import { FilterCondition, FilterOperator } from "../enums";
+import { FilterCondition } from "../enums/filterCondition";
+import { FilterOperator } from "../enums/filterOperator";
 
 export interface FilterOptions<T> {
   condition?: FilterCondition;

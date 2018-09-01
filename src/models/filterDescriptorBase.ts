@@ -1,4 +1,4 @@
-import { FilterCondition } from "../enums";
+import { FilterCondition } from "../enums/filterCondition";
 
 export abstract class FilterDescriptorBase {
   public condition: FilterCondition = FilterCondition.AND;

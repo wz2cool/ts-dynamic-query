@@ -1,8 +1,8 @@
 import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { deserialize, serialize } from "class-transformer";
 import { FilterDescriptor } from "./filterDescriptor";
-import { FilterHelper } from "../helpers";
-import { FilterOptions } from ".";
+import { FilterHelper } from "../helpers/filterHelper";
+import { FilterOptions } from "./filterOptions";
 
 export class FilterGroupDescriptor<T> extends FilterDescriptorBase {
   public filters: FilterDescriptorBase[];

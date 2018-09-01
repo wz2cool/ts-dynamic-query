@@ -1,7 +1,7 @@
 import { SortDescriptorBase } from "./sortDescriptorBase";
 import { FilterDescriptorBase } from "./filterDescriptorBase";
 import { deserialize, serialize } from "class-transformer";
-import { FilterHelper } from "../helpers";
+import { FilterHelper } from "../helpers/filterHelper";
 import { FilterDescriptor } from "./filterDescriptor";
 import { FilterGroupDescriptor } from "./filterGroupDescriptor";
 import { FilterOptions } from "./filterOptions";
@@ -9,8 +9,8 @@ import { SortOptions } from "./sortOptions";
 import { SortDescriptor } from "./sortDescriptor";
 import { FilterGroupOptions } from "./filterGroupOptions";
 import { ObjectUtils } from "ts-commons";
-import { FilterCondition } from "../enums";
-import { QueryProvider } from "../providers";
+import { FilterCondition } from "../enums/filterCondition";
+import { QueryProvider } from "../providers/queryProvider";
 
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];

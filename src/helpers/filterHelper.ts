@@ -1,12 +1,10 @@
-import {
-  FilterDescriptor,
-  FilterDescriptorBase,
-  FilterGroupDescriptor,
-  SortDescriptorBase,
-  SortDescriptor,
-  PredicteResult
-} from "../models";
-import { FilterOperator, FilterCondition } from "../enums";
+import { FilterDescriptor } from "../models/filterDescriptor";
+import { FilterDescriptorBase } from "../models/filterDescriptorBase";
+import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
+import { SortDescriptorBase } from "../models/SortDescriptorBase";
+import { SortDescriptor } from "../models/SortDescriptor";
+import { FilterOperator } from "../enums/filterOperator";
+import { FilterCondition } from "../enums/filterCondition";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
 import { serialize } from "class-transformer";
 

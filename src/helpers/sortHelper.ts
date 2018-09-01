@@ -1,5 +1,6 @@
-import { SortDescriptor, SortDescriptorBase } from "../models";
-import { SortDirection } from "../enums";
+import { SortDescriptor } from "../models/sortDescriptor";
+import { SortDescriptorBase } from "../models/sortDescriptorBase";
+import { SortDirection } from "../enums/SortDirection";
 
 export class SortHelper {
   public static predicateBySorts<T>(

@@ -1,4 +1,4 @@
-import { SortDirection } from "../enums";
+import { SortDirection } from "../enums/SortDirection";
 
 export abstract class SortDescriptorBase {
   public direction: SortDirection = SortDirection.ASC;
