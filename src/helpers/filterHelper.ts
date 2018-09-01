@@ -2,7 +2,7 @@ import { FilterDescriptor } from "../models/filterDescriptor";
 import { FilterDescriptorBase } from "../models/filterDescriptorBase";
 import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
 import { SortDescriptorBase } from "../models/SortDescriptorBase";
-import { SortDescriptor } from "../models/SortDescriptor";
+import { SortDescriptor } from "../models/sortDescriptor";
 import { FilterOperator } from "../enums/filterOperator";
 import { FilterCondition } from "../enums/filterCondition";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
