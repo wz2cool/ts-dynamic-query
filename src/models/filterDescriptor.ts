@@ -4,6 +4,9 @@ import { FilterOptions } from "./filterOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 
+/**
+ * Initializes a new instance of the FilterDescriptor class.
+ */
 export class FilterDescriptor<T> extends FilterDescriptorBase {
   public operator: FilterOperator = FilterOperator.EQUAL;
   public propertyPath: string = null;
@@ -32,9 +35,17 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
     }
   }
 
+  /**
+   * Serialize current FilterDescriptor to json string.
+   */
   public toJSON(): string {
     return serialize(this);
   }
+
+  /**
+   * Deserialize json string to instance of FilterDescriptor.
+   * @param json
+   */
   public fromJSON(json: string): FilterDescriptor<T> {
     const obj = deserialize<FilterDescriptor<T>>(FilterDescriptor, json);
 

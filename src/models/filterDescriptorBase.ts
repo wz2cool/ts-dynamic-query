@@ -1,5 +1,8 @@
 import { FilterCondition } from "../enums/filterCondition";
 
+/**
+ * Base class for all FilterDescriptor.
+ */
 export abstract class FilterDescriptorBase {
   public condition: FilterCondition = FilterCondition.AND;
   public readonly type: string;

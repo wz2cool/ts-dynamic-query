@@ -9,7 +9,6 @@ import { FilterDescriptorBase } from "./models/filterDescriptorBase";
 import { FilterGroupDescriptor } from "./models/filterGroupDescriptor";
 import { FilterGroupOptions } from "./models/filterGroupOptions";
 import { FilterOptions } from "./models/filterOptions";
-import { PredicteResult } from "./models/predicteResult";
 import { SortDescriptor } from "./models/sortDescriptor";
 import { SortDescriptorBase } from "./models/sortDescriptorBase";
 import { SortOptions } from "./models/sortOptions";
@@ -27,7 +26,6 @@ export {
   FilterGroupDescriptor,
   FilterGroupOptions,
   FilterOptions,
-  PredicteResult,
   SortDescriptor,
   SortDescriptorBase,
   SortOptions,

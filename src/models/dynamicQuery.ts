@@ -20,6 +20,10 @@ export class DynamicQuery<T> {
     this.sorts = [];
   }
 
+  public static createInstance<T>(): DynamicQuery<T> {
+    return new DynamicQuery<T>();
+  }
+
   public addFilters(filters: FilterDescriptorBase[]): DynamicQuery<T> {
     this.filters = this.filters.concat(filters);
     return this;
