@@ -16,6 +16,13 @@ describe(".dynamicQuery", () => {
     age: number;
   }
 
+  describe("#createInstance", () => {
+    it("should create instance", () => {
+      const result = DynamicQuery.createInstance<Student>();
+      expect(false).to.be.eq(ObjectUtils.isNullOrUndefined(result));
+    });
+  });
+
   describe("#init", () => {
     it("should have default value", () => {
       const query = new DynamicQuery();
@@ -32,7 +39,9 @@ describe(".dynamicQuery", () => {
         value: "test"
       });
 
-      const query = new DynamicQuery<Student>().addFilters([nameFilter]);
+      const query = DynamicQuery.createInstance<Student>().addFilters([
+        nameFilter
+      ]);
       expect(nameFilter).to.be.eq(query.filters[0]);
     });
   });
