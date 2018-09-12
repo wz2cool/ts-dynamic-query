@@ -1,3 +1,6 @@
+/**
+ * Defines the operators that you can use to compare a property value to a filter value.
+ */
 export enum FilterOperator {
     /**
      * Less than filter operator.

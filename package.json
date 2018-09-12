@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "class-transformer": "^0.1.9",
-    "ts-commons": "0.0.37"
+    "ts-commons": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
