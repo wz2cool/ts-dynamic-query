@@ -14,6 +14,15 @@ describe(".SortDescriptor", () => {
       expect(null).to.be.eq(sortDescriptor.propertyPath);
     });
 
+    it("init by default option", () => {
+      const sortDescriptor = new SortDescriptor<Student>({
+        propertyPath: "age"
+      });
+
+      expect(SortDirection.ASC).to.be.eq(sortDescriptor.direction);
+      expect("age").to.be.eq(sortDescriptor.propertyPath);
+    });
+
     it("init by option", () => {
       const sortDescriptor = new SortDescriptor<Student>({
         propertyPath: "age",
