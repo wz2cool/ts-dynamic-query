@@ -4,6 +4,9 @@ import { SortOptions } from "./sortOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 
+/**
+ * Initializes a new instance of the SortDescriptor class.
+ */
 export class SortDescriptor<T> extends SortDescriptorBase {
   public propertyPath: string = null;
   public direction: SortDirection = SortDirection.ASC;
