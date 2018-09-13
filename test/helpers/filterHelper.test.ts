@@ -178,7 +178,7 @@ describe(".filterHelper", () => {
       expect(false).to.be.eq(result);
     });
 
-    it("should return false if 'Jack' < 'test'", () => {
+    it("should return true if 'Jack' < 'test'", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
