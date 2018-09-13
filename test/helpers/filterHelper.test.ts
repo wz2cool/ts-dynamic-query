@@ -140,4 +140,54 @@ describe(".filterHelper", () => {
       expect(true).to.be.eq(result);
     });
   });
+
+  describe("#predicateLessThan", () => {
+    it("'number' should return true if 18 < 19", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateLessThan<Student>(
+        student,
+        "age",
+        19
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("'number' should return false if 18 < 10", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateLessThan<Student>(
+        student,
+        "age",
+        10
+      );
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if 18 < 'test'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateLessThan<Student>(
+        student,
+        "age",
+        "test"
+      );
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if 'Jack' < 'test'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateLessThan<Student>(
+        student,
+        "name",
+        "test"
+      );
+      expect(true).to.be.eq(result);
+    });
+  });
 });

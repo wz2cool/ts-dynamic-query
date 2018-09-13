@@ -1,8 +1,6 @@
 import { FilterCondition } from "./enums/filterCondition";
 import { FilterOperator } from "./enums/filterOperator";
 import { SortDirection } from "./enums/sortDirection";
-import { SortHelper } from "./helpers/sortHelper";
-import { FilterHelper } from "./helpers/filterHelper";
 import { DynamicQuery } from "./models/dynamicQuery";
 import { FilterDescriptor } from "./models/filterDescriptor";
 import { FilterDescriptorBase } from "./models/filterDescriptorBase";
@@ -18,8 +16,6 @@ export {
   FilterCondition,
   FilterOperator,
   SortDirection,
-  SortHelper,
-  FilterHelper,
   DynamicQuery,
   FilterDescriptor,
   FilterDescriptorBase,
