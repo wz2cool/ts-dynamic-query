@@ -530,4 +530,54 @@ describe(".filterHelper", () => {
       expect(false).to.be.eq(result);
     });
   });
+
+  describe("predicateIn", () => {
+    it("should return true if 18 in [16, 17, 18, 19]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateIn<Student>(student, "age", [
+        16,
+        17,
+        18,
+        19
+      ]);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if 18 in [1, 2, 3, 4]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateIn<Student>(student, "age", [
+        1,
+        2,
+        3,
+        4
+      ]);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if undefined in [1, 2, 3, 4]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      const result = FilterHelper.predicateIn<Student>(student, "age", [
+        1,
+        2,
+        3,
+        4
+      ]);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if 18 in '1,2,3,4'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+
+      expect(() => {
+        FilterHelper.predicateIn<Student>(student, "age", "1,2,3,4");
+      }).to.throw('filter value of "IN" or "NOT_IN" operator must be array');
+    });
+  });
 });
