@@ -6,17 +6,20 @@ import { FilterOperator } from "../enums/filterOperator";
  */
 export interface FilterOptions<T> {
   /**
-   * the condition of FilterDescriptor
+   * The condition of FilterDescriptor
    */
   condition?: FilterCondition;
   /**
-   * the property of T object.
+   * The property of T object.
    */
   propertyPath: keyof T;
   /**
-   * the operators that you can use to compare a property value to a filter value.
+   * The operators that you can use to compare a property value to a filter value.
    */
   operator: FilterOperator;
+  /**
+   * The value used in the comparisons.
+   */
   value:
     | string
     | number
@@ -24,5 +27,8 @@ export interface FilterOptions<T> {
     | boolean
     | Array<string | number | Date | boolean>
     | null;
+  /**
+   * Compare ignore case.
+   */
   ignoreCase?: boolean;
 }

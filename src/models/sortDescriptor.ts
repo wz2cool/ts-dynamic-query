@@ -22,10 +22,17 @@ export class SortDescriptor<T> extends SortDescriptorBase {
     }
   }
 
+  /**
+   * Serialize current SortDescriptor to json string.
+   */
   public toJSON(): string {
     return serialize(this);
   }
 
+  /**
+   * Deserialize json string to instance of SortDescriptor.
+   * @param json
+   */
   public fromJSON(json: string): SortDescriptor<T> {
     const obj = deserialize<SortDescriptor<T>>(SortDescriptor, json);
     this.direction = obj.direction;

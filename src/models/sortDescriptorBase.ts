@@ -1,5 +1,8 @@
 import { SortDirection } from "../enums/sortDirection";
 
+/**
+ * Base class for all SortDescriptor.
+ */
 export abstract class SortDescriptorBase {
   public direction: SortDirection = SortDirection.ASC;
   public readonly type: string;
