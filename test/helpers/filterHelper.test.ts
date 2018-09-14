@@ -404,7 +404,7 @@ describe(".filterHelper", () => {
       expect(true).to.be.eq(result);
     });
 
-    it("should return true if 'Jack' start with 'te'", () => {
+    it("should return false if 'Jack' start with 'te'", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
@@ -425,6 +425,107 @@ describe(".filterHelper", () => {
         "name",
         "te",
         false
+      );
+      expect(false).to.be.eq(result);
+    });
+  });
+
+  describe("#predicateEndWith", () => {
+    it("should return true if 'Jack' end with 'ck'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateEndWith(
+        student,
+        "name",
+        "ck",
+        false
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true if 'Jack' end with 'CK' with ignore case", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateEndWith(student, "name", "CK", true);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if 'Jack' start with 'aa'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateEndWith(
+        student,
+        "name",
+        "aa",
+        false
+      );
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if propertyValue is null or undefined", () => {
+      const student = new Student();
+      student.age = 18;
+      const result = FilterHelper.predicateEndWith(
+        student,
+        "name",
+        "te",
+        false
+      );
+      expect(false).to.be.eq(result);
+    });
+  });
+
+  describe("predicateContains", () => {
+    it("should return true if 'Jack' constains 'ac'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateContains<Student>(
+        student,
+        "name",
+        "ac",
+        false
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true if 'Jack' ignore case constains 'AC'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateContains<Student>(
+        student,
+        "name",
+        "AC",
+        true
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if 'Jack' ignore case constains 'test'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateContains<Student>(
+        student,
+        "name",
+        "test",
+        true
+      );
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false if propValue is null or undefinend", () => {
+      const student = new Student();
+      student.age = 18;
+      const result = FilterHelper.predicateContains<Student>(
+        student,
+        "name",
+        "test",
+        true
       );
       expect(false).to.be.eq(result);
     });
