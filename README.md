@@ -1,3 +1,5 @@
+[![License](http://img.shields.io/:license-MIT-brightgreen.svg)](https://github.com/wz2cool/ts-dynamic-query/blob/master/LICENSE)
+
 # ts-dynamic-query
 
 ts-dynamic-query 目的是为了结构化描述筛选条件，主要用于 typescript 筛选内存中数组数据，当然如果不是特别需要这种表述行的条件筛选可以使用 lodash。
