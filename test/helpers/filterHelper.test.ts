@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { FilterHelper } from "../../src/helpers/filterHelper";
+import { FilterOperator } from "../../src/enums/filterOperator";
 
 describe(".filterHelper", () => {
   class Student {
@@ -531,7 +532,7 @@ describe(".filterHelper", () => {
     });
   });
 
-  describe("predicateIn", () => {
+  describe("#predicateIn", () => {
     it("should return true if 18 in [16, 17, 18, 19]", () => {
       const student = new Student();
       student.name = "Jack";
@@ -578,6 +579,92 @@ describe(".filterHelper", () => {
       expect(() => {
         FilterHelper.predicateIn<Student>(student, "age", "1,2,3,4");
       }).to.throw('filter value of "IN" or "NOT_IN" operator must be array');
+    });
+  });
+
+  describe("#predicateNotIn", () => {
+    it("should return false if 18 not in [16, 17, 18, 19]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
+        16,
+        17,
+        18,
+        19
+      ]);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true if 18 not in [1, 2, 3, 4]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
+        1,
+        2,
+        3,
+        4
+      ]);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true if undefined not in [1, 2, 3, 4]", () => {
+      const student = new Student();
+      student.name = "Jack";
+      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
+        1,
+        2,
+        3,
+        4
+      ]);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true if 18 not in '1,2,3,4'", () => {
+      const student = new Student();
+      student.name = "Jack";
+      student.age = 18;
+
+      expect(() => {
+        FilterHelper.predicateNotIn<Student>(student, "age", "1,2,3,4");
+      }).to.throw('filter value of "IN" or "NOT_IN" operator must be array');
+    });
+  });
+
+  describe("#getFilterValues", () => {
+    it("should reutrn [1, 2, 3] if opertor is 'IN' and filter value is [1 ,2 ,3]", () => {
+      const array = [1, 2, 3];
+      const result = FilterHelper.getFilterValues(FilterOperator.IN, array);
+      expect(array).to.be.eq(result);
+    });
+
+    it("should reutrn [1, 2, 3] if opertor is 'NOT_IN' and filter value is [1 ,2 ,3]", () => {
+      const array = [1, 2, 3];
+      const result = FilterHelper.getFilterValues(FilterOperator.NOT_IN, array);
+      expect(array).to.be.eq(result);
+    });
+
+    it("should reutrn [1, 2] if opertor is 'BETWEEN' and filter value is [1 ,2]", () => {
+      const array = [1, 2];
+      const result = FilterHelper.getFilterValues(
+        FilterOperator.BETWEEN,
+        array
+      );
+      expect(array).to.be.eq(result);
+    });
+
+    it("should reutrn exception if opertor is 'BETWEEN' and filter value is [1 ,2, 3]", () => {
+    
+      expect(() => {
+        const array = [1, 2, 3];
+        const result = FilterHelper.getFilterValues(
+          FilterOperator.BETWEEN,
+          array
+        );
+      }).to.throw(
+        'if "BETWEEN" operator, the count of filter value must be 2'
+      );
     });
   });
 });

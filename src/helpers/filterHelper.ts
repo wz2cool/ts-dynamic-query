@@ -284,7 +284,7 @@ export class FilterHelper {
     return !this.predicateIn(obj, propertyPath, filterValue);
   }
 
-  private static getFilterValues(
+  public static getFilterValues(
     operator: FilterOperator,
     filterValue: any
   ): any[] {
