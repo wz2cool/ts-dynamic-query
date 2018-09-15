@@ -655,16 +655,24 @@ describe(".filterHelper", () => {
     });
 
     it("should reutrn exception if opertor is 'BETWEEN' and filter value is [1 ,2, 3]", () => {
-    
       expect(() => {
         const array = [1, 2, 3];
         const result = FilterHelper.getFilterValues(
           FilterOperator.BETWEEN,
           array
         );
-      }).to.throw(
-        'if "BETWEEN" operator, the count of filter value must be 2'
-      );
+      }).to.throw('if "BETWEEN" operator, the count of filter value must be 2');
+    });
+
+    it("should return exception if operator is 'IN' and filter value is 1", () => {
+      expect(() => {
+        FilterHelper.getFilterValues(FilterOperator.IN, 1);
+      }).to.throw('filter value of "IN" or "NOT_IN" operator must be array');
+    });
+
+    it("should reutrn [1] if opertor is 'equal' and filter value is 1", () => {
+      const result = FilterHelper.getFilterValues(FilterOperator.EQUAL, 1);
+      expect(1).to.be.eq(result[0]);
     });
   });
 });
