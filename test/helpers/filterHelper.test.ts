@@ -1,6 +1,10 @@
 import { expect } from "chai";
 import { FilterHelper } from "../../src/helpers/filterHelper";
 import { FilterOperator } from "../../src/enums/filterOperator";
+import { ArrayUtils } from "ts-commons";
+import { FilterDescriptor } from "../../src/models/filterDescriptor";
+import { FilterGroupDescriptor } from "../../src/models/filterGroupDescriptor";
+import { SortDescriptor } from "../../src/models/sortDescriptor";
 
 describe(".filterHelper", () => {
   class Student {
@@ -675,4 +679,70 @@ describe(".filterHelper", () => {
       expect(1).to.be.eq(result[0]);
     });
   });
+
+  describe("#getRealFilters", () => {
+    it("should return [] if sorts is []", () => {
+      const result = FilterHelper.getRealFilters([]);
+      expect(true).to.be.eq(ArrayUtils.isEmpty(result));
+    });
+
+    it("should return FilterDescriptor type", () => {
+      const test = {
+        type: "FilterDescriptor",
+        operator: 1,
+        propertyPath: "name"
+      };
+      const result = FilterHelper.getRealFilters([
+        test as FilterDescriptor<Student>
+      ]);
+
+      expect(true).to.be.eq(result[0] instanceof FilterDescriptor);
+    });
+
+    it("should return FilterGroupDescriptor type", () => {
+      const test = {
+        type: "FilterGroupDescriptor"
+      };
+      const result = FilterHelper.getRealFilters([
+        test as FilterGroupDescriptor<Student>
+      ]);
+
+      expect(true).to.be.eq(result[0] instanceof FilterGroupDescriptor);
+    });
+  });
+
+  describe("#getValue", () => {
+    it("should return null if value is null", () => {
+      const result = FilterHelper.getValue(null);
+      expect(null).to.be.eq(result);
+    });
+
+    it("should return null if value is undefined", () => {
+      const result = FilterHelper.getValue(undefined);
+      expect(null).to.be.eq(result);
+    });
+
+    it("should return 1 if value is 1", () => {
+      const result = FilterHelper.getValue(1);
+      expect(1).to.be.eq(result);
+    });
+  });
+
+  // describe("#getRealSorts", () => {
+  //   it("should return [] if sorts is []", () => {
+  //     const result = FilterHelper.getRealSorts([]);
+  //     expect(true).to.be.eq(ArrayUtils.isEmpty(result));
+  //   });
+
+  //   it("should return SortDescriptor type", () => {
+  //     const test = {
+  //       type: "SortDescriptor"
+  //     };
+  //     const result = FilterHelper.getRealSorts([
+  //       test as SortDescriptor<Student>
+  //     ]);
+
+  //     expect(true).to.be.eq(result[0] instanceof SortDescriptor);
+  //   });
+  // });
 });

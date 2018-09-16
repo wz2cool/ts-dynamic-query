@@ -334,26 +334,7 @@ export class FilterHelper {
     return result;
   }
 
-  public static getRealSorts<T>(
-    sorts: SortDescriptorBase[]
-  ): SortDescriptorBase[] {
-    if (ArrayUtils.isEmpty(sorts)) {
-      return [];
-    }
-
-    const result: SortDescriptorBase[] = [];
-    for (const filterBase of sorts || []) {
-      const filterJson = serialize(filterBase);
-      switch (filterBase.type) {
-        case "SortDescriptor":
-          result.push(new SortDescriptor<T>().fromJSON(filterJson));
-          break;
-      }
-    }
-    return result;
-  }
-
-  private static getValue(value: any): any {
+  public static getValue(value: any): any {
     return ObjectUtils.isNullOrUndefined(value) ? null : value;
   }
 }

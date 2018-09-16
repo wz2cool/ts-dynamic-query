@@ -11,6 +11,7 @@ import { FilterGroupOptions } from "./filterGroupOptions";
 import { ObjectUtils } from "ts-commons";
 import { FilterCondition } from "../enums/filterCondition";
 import { QueryProvider } from "../providers/queryProvider";
+import { SortHelper } from "../helpers/sortHelper";
 
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];
@@ -71,7 +72,7 @@ export class DynamicQuery<T> {
   public fromJSON(json: string): DynamicQuery<T> {
     const obj = deserialize<DynamicQuery<T>>(DynamicQuery, json);
     this.filters = FilterHelper.getRealFilters<T>(obj.filters);
-    this.sorts = FilterHelper.getRealSorts<T>(obj.sorts);
+    this.sorts = SortHelper.getRealSorts<T>(obj.sorts);
     return this;
   }
 }
