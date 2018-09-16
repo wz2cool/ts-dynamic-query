@@ -54,7 +54,10 @@ export class FilterHelper {
     filterGroupDescriptor: FilterGroupDescriptor<T>
   ): boolean {
     const filters = filterGroupDescriptor.filters;
-    let result = true;
+    if (ArrayUtils.isEmpty(filters)) {
+      return true;
+    }
+    let result: boolean | null = null; // if filter is empty, result default value is true
     for (const filter of filters) {
       if (result === false && filter.condition === FilterCondition.AND) {
         continue;
@@ -71,13 +74,17 @@ export class FilterHelper {
         predictResult = this.predicateByFilterGroupDescriptor<T>(obj, filter);
       }
 
-      switch (filter.condition) {
-        case FilterCondition.AND:
-          result = result && predictResult;
-          break;
-        case FilterCondition.OR:
-          result = result || predictResult;
-          break;
+      if (ObjectUtils.isNullOrUndefined(result)) {
+        result = predictResult;
+      } else {
+        switch (filter.condition) {
+          case FilterCondition.AND:
+            result = result && predictResult;
+            break;
+          case FilterCondition.OR:
+            result = result || predictResult;
+            break;
+        }
       }
     }
     return result;

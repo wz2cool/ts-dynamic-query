@@ -5,6 +5,7 @@ import { ArrayUtils } from "ts-commons";
 import { FilterDescriptor } from "../../src/models/filterDescriptor";
 import { FilterGroupDescriptor } from "../../src/models/filterGroupDescriptor";
 import { SortDescriptor } from "../../src/models/sortDescriptor";
+import { FilterCondition } from "../../src/enums/filterCondition";
 
 describe(".filterHelper", () => {
   class Student {
@@ -907,21 +908,109 @@ describe(".filterHelper", () => {
       expect(false).to.be.eq(result);
     });
   });
-  // describe("#getRealSorts", () => {
-  //   it("should return [] if sorts is []", () => {
-  //     const result = FilterHelper.getRealSorts([]);
-  //     expect(true).to.be.eq(ArrayUtils.isEmpty(result));
-  //   });
 
-  //   it("should return SortDescriptor type", () => {
-  //     const test = {
-  //       type: "SortDescriptor"
-  //     };
-  //     const result = FilterHelper.getRealSorts([
-  //       test as SortDescriptor<Student>
-  //     ]);
+  describe("#predicateByFilterGroupDescriptor", () => {
+    const student = new Student();
+    student.name = "Marry";
+    student.age = 18;
+    it("should return true if multi 'and' condition", () => {
+      const ageFilterGroup = new FilterGroupDescriptor<Student>();
+      const ageFilter1 = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN,
+        value: 10
+      });
+      const ageFilter2 = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN,
+        value: 20
+      });
+      ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
 
-  //     expect(true).to.be.eq(result[0] instanceof SortDescriptor);
-  //   });
-  // });
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.START_WITH,
+        value: "Ma"
+      });
+
+      const filterGroup = new FilterGroupDescriptor<Student>();
+      filterGroup.addFilters([ageFilterGroup, nameFilter]);
+      const result = FilterHelper.predicateByFilterGroupDescriptor(
+        student,
+        filterGroup
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if multi 'or' condition", () => {
+      const ageFilterGroup = new FilterGroupDescriptor<Student>();
+      const ageFilter1 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN,
+        value: 20
+      });
+      const ageFilter2 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN,
+        value: 1
+      });
+      ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
+
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.START_WITH,
+        value: "Ma"
+      });
+
+      const filterGroup = new FilterGroupDescriptor<Student>();
+      filterGroup.addFilters([ageFilterGroup, nameFilter]);
+      const result = FilterHelper.predicateByFilterGroupDescriptor(
+        student,
+        filterGroup
+      );
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true if multi 'or' condition", () => {
+      const ageFilterGroup = new FilterGroupDescriptor<Student>();
+      const ageFilter1 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN,
+        value: 1
+      });
+      const ageFilter2 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN,
+        value: 20
+      });
+      ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
+
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.START_WITH,
+        value: "Ma"
+      });
+
+      const filterGroup = new FilterGroupDescriptor<Student>();
+      filterGroup.addFilters([ageFilterGroup, nameFilter]);
+      const result = FilterHelper.predicateByFilterGroupDescriptor(
+        student,
+        filterGroup
+      );
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true if filters is empty", () => {
+      const filterGroup = new FilterGroupDescriptor<Student>();
+      const result = FilterHelper.predicateByFilterGroupDescriptor(
+        student,
+        filterGroup
+      );
+      expect(true).to.be.eq(result);
+    });
+  });
 });
