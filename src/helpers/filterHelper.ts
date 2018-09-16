@@ -13,40 +13,9 @@ export class FilterHelper {
     obj: T,
     filters: FilterDescriptorBase[]
   ): boolean {
-    let result = true;
-    for (const filter of filters) {
-      if (result === false && filter.condition === FilterCondition.AND) {
-        continue;
-      }
-
-      if (result === true && filter.condition === FilterCondition.OR) {
-        continue;
-      }
-
-      let predictResult = this.predicateByFilterDescriptorBase<T>(obj, filter);
-      switch (filter.condition) {
-        case FilterCondition.AND:
-          result = result && predictResult;
-          break;
-        case FilterCondition.OR:
-          result = result || predictResult;
-          break;
-      }
-    }
-    return result;
-  }
-
-  public static predicateByFilterDescriptorBase<T>(
-    obj: T,
-    filter: FilterDescriptorBase
-  ): boolean {
-    let predictResult = true;
-    if (filter instanceof FilterDescriptor) {
-      predictResult = this.predicateByFilterDescriptor<T>(obj, filter);
-    } else if (filter instanceof FilterGroupDescriptor) {
-      predictResult = this.predicateByFilterGroupDescriptor<T>(obj, filter);
-    }
-    return predictResult;
+    const filterGroupDescriptor = new FilterGroupDescriptor<T>();
+    filterGroupDescriptor.addFilters(filters);
+    return this.predicateByFilterGroupDescriptor(obj, filterGroupDescriptor);
   }
 
   public static predicateByFilterGroupDescriptor<T>(
@@ -59,19 +28,29 @@ export class FilterHelper {
     }
     let result: boolean | null = null; // if filter is empty, result default value is true
     for (const filter of filters) {
-      if (result === false && filter.condition === FilterCondition.AND) {
+      if (
+        result === false &&
+        !ObjectUtils.isNullOrUndefined(filter) &&
+        filter.condition === FilterCondition.AND
+      ) {
         continue;
       }
 
-      if (result === true && filter.condition === FilterCondition.OR) {
+      if (
+        result === true &&
+        !ObjectUtils.isNullOrUndefined(filter) &&
+        filter.condition === FilterCondition.OR
+      ) {
         continue;
       }
 
-      let predictResult = true;
+      let predictResult;
       if (filter instanceof FilterDescriptor) {
         predictResult = this.predicateByFilterDescriptor<T>(obj, filter);
       } else if (filter instanceof FilterGroupDescriptor) {
         predictResult = this.predicateByFilterGroupDescriptor<T>(obj, filter);
+      } else {
+        predictResult = false;
       }
 
       if (ObjectUtils.isNullOrUndefined(result)) {

@@ -1012,5 +1012,36 @@ describe(".filterHelper", () => {
       );
       expect(true).to.be.eq(result);
     });
+
+    it("should return false if filters constains null", () => {
+      const ageFilterGroup = new FilterGroupDescriptor<Student>();
+      const ageFilter1 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN,
+        value: 1
+      });
+      const ageFilter2 = new FilterDescriptor<Student>({
+        condition: FilterCondition.OR,
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN,
+        value: 20
+      });
+      ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
+
+      const nameFilter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.START_WITH,
+        value: "Ma"
+      });
+
+      const filterGroup = new FilterGroupDescriptor<Student>();
+      filterGroup.addFilters([null, ageFilterGroup, nameFilter]);
+      const result = FilterHelper.predicateByFilterGroupDescriptor(
+        student,
+        filterGroup
+      );
+      expect(false).to.be.eq(result);
+    });
   });
 });
