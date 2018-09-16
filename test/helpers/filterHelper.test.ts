@@ -728,6 +728,185 @@ describe(".filterHelper", () => {
     });
   });
 
+  describe("#predicateByFilterDescriptor", () => {
+    const student = new Student();
+    student.name = "Marry";
+    student.age = 18;
+
+    it("should return true by testing equal", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.EQUAL,
+        value: 18
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false by testing equal", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.EQUAL,
+        value: 15
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false by testing not equal", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.NOT_EQUAL,
+        value: 18
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true by testing not equal", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.NOT_EQUAL,
+        value: 15
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing LESS_THAN", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN,
+        value: 20
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing LESS_THAN_OR_EQUAL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN_OR_EQUAL,
+        value: 20
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing LESS_THAN_OR_EQUAL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.LESS_THAN_OR_EQUAL,
+        value: 18
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing GREATER_THAN_OR_EQUAL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN_OR_EQUAL,
+        value: 18
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing GREATER_THAN_OR_EQUAL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN_OR_EQUAL,
+        value: 12
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing GREATER_THAN", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.GREATER_THAN,
+        value: 12
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing START_WITH", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.START_WITH,
+        value: "Ma"
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing END_WITH", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.END_WITH,
+        value: "ry"
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing CONTAINS", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "ar"
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing IN", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.IN,
+        value: [1, 18, 20]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing NOT_IN", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.NOT_IN,
+        value: [1, 17, 20]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return true by testing BETWEEN", () => {
+      expect(() => {
+        const filter = new FilterDescriptor<Student>({
+          propertyPath: "age",
+          operator: FilterOperator.BETWEEN,
+          value: [1, 17, 20]
+        });
+        const result = FilterHelper.predicateByFilterDescriptor(
+          student,
+          filter
+        );
+      }).to.throw("current not support between");
+    });
+
+    it("should return if not find operator", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: undefined,
+        value: [1, 17, 20]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+  });
   // describe("#getRealSorts", () => {
   //   it("should return [] if sorts is []", () => {
   //     const result = FilterHelper.getRealSorts([]);
