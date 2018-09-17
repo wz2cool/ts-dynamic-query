@@ -12,6 +12,7 @@ describe(".queryProvider", () => {
     age: number;
   }
 
+  
   it("should return [] if datas is null", () => {
     const result = QueryProvider.query([], null);
     expect(true).to.be.eq(ArrayUtils.isEmpty(result));
