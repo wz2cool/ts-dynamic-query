@@ -28,6 +28,8 @@ export class SortHelper {
     let result = 0;
     if (sort instanceof SortDescriptor) {
       result = this.predicateBySortDescriptor<T>(obj1, obj2, sort);
+    } else {
+      result = 0;
     }
     return result;
   }
