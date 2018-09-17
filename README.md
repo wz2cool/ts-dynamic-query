@@ -2,7 +2,7 @@
 
 [![License](http://img.shields.io/:license-MIT-brightgreen.svg)](https://github.com/wz2cool/ts-dynamic-query/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/wz2cool/ts-dynamic-query.svg?branch=master)](https://travis-ci.org/wz2cool/ts-dynamic-query)
-[![Coverage Status](https://coveralls.io/repos/github/wz2cool/ts-dynamic-query/badge.svg?branch=master)](https://coveralls.io/github/wz2cool/ts-dynamic-query?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/wz2cool/ts-dynamic-query/badge.svg?branch=master)](https://coveralls.io/github/wz2cool/ts-dynamic-query?branch=master)   
 ts-dynamic-query 目的是为了结构化描述筛选条件，主要用于 typescript 筛选内存中数组数据，当然如果不是特别需要这种表述行的条件筛选可以使用 lodash。
 
 ## 目标
