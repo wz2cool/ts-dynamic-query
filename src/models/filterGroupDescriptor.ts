@@ -50,6 +50,7 @@ export class FilterGroupDescriptor<T> extends FilterDescriptorBase {
       json
     );
     this.filters = FilterHelper.getRealFilters<T>(obj.filters);
+    this.condition = obj.condition;
     return this;
   }
 }
