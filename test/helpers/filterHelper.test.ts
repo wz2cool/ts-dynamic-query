@@ -885,17 +885,23 @@ describe(".filterHelper", () => {
     });
 
     it("should return true by testing BETWEEN", () => {
-      expect(() => {
-        const filter = new FilterDescriptor<Student>({
-          propertyPath: "age",
-          operator: FilterOperator.BETWEEN,
-          value: [1, 17, 20]
-        });
-        const result = FilterHelper.predicateByFilterDescriptor(
-          student,
-          filter
-        );
-      }).to.throw("current not support between");
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.BETWEEN,
+        value: [1, 17]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return false by testing BETWEEN", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "age",
+        operator: FilterOperator.BETWEEN,
+        value: [1, 20]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
     });
 
     it("should return if not find operator", () => {

@@ -121,7 +121,14 @@ export class FilterHelper {
       case FilterOperator.NOT_IN:
         return this.predicateNotIn(obj, propertyPath, filterValue);
       case FilterOperator.BETWEEN:
-        throw new Error("current not support between");
+        const filterValues = this.getFilterValues(
+          FilterOperator.BETWEEN,
+          filterValue
+        );
+        return (
+          this.predicateGreaterThanOrEqual(obj, propertyPath, filterValues[0]) &&
+          this.predicateLessThanOrEqual(obj, propertyPath, filterValues[1])
+        );
       default:
         return false;
     }
