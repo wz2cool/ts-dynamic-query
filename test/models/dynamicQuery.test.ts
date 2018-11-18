@@ -18,7 +18,7 @@ describe(".dynamicQuery", () => {
 
   describe("#createInstance", () => {
     it("should create instance", () => {
-      const result = DynamicQuery.createQuery<Student>();
+      const result = DynamicQuery.createQuery<Student>(Student);
       expect(false).to.be.eq(ObjectUtils.isNullOrUndefined(result));
     });
   });
@@ -39,7 +39,7 @@ describe(".dynamicQuery", () => {
         value: "test"
       });
 
-      const query = DynamicQuery.createQuery<Student>().addFilters([
+      const query = DynamicQuery.createQuery<Student>(Student).addFilters([
         nameFilter
       ]);
       expect(nameFilter).to.be.eq(query.filters[0]);
@@ -216,7 +216,7 @@ describe(".dynamicQuery", () => {
 
   describe("#selectProperty", () => {
     it("selectProperty should be added", () => {
-      const query = DynamicQuery.createQuery<Student>()
+      const query = DynamicQuery.createQuery<Student>(Student)
         .selectProperty("name")
         .selectProperty("age")
         .addFilterDescriptor({
@@ -233,7 +233,7 @@ describe(".dynamicQuery", () => {
 
   describe("#selectProperties", () => {
     it("selectProperties should be added", () => {
-      const query = DynamicQuery.createQuery<Student>()
+      const query = DynamicQuery.createQuery<Student>(Student)
         .selectProperties("name", "age")
         .addFilterDescriptor({
           propertyPath: "age",

@@ -25,6 +25,27 @@ export class QueryProvider {
         return SortHelper.predicateBySorts(obj1, obj2, query.sorts);
       });
     }
+
+    if (!ArrayUtils.isEmpty(query.selectedProperties)) {
+      cloneDatas = cloneDatas.map(x =>
+        this.pick(query.type, x, query.selectedProperties)
+      );
+    }
+
     return cloneDatas;
+  }
+
+  private static pick<T>(
+    type: new () => T,
+    data: T,
+    selectedProperties: String[]
+  ): T {
+    const newObj = ObjectUtils.createObject<T>(type);
+    for (const key in data) {
+      if (selectedProperties.indexOf(key) >= 0) {
+        newObj[key] = data[key];
+      }
+    }
+    return newObj;
   }
 }

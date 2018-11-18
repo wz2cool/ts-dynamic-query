@@ -14,6 +14,7 @@ import { QueryProvider } from "../providers/queryProvider";
 import { SortHelper } from "../helpers/sortHelper";
 
 export class DynamicQuery<T> {
+  public type: new () => T;
   public filters: FilterDescriptorBase[];
   public sorts: SortDescriptorBase[];
   public selectedProperties: string[];
@@ -23,8 +24,10 @@ export class DynamicQuery<T> {
     this.selectedProperties = [];
   }
 
-  public static createQuery<T>(): DynamicQuery<T> {
-    return new DynamicQuery<T>();
+  public static createQuery<T>(type: new () => T): DynamicQuery<T> {
+    const instance = new DynamicQuery<T>();
+    instance.type = type;
+    return instance;
   }
 
   public addFilters(filters: FilterDescriptorBase[]): DynamicQuery<T> {
