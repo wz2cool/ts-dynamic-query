@@ -16,12 +16,14 @@ import { SortHelper } from "../helpers/sortHelper";
 export class DynamicQuery<T> {
   public filters: FilterDescriptorBase[];
   public sorts: SortDescriptorBase[];
+  public selectedProperties: string[];
   constructor() {
     this.filters = [];
     this.sorts = [];
+    this.selectedProperties = [];
   }
 
-  public static createInstance<T>(): DynamicQuery<T> {
+  public static createQuery<T>(): DynamicQuery<T> {
     return new DynamicQuery<T>();
   }
 
@@ -30,13 +32,15 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addFilter(option: FilterOptions<T>): DynamicQuery<T> {
+  public addFilterDescriptor(option: FilterOptions<T>): DynamicQuery<T> {
     const filter = new FilterDescriptor<T>(option);
     this.filters.push(filter);
     return this;
   }
 
-  public addFilterGroup(option: FilterGroupOptions<T>): DynamicQuery<T> {
+  public addFilterGroupDescriptor(
+    option: FilterGroupOptions<T>
+  ): DynamicQuery<T> {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
     filterGroupDescriptor.condition = ObjectUtils.isNullOrUndefined(
       option.condition
@@ -55,10 +59,22 @@ export class DynamicQuery<T> {
     return this;
   }
 
-  public addSort(sortOption: SortOptions<T>): DynamicQuery<T> {
+  public addSortDescriptor(sortOption: SortOptions<T>): DynamicQuery<T> {
     const sort = new SortDescriptor<T>(sortOption);
     this.sorts.push(sort);
     sortOption;
+    return this;
+  }
+
+  public selectProperty(property: keyof T): DynamicQuery<T> {
+    const propertyStr = property.toString();
+    this.selectedProperties.push(propertyStr);
+    return this;
+  }
+
+  public selectProperties(...properties: (keyof T)[]): DynamicQuery<T> {
+    const propertyStrs = properties.map(x => x.toString());
+    this.selectedProperties = this.selectedProperties.concat(propertyStrs);
     return this;
   }
 

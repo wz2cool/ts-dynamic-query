@@ -18,7 +18,7 @@ describe(".dynamicQuery", () => {
 
   describe("#createInstance", () => {
     it("should create instance", () => {
-      const result = DynamicQuery.createInstance<Student>();
+      const result = DynamicQuery.createQuery<Student>();
       expect(false).to.be.eq(ObjectUtils.isNullOrUndefined(result));
     });
   });
@@ -39,7 +39,7 @@ describe(".dynamicQuery", () => {
         value: "test"
       });
 
-      const query = DynamicQuery.createInstance<Student>().addFilters([
+      const query = DynamicQuery.createQuery<Student>().addFilters([
         nameFilter
       ]);
       expect(nameFilter).to.be.eq(query.filters[0]);
@@ -60,7 +60,7 @@ describe(".dynamicQuery", () => {
 
   describe("#addFilter", () => {
     it("should add filter option", () => {
-      const query = new DynamicQuery<Student>().addFilter({
+      const query = new DynamicQuery<Student>().addFilterDescriptor({
         propertyPath: "name",
         operator: FilterOperator.EQUAL,
         value: true
@@ -77,7 +77,7 @@ describe(".dynamicQuery", () => {
 
   describe("#addFilterGroup", () => {
     it("should add filterGroup default value", () => {
-      const query = new DynamicQuery<Student>().addFilterGroup({
+      const query = new DynamicQuery<Student>().addFilterGroupDescriptor({
         options: [
           {
             propertyPath: "name",
@@ -106,7 +106,7 @@ describe(".dynamicQuery", () => {
     });
 
     it("should add filterGroup default value", () => {
-      const query = new DynamicQuery<Student>().addFilterGroup({
+      const query = new DynamicQuery<Student>().addFilterGroupDescriptor({
         condition: FilterCondition.OR,
         options: [
           {
@@ -141,12 +141,12 @@ describe(".dynamicQuery", () => {
   describe("#toJSON", () => {
     it("should get json", () => {
       const query = new DynamicQuery<Student>()
-        .addFilter({
+        .addFilterDescriptor({
           propertyPath: "age",
           operator: FilterOperator.GREATER_THAN,
           value: 20
         })
-        .addFilterGroup({
+        .addFilterGroupDescriptor({
           options: [
             {
               propertyPath: "name",
@@ -160,13 +160,13 @@ describe(".dynamicQuery", () => {
             }
           ]
         })
-        .addSort({
+        .addSortDescriptor({
           propertyPath: "age",
           direction: SortDirection.DESC
         });
 
       const json = query.toJSON();
-      const expectStr = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":5,"propertyPath":"age","ignoreCase":false,"value":20},{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"test"},{"condition":0,"type":"FilterDescriptor","operator":6,"propertyPath":"name","ignoreCase":false,"value":"aa"}]}],"sorts":[{"direction":1,"type":"SortDescriptor","propertyPath":"age"}]}`;
+      const expectStr = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":5,"propertyPath":"age","ignoreCase":false,"value":20},{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"test"},{"condition":0,"type":"FilterDescriptor","operator":6,"propertyPath":"name","ignoreCase":false,"value":"aa"}]}],"sorts":[{"direction":1,"type":"SortDescriptor","propertyPath":"age"}],"selectedProperties":[]}`;
       expect(expectStr).to.be.eq(json);
     });
   });
@@ -201,7 +201,7 @@ describe(".dynamicQuery", () => {
         }
       ];
 
-      const query = new DynamicQuery<Student>().addFilter({
+      const query = new DynamicQuery<Student>().addFilterDescriptor({
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
         value: 12
@@ -211,6 +211,39 @@ describe(".dynamicQuery", () => {
       const matchedStudent = filteredStudents[0];
       expect("test").to.be.eq(matchedStudent.name);
       expect(20).to.be.eq(matchedStudent.age);
+    });
+  });
+
+  describe("#selectProperty", () => {
+    it("selectProperty should be added", () => {
+      const query = DynamicQuery.createQuery<Student>()
+        .selectProperty("name")
+        .selectProperty("age")
+        .addFilterDescriptor({
+          propertyPath: "age",
+          operator: FilterOperator.GREATER_THAN,
+          value: 1
+        });
+      const selectedProperties = query.selectedProperties;
+      expect(2).to.be.eq(selectedProperties.length);
+      expect("name").to.be.eq(selectedProperties[0]);
+      expect("age").to.be.eq(selectedProperties[1]);
+    });
+  });
+
+  describe("#selectProperties", () => {
+    it("selectProperties should be added", () => {
+      const query = DynamicQuery.createQuery<Student>()
+        .selectProperties("name", "age")
+        .addFilterDescriptor({
+          propertyPath: "age",
+          operator: FilterOperator.GREATER_THAN,
+          value: 1
+        });
+      const selectedProperties = query.selectedProperties;
+      expect(2).to.be.eq(selectedProperties.length);
+      expect("name").to.be.eq(selectedProperties[0]);
+      expect("age").to.be.eq(selectedProperties[1]);
     });
   });
 });

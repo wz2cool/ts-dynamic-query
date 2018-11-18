@@ -43,13 +43,13 @@ describe(".queryProvider", () => {
       propertyPath: "name"
     });
 
-    const query = DynamicQuery.createInstance<Student>()
+    const query = DynamicQuery.createQuery<Student>()
       .addFilters([ageFitler])
       .addSorts([nameSort]);
     let result = QueryProvider.query([s1, s2, s3], query);
     expect("Atom").to.be.eq(result[0].name);
 
-    const query2 = DynamicQuery.createInstance<Student>().addSorts([nameSort]);
+    const query2 = DynamicQuery.createQuery<Student>().addSorts([nameSort]);
     result = QueryProvider.query([s1, s2, s3], query2);
     expect("ABC").to.be.eq(result[0].name);
   });
