@@ -126,9 +126,18 @@ export class FilterHelper {
           filterValue
         );
         return (
-          this.predicateGreaterThanOrEqual(obj, propertyPath, filterValues[0]) &&
-          this.predicateLessThanOrEqual(obj, propertyPath, filterValues[1])
+          this.predicateGreaterThanOrEqual(
+            obj,
+            propertyPath,
+            filterValues[0]
+          ) && this.predicateLessThanOrEqual(obj, propertyPath, filterValues[1])
         );
+      case FilterOperator.BITWISE_ANY:
+        return this.predicateBitwiseAny(obj, propertyPath, filterValue);
+      case FilterOperator.BITWISE_ZERO:
+        return this.predicateBitwiseZero(obj, propertyPath, filterValue);
+      case FilterOperator.BITWISE_ALL:
+        return this.predicateBitwiseAll(obj, propertyPath, filterValue);
       default:
         return false;
     }
@@ -275,6 +284,33 @@ export class FilterHelper {
     filterValue: any
   ): boolean {
     return !this.predicateIn(obj, propertyPath, filterValue);
+  }
+
+  public static predicateBitwiseAny<T>(
+    obj: T,
+    propertyPath: string,
+    filterValue: any
+  ): boolean {
+    const propValue = obj[propertyPath];
+    return (propValue & filterValue) > 0;
+  }
+
+  public static predicateBitwiseZero<T>(
+    obj: T,
+    propertyPath: string,
+    filterValue: any
+  ): boolean {
+    const propValue = obj[propertyPath];
+    return (propValue & filterValue) === 0;
+  }
+
+  public static predicateBitwiseAll<T>(
+    obj: T,
+    propertyPath: string,
+    filterValue: any
+  ): boolean {
+    const propValue = obj[propertyPath];
+    return (propValue & filterValue) === filterValue;
   }
 
   public static getFilterValues(

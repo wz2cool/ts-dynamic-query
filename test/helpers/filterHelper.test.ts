@@ -8,9 +8,17 @@ import { SortDescriptor } from "../../src/models/sortDescriptor";
 import { FilterCondition } from "../../src/enums/filterCondition";
 
 describe(".filterHelper", () => {
+  enum Flag {
+    FLAG_1 = 1,
+    FLAG_2 = 2,
+    FLAG_3 = 4,
+    FLAG_4 = 8
+  }
+
   class Student {
     name: string;
     age: number;
+    flag: Flag;
   }
 
   describe("#predicateEqual", () => {
@@ -733,6 +741,7 @@ describe(".filterHelper", () => {
     const student = new Student();
     student.name = "Marry";
     student.age = 18;
+    student.flag = Flag.FLAG_3;
 
     it("should return true by testing equal", () => {
       const filter = new FilterDescriptor<Student>({
@@ -909,6 +918,66 @@ describe(".filterHelper", () => {
         propertyPath: "age",
         operator: undefined,
         value: [1, 17, 20]
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true if a & b > 0 by testing BITWISE_ANY", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ANY,
+        value: Flag.FLAG_3 | Flag.FLAG_4
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if a & b === 0 by testing BITWISE_ANY", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ANY,
+        value: Flag.FLAG_1 | Flag.FLAG_4
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true if a & b == 0 by testing BITWISE_ZERO", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ZERO,
+        value: Flag.FLAG_1 | Flag.FLAG_4
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if a & b > 0 by testing BITWISE_ZERO", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ZERO,
+        value: Flag.FLAG_3 | Flag.FLAG_4
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(false).to.be.eq(result);
+    });
+
+    it("should return true if a & b == b by testing BITWISE_ALL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ALL,
+        value: Flag.FLAG_3
+      });
+      const result = FilterHelper.predicateByFilterDescriptor(student, filter);
+      expect(true).to.be.eq(result);
+    });
+
+    it("should return false if a & b !== 0 by testing BITWISE_ALL", () => {
+      const filter = new FilterDescriptor<Student>({
+        propertyPath: "flag",
+        operator: FilterOperator.BITWISE_ALL,
+        value: Flag.FLAG_1
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
