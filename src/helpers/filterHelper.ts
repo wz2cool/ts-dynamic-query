@@ -364,6 +364,6 @@ export class FilterHelper {
   }
 
   public static getValue(value: any): any {
-    return ObjectUtils.isNullOrUndefined(value) ? null : value;
+    return ObjectUtils.isNullOrUndefined(value) ? undefined : value;
   }
 }
