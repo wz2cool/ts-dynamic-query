@@ -1,7 +1,7 @@
 import { SortDescriptor } from "../models/sortDescriptor";
 import { SortDescriptorBase } from "../models/sortDescriptorBase";
 import { SortDirection } from "../enums/sortDirection";
-import { ArrayUtils } from "ts-commons";
+import { ArrayUtils, NumberUtils, ObjectUtils } from "ts-commons";
 import { serialize } from "class-transformer";
 
 export class SortHelper {
@@ -41,8 +41,14 @@ export class SortHelper {
   ): number {
     const propertyPath = sortDescriptor.propertyPath;
     const direction = sortDescriptor.direction;
-    const propValue1 = obj1[propertyPath];
-    const propValue2 = obj2[propertyPath];
+    const propValue1 = ObjectUtils.getOrDefault(
+      obj1[propertyPath],
+      NumberUtils.MIN_SAFE_INTEGER
+    );
+    const propValue2 = ObjectUtils.getOrDefault(
+      obj2[propertyPath],
+      NumberUtils.MIN_SAFE_INTEGER
+    );
 
     let result = 0;
     switch (direction) {

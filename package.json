@@ -1,12 +1,12 @@
 {
   "name": "ts-dynamic-query",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "class-transformer": "^0.1.9",
-    "ts-commons": "~1.0.9"
+    "ts-commons": "~1.0.29"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
