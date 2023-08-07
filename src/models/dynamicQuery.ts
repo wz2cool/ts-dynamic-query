@@ -65,7 +65,6 @@ export class DynamicQuery<T> {
   public addSortDescriptor(sortOption: SortOptions<T>): DynamicQuery<T> {
     const sort = new SortDescriptor<T>(sortOption);
     this.sorts.push(sort);
-    sortOption;
     return this;
   }
 
@@ -76,7 +75,7 @@ export class DynamicQuery<T> {
   }
 
   public selectProperties(...properties: (keyof T)[]): DynamicQuery<T> {
-    const propertyStrs = properties.map(x => x.toString());
+    const propertyStrs = properties.map((x) => x.toString());
     this.selectedProperties = this.selectedProperties.concat(propertyStrs);
     return this;
   }
