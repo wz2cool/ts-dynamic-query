@@ -95,40 +95,24 @@ export class SortHelper {
     sortDirection: SortDirection,
     value: any
   ): number {
-    if (
-      sortDirection == SortDirection.ASC_NULL_FIRST &&
-      ObjectUtils.isNullOrUndefined(value)
-    ) {
-      return NumberUtils.MIN_SAFE_INTEGER;
-    }
-
-    if (
-      sortDirection == SortDirection.DESC_NULL_FIRST &&
-      ObjectUtils.isNullOrUndefined(value)
-    ) {
-      return NumberUtils.MAX_SAFE_INTEGER;
-    }
-
-    if (
-      sortDirection == SortDirection.ASC_NULL_LAST &&
-      ObjectUtils.isNullOrUndefined(value)
-    ) {
-     
-      return NumberUtils.MAX_SAFE_INTEGER;
-    }
-
-    if (
-      sortDirection == SortDirection.DESC_NULL_LAST &&
-      ObjectUtils.isNullOrUndefined(value)
-    ) {
-      return NumberUtils.MIN_SAFE_INTEGER;
-    }
-
-    if (ObjectUtils.isNullOrUndefined(value)) {
-      // default return min value same as mysql
-      return NumberUtils.MIN_SAFE_INTEGER;
-    } else {
+    if (!ObjectUtils.isNullOrUndefined(value)) {
       return value;
     }
+
+    if (
+      sortDirection == SortDirection.ASC_NULL_FIRST ||
+      sortDirection == SortDirection.DESC_NULL_LAST
+    ) {
+      return NumberUtils.MIN_SAFE_INTEGER;
+    }
+
+    if (
+      sortDirection == SortDirection.DESC_NULL_FIRST ||
+      sortDirection == SortDirection.ASC_NULL_LAST
+    ) {
+      return NumberUtils.MAX_SAFE_INTEGER;
+    }
+
+    return NumberUtils.MIN_SAFE_INTEGER;
   }
 }
