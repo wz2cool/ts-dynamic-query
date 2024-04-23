@@ -110,16 +110,10 @@ export class SortHelper {
     }
 
     if (
-      sortDirection == SortDirection.DESC_NULL_LAST &&
-      ObjectUtils.isNullOrUndefined(value)
-    ) {
-      return NumberUtils.MIN_SAFE_INTEGER;
-    }
-
-    if (
       sortDirection == SortDirection.ASC_NULL_LAST &&
       ObjectUtils.isNullOrUndefined(value)
     ) {
+     
       return NumberUtils.MAX_SAFE_INTEGER;
     }
 
