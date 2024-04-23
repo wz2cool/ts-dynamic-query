@@ -15,7 +15,7 @@ export class QueryProvider {
     }
 
     if (!ArrayUtils.isEmpty(query.filters)) {
-      cloneDatas = cloneDatas.filter(x => {
+      cloneDatas = cloneDatas.filter((x) => {
         return FilterHelper.predicateByFilters(x, query.filters);
       });
     }
@@ -27,7 +27,7 @@ export class QueryProvider {
     }
 
     if (!ArrayUtils.isEmpty(query.selectedProperties)) {
-      cloneDatas = cloneDatas.map(x =>
+      cloneDatas = cloneDatas.map((x) =>
         this.pick(query.type, x, query.selectedProperties)
       );
     }
@@ -38,7 +38,7 @@ export class QueryProvider {
   private static pick<T>(
     type: new () => T,
     data: T,
-    selectedProperties: String[]
+    selectedProperties: string[]
   ): T {
     const newObj = ObjectUtils.createObject<T>(type);
     for (const key in data) {

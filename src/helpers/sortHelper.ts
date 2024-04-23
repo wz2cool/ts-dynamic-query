@@ -41,18 +41,14 @@ export class SortHelper {
   ): number {
     const propertyPath = sortDescriptor.propertyPath;
     const direction = sortDescriptor.direction;
-    const propValue1 = ObjectUtils.getOrDefault(
-      obj1[propertyPath],
-      NumberUtils.MIN_SAFE_INTEGER
-    );
-    const propValue2 = ObjectUtils.getOrDefault(
-      obj2[propertyPath],
-      NumberUtils.MIN_SAFE_INTEGER
-    );
+    const propValue1 = this.getDefaultValue(direction, obj1[propertyPath]);
+    const propValue2 = this.getDefaultValue(direction, obj2[propertyPath]);
 
     let result = 0;
     switch (direction) {
       case SortDirection.ASC:
+      case SortDirection.ASC_NULL_FIRST:
+      case SortDirection.ASC_NULL_LAST:
         if (propValue1 === propValue2) {
           result = 0;
         } else if (propValue1 > propValue2) {
@@ -62,6 +58,8 @@ export class SortHelper {
         }
         break;
       case SortDirection.DESC:
+      case SortDirection.DESC_NULL_FIRST:
+      case SortDirection.DESC_NULL_LAST:
         if (propValue1 === propValue2) {
           result = 0;
         } else if (propValue1 < propValue2) {
@@ -91,5 +89,52 @@ export class SortHelper {
       }
     }
     return result;
+  }
+
+  private static getDefaultValue(
+    sortDirection: SortDirection,
+    value: any
+  ): number {
+    if (
+      sortDirection == SortDirection.ASC_NULL_FIRST &&
+      ObjectUtils.isNullOrUndefined(value)
+    ) {
+      return NumberUtils.MIN_SAFE_INTEGER;
+    }
+
+    if (
+      sortDirection == SortDirection.DESC_NULL_FIRST &&
+      ObjectUtils.isNullOrUndefined(value)
+    ) {
+      return NumberUtils.MAX_SAFE_INTEGER;
+    }
+
+    if (
+      sortDirection == SortDirection.DESC_NULL_LAST &&
+      ObjectUtils.isNullOrUndefined(value)
+    ) {
+      return NumberUtils.MIN_SAFE_INTEGER;
+    }
+
+    if (
+      sortDirection == SortDirection.ASC_NULL_LAST &&
+      ObjectUtils.isNullOrUndefined(value)
+    ) {
+      return NumberUtils.MAX_SAFE_INTEGER;
+    }
+
+    if (
+      sortDirection == SortDirection.DESC_NULL_LAST &&
+      ObjectUtils.isNullOrUndefined(value)
+    ) {
+      return NumberUtils.MIN_SAFE_INTEGER;
+    }
+
+    if (ObjectUtils.isNullOrUndefined(value)) {
+      // default return min value same as mysql
+      return NumberUtils.MIN_SAFE_INTEGER;
+    } else {
+      return value;
+    }
   }
 }

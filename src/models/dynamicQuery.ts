@@ -65,7 +65,6 @@ export class DynamicQuery<T> {
   public addSortDescriptor(sortOption: SortOptions<T>): DynamicQuery<T> {
     const sort = new SortDescriptor<T>(sortOption);
     this.sorts.push(sort);
-    sortOption;
     return this;
   }
 

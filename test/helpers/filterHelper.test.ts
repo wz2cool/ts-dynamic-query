@@ -4,7 +4,6 @@ import { FilterOperator } from "../../src/enums/filterOperator";
 import { ArrayUtils } from "ts-commons";
 import { FilterDescriptor } from "../../src/models/filterDescriptor";
 import { FilterGroupDescriptor } from "../../src/models/filterGroupDescriptor";
-import { SortDescriptor } from "../../src/models/sortDescriptor";
 import { FilterCondition } from "../../src/enums/filterCondition";
 
 describe(".filterHelper", () => {
@@ -721,14 +720,14 @@ describe(".filterHelper", () => {
   });
 
   describe("#getValue", () => {
-    it("should return null if value is null", () => {
+    it("should return undefined if value is null", () => {
       const result = FilterHelper.getValue(null);
-      expect(null).to.be.eq(result);
+      expect(undefined).to.be.eq(result);
     });
 
-    it("should return null if value is undefined", () => {
+    it("should return undefined if value is undefined", () => {
       const result = FilterHelper.getValue(undefined);
-      expect(null).to.be.eq(result);
+      expect(undefined).to.be.eq(result);
     });
 
     it("should return 1 if value is 1", () => {
