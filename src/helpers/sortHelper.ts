@@ -6,8 +6,8 @@ import { serialize } from "class-transformer";
 
 export class SortHelper {
   public static predicateBySorts<T>(
-    obj1,
-    obj2,
+    obj1: T,
+    obj2: T,
     sorts: SortDescriptorBase[]
   ): number {
     let result = 0;
@@ -41,34 +41,9 @@ export class SortHelper {
   ): number {
     const propertyPath = sortDescriptor.propertyPath;
     const direction = sortDescriptor.direction;
-    const propValue1 = this.getDefaultValue(direction, obj1[propertyPath]);
-    const propValue2 = this.getDefaultValue(direction, obj2[propertyPath]);
-
-    let result = 0;
-    switch (direction) {
-      case SortDirection.ASC:
-      case SortDirection.ASC_NULL_FIRST:
-      case SortDirection.ASC_NULL_LAST:
-        if (propValue1 === propValue2) {
-          result = 0;
-        } else if (propValue1 > propValue2) {
-          result = 1;
-        } else {
-          result = -1;
-        }
-        break;
-      case SortDirection.DESC:
-      case SortDirection.DESC_NULL_FIRST:
-      case SortDirection.DESC_NULL_LAST:
-        if (propValue1 === propValue2) {
-          result = 0;
-        } else if (propValue1 < propValue2) {
-          result = 1;
-        } else {
-          result = -1;
-        }
-        break;
-    }
+    const propValue1 = obj1[propertyPath];
+    const propValue2 = obj2[propertyPath];
+    const result = this.compareTo(direction, propValue1, propValue2);
     return result;
   }
 
@@ -91,28 +66,64 @@ export class SortHelper {
     return result;
   }
 
-  private static getDefaultValue(
-    sortDirection: SortDirection,
-    value: any
+  private static compareTo(
+    direction: SortDirection,
+    value1: any,
+    value2: any
   ): number {
-    if (!ObjectUtils.isNullOrUndefined(value)) {
-      return value;
+    const isValue1NullOrUnderfined = ObjectUtils.isNullOrUndefined(value1);
+    const isValue2NullOrUnderfined = ObjectUtils.isNullOrUndefined(value2);
+
+    if (!isValue1NullOrUnderfined && !isValue2NullOrUnderfined) {
+      // 当 value1 和 value2 同时有值
+      return this.nonNullableCompareTo(direction, value1, value2);
     }
 
-    if (
-      sortDirection == SortDirection.ASC_NULL_FIRST ||
-      sortDirection == SortDirection.DESC_NULL_LAST
-    ) {
-      return NumberUtils.MIN_SAFE_INTEGER;
+    if (isValue1NullOrUnderfined && isValue2NullOrUnderfined) {
+      // 如果两个都是空就是0;
+      return 0;
+    }
+    if (isValue1NullOrUnderfined) {
+      return this.value1NullCompareTo(direction);
+    } else {
+      // 2 正好和1 反过来
+      return -1 * this.value1NullCompareTo(direction);
+    }
+  }
+
+  private static nonNullableCompareTo<T>(
+    direction: SortDirection,
+    value1: NonNullable<T>,
+    value2: NonNullable<T>
+  ) {
+    let result: number;
+    if (value1 === value2) {
+      result = 0;
+    } else if (value1 > value2) {
+      result = 1;
+    } else {
+      result = -1;
     }
 
-    if (
-      sortDirection == SortDirection.DESC_NULL_FIRST ||
-      sortDirection == SortDirection.ASC_NULL_LAST
-    ) {
-      return NumberUtils.MAX_SAFE_INTEGER;
+    switch (direction) {
+      case SortDirection.ASC:
+      case SortDirection.ASC_NULL_FIRST:
+      case SortDirection.ASC_NULL_LAST:
+        return result;
+      default:
+        return -1 * result;
     }
+  }
 
-    return NumberUtils.MIN_SAFE_INTEGER;
+  private static value1NullCompareTo(direction: SortDirection): number {
+    switch (direction) {
+      // null 是最小要放到最上面
+      case SortDirection.ASC:
+      case SortDirection.ASC_NULL_FIRST:
+      case SortDirection.DESC_NULL_FIRST:
+        return -1;
+      default:
+        return 1;
+    }
   }
 }
