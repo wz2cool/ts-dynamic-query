@@ -10,7 +10,7 @@ describe(".sortDemo", () => {
     p2?: string;
   }
   describe("#sort by null", () => {
-    it("test sort by asc null first", () => {
+    it("number test sort by asc null first", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -32,7 +32,7 @@ describe(".sortDemo", () => {
       expect(2).to.be.eq(result[2].p1);
     });
 
-    it("test sort by asc null last", () => {
+    it("number test sort by asc null last", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -54,7 +54,7 @@ describe(".sortDemo", () => {
       expect(undefined).to.be.eq(result[2].p1);
     });
 
-    it("test sort by desc null first", () => {
+    it("number test sort by desc null first", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -76,7 +76,7 @@ describe(".sortDemo", () => {
       expect(1).to.be.eq(result[2].p1);
     });
 
-    it("test sort by desc null last", () => {
+    it("number test sort by desc null last", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -98,7 +98,7 @@ describe(".sortDemo", () => {
       expect(undefined).to.be.eq(result[2].p1);
     });
 
-    it("test sort by asc", () => {
+    it("number test sort by asc", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -120,7 +120,7 @@ describe(".sortDemo", () => {
       expect(2).to.be.eq(result[2].p1);
     });
 
-    it("test sort by desc", () => {
+    it("number test sort by desc", () => {
       const m1 = new Model1();
       m1.p1 = 2;
       const m2 = new Model1();
@@ -142,13 +142,115 @@ describe(".sortDemo", () => {
       expect(undefined).to.be.eq(result[2].p1);
     });
 
-    it(" test sort by desc", () => {
+    it("string test sort by asc", () => {
       const m1 = new Model1();
       m1.p2 = "b";
       const m2 = new Model1();
-      m2.p2 = "a";
+      m2.p2 = undefined;
       const m3 = new Model1();
       m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
+
+      const nameSort = new SortDescriptor<Model1>({
+        propertyPath: "p2",
+        direction: SortDirection.ASC,
+      });
+
+      const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
+        nameSort,
+      ]);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
+      expect(undefined).to.be.eq(result[0].p2);
+      expect(undefined).to.be.eq(result[1].p2);
+      expect("a").to.be.eq(result[2].p2);
+      expect("b").to.be.eq(result[3].p2);
+    });
+
+    it("string test sort by asc null first", () => {
+      const m1 = new Model1();
+      m1.p2 = "b";
+      const m2 = new Model1();
+      m2.p2 = undefined;
+      const m3 = new Model1();
+      m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
+
+      const nameSort = new SortDescriptor<Model1>({
+        propertyPath: "p2",
+        direction: SortDirection.ASC_NULL_FIRST,
+      });
+
+      const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
+        nameSort,
+      ]);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
+      expect(undefined).to.be.eq(result[0].p2);
+      expect(undefined).to.be.eq(result[1].p2);
+      expect("a").to.be.eq(result[2].p2);
+      expect("b").to.be.eq(result[3].p2);
+    });
+
+    it("string test sort by asc null last", () => {
+      const m1 = new Model1();
+      m1.p2 = "b";
+      const m2 = new Model1();
+      m2.p2 = undefined;
+      const m3 = new Model1();
+      m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
+
+      const nameSort = new SortDescriptor<Model1>({
+        propertyPath: "p2",
+        direction: SortDirection.ASC_NULL_LAST,
+      });
+
+      const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
+        nameSort,
+      ]);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
+      expect("a").to.be.eq(result[0].p2);
+      expect("b").to.be.eq(result[1].p2);
+      expect(undefined).to.be.eq(result[2].p2);
+      expect(undefined).to.be.eq(result[3].p2);
+    });
+
+    it("string test sort by desc", () => {
+      const m1 = new Model1();
+      m1.p2 = "b";
+      const m2 = new Model1();
+      m2.p2 = undefined;
+      const m3 = new Model1();
+      m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
+
+      const nameSort = new SortDescriptor<Model1>({
+        propertyPath: "p2",
+        direction: SortDirection.DESC,
+      });
+
+      const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
+        nameSort,
+      ]);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
+      expect("b").to.be.eq(result[0].p2);
+      expect("a").to.be.eq(result[1].p2);
+      expect(undefined).to.be.eq(result[2].p2);
+      expect(undefined).to.be.eq(result[3].p2);
+    });
+
+    it("string test sort by desc null first", () => {
+      const m1 = new Model1();
+      m1.p2 = "b";
+      const m2 = new Model1();
+      m2.p2 = undefined;
+      const m3 = new Model1();
+      m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
 
       const nameSort = new SortDescriptor<Model1>({
         propertyPath: "p2",
@@ -158,11 +260,36 @@ describe(".sortDemo", () => {
       const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
         nameSort,
       ]);
-      let result = QueryProvider.query([m1, m2, m3], query);
-      console.log("*********************************** result: ", result);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
+      expect(undefined).to.be.eq(result[0].p2);
+      expect(undefined).to.be.eq(result[1].p2);
+      expect("b").to.be.eq(result[2].p2);
+      expect("a").to.be.eq(result[3].p2);
+    });
+
+    it("string test sort by desc null last", () => {
+      const m1 = new Model1();
+      m1.p2 = "b";
+      const m2 = new Model1();
+      m2.p2 = undefined;
+      const m3 = new Model1();
+      m3.p2 = undefined;
+      const m4 = new Model1();
+      m4.p2 = "a";
+
+      const nameSort = new SortDescriptor<Model1>({
+        propertyPath: "p2",
+        direction: SortDirection.DESC_NULL_LAST,
+      });
+
+      const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
+        nameSort,
+      ]);
+      let result = QueryProvider.query([m1, m2, m3, m4], query);
       expect("b").to.be.eq(result[0].p2);
       expect("a").to.be.eq(result[1].p2);
       expect(undefined).to.be.eq(result[2].p2);
+      expect(undefined).to.be.eq(result[3].p2);
     });
   });
 });
