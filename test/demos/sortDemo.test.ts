@@ -614,7 +614,7 @@ describe(".sortDemo", () => {
 
       const p2Sort = new SortDescriptor<Model1>({
         propertyPath: "p2",
-        direction: SortDirection.ASC,
+        direction: SortDirection.ASC_NULL_FIRST,
       });
 
       const p1Sort = new SortDescriptor<Model1>({
@@ -648,7 +648,7 @@ describe(".sortDemo", () => {
 
       const p2Sort = new SortDescriptor<Model1>({
         propertyPath: "p2",
-        direction: SortDirection.ASC,
+        direction: SortDirection.ASC_NULL_FIRST,
       });
 
       const p1Sort = new SortDescriptor<Model1>({
@@ -682,7 +682,7 @@ describe(".sortDemo", () => {
 
       const p2Sort = new SortDescriptor<Model1>({
         propertyPath: "p2",
-        direction: SortDirection.ASC,
+        direction: SortDirection.ASC_NULL_FIRST,
       });
 
       const p1Sort = new SortDescriptor<Model1>({
