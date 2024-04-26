@@ -10,6 +10,10 @@ describe(".SortHelper", () => {
     age: number;
   }
 
+  class Model1 {
+    p1?: number;
+  }
+
   describe("#getRealSorts", () => {
     it("should return [] if sorts is null", () => {
       const result = SortHelper.getRealSorts(null);
@@ -29,7 +33,7 @@ describe(".SortHelper", () => {
     it("should return SortDescriptor", () => {
       const obj = {
         type: "SortDescriptor",
-        propertyPath: "name"
+        propertyPath: "name",
       } as SortDescriptor<Student>;
       const result = SortHelper.getRealSorts([obj]);
       expect(true).to.be.eq(result.length > 0);
@@ -47,14 +51,14 @@ describe(".SortHelper", () => {
 
       const ageAscSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.ASC
+        direction: SortDirection.ASC,
       });
       let result = SortHelper.predicateBySortDescriptor(s1, s2, ageAscSort);
       expect(0).to.be.eq(result);
 
       const ageDescSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.DESC
+        direction: SortDirection.DESC,
       });
 
       result = SortHelper.predicateBySortDescriptor(s1, s2, ageDescSort);
@@ -71,14 +75,14 @@ describe(".SortHelper", () => {
 
       const ageAscSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.ASC
+        direction: SortDirection.ASC,
       });
       let result = SortHelper.predicateBySortDescriptor(s1, s2, ageAscSort);
       expect(1).to.be.eq(result);
 
       const ageDescSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.DESC
+        direction: SortDirection.DESC,
       });
 
       result = SortHelper.predicateBySortDescriptor(s1, s2, ageDescSort);
@@ -95,18 +99,48 @@ describe(".SortHelper", () => {
 
       const ageAscSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.ASC
+        direction: SortDirection.ASC,
       });
       let result = SortHelper.predicateBySortDescriptor(s1, s2, ageAscSort);
       expect(-1).to.be.eq(result);
 
       const ageDescSort = new SortDescriptor<Student>({
         propertyPath: "age",
-        direction: SortDirection.DESC
+        direction: SortDirection.DESC,
       });
 
       result = SortHelper.predicateBySortDescriptor(s1, s2, ageDescSort);
       expect(1).to.be.eq(result);
+    });
+
+    it("should return 1 if p1 =1 and p2 is underfined for 'ASC_NULL_FIRST'", () => {
+      const m1 = new Model1();
+      m1.p1 = 1;
+      const m2 = new Model1();
+      m2.p1 = undefined;
+
+      const p1AscSort = new SortDescriptor<Model1>({
+        propertyPath: "p1",
+        direction: SortDirection.ASC_NULL_FIRST,
+      });
+
+      const result = SortHelper.predicateBySortDescriptor(m1, m2, p1AscSort);
+      expect(1).to.be.eq(result);
+    });
+
+    it("should return -1 if p1 =1 and p2 is underfined for 'ASC_NULL_LAST'", () => {
+      const m1 = new Model1();
+      m1.p1 = 1;
+      const m2 = new Model1();
+      m2.p1 = undefined;
+
+      const p1AscSort = new SortDescriptor<Model1>({
+        propertyPath: "p1",
+        direction: SortDirection.ASC_NULL_LAST,
+      });
+
+      const result = SortHelper.predicateBySortDescriptor(m1, m2, p1AscSort);
+      expect(-1).to.be.eq(result);
     });
   });
 
@@ -127,11 +161,11 @@ describe(".SortHelper", () => {
       s2.age = 18;
 
       const ageSort = new SortDescriptor<Student>({
-        propertyPath: "age"
+        propertyPath: "age",
       });
 
       const nameSort = new SortDescriptor<Student>({
-        propertyPath: "name"
+        propertyPath: "name",
       });
 
       const result = SortHelper.predicateBySorts(s1, s2, [ageSort, nameSort]);
