@@ -14,19 +14,19 @@ export class QueryProvider {
       return cloneDatas;
     }
 
-    if (!ArrayUtils.isEmpty(query.filters)) {
+    if (ArrayUtils.isNotEmpty(query.filters)) {
       cloneDatas = cloneDatas.filter((x) => {
         return FilterHelper.predicateByFilters(x, query.filters);
       });
     }
 
-    if (!ArrayUtils.isEmpty(query.sorts)) {
+    if (ArrayUtils.isNotEmpty(query.sorts)) {
       cloneDatas = cloneDatas.sort((obj1, obj2) => {
         return SortHelper.predicateBySorts(obj1, obj2, query.sorts);
       });
     }
 
-    if (!ArrayUtils.isEmpty(query.selectedProperties)) {
+    if (ArrayUtils.isNotEmpty(query.selectedProperties)) {
       cloneDatas = cloneDatas.map((x) =>
         this.pick(query.type, x, query.selectedProperties)
       );
