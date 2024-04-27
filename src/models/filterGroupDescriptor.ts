@@ -1,4 +1,4 @@
-import { FilterDescriptorBase } from "./filterDescriptorBase";
+import { BaseFilterDescriptor } from "./baseFilterDescriptor";
 import { deserialize, serialize } from "class-transformer";
 import { FilterDescriptor } from "./filterDescriptor";
 import { FilterHelper } from "../helpers/filterHelper";
@@ -7,8 +7,8 @@ import { FilterOptions } from "./filterOptions";
 /**
  * Initializes a new instance of the FilterGroupDescriptor class.
  */
-export class FilterGroupDescriptor<T> extends FilterDescriptorBase {
-  public filters: FilterDescriptorBase[];
+export class FilterGroupDescriptor<T> extends BaseFilterDescriptor {
+  public filters: BaseFilterDescriptor[];
   constructor() {
     super("FilterGroupDescriptor");
     this.filters = [];
@@ -18,7 +18,7 @@ export class FilterGroupDescriptor<T> extends FilterDescriptorBase {
    * Add filter array to group.
    * @param filters
    */
-  public addFilters(filters: FilterDescriptorBase[]): FilterGroupDescriptor<T> {
+  public addFilters(filters: BaseFilterDescriptor[]): FilterGroupDescriptor<T> {
     this.filters = this.filters.concat(filters);
     return this;
   }

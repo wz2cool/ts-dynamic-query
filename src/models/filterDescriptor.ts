@@ -1,4 +1,4 @@
-import { FilterDescriptorBase } from "./filterDescriptorBase";
+import { BaseFilterDescriptor } from "./baseFilterDescriptor";
 import { FilterOperator } from "../enums/filterOperator";
 import { FilterOptions } from "./filterOptions";
 import { deserialize, serialize } from "class-transformer";
@@ -7,7 +7,7 @@ import { ObjectUtils } from "ts-commons";
 /**
  * Initializes a new instance of the FilterDescriptor class.
  */
-export class FilterDescriptor<T> extends FilterDescriptorBase {
+export class FilterDescriptor<T> extends BaseFilterDescriptor {
   public operator: FilterOperator = FilterOperator.EQUAL;
   public propertyPath: string = null;
   public ignoreCase: boolean = false;

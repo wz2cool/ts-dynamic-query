@@ -1,5 +1,5 @@
 import { FilterDescriptor } from "../models/filterDescriptor";
-import { FilterDescriptorBase } from "../models/filterDescriptorBase";
+import { BaseFilterDescriptor } from "../models/baseFilterDescriptor";
 import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
 import { FilterOperator } from "../enums/filterOperator";
 import { FilterCondition } from "../enums/filterCondition";
@@ -9,7 +9,7 @@ import { serialize } from "class-transformer";
 export class FilterHelper {
   public static predicateByFilters<T>(
     obj: T,
-    filters: FilterDescriptorBase[]
+    filters: BaseFilterDescriptor[]
   ): boolean {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
     filterGroupDescriptor.addFilters(filters);
@@ -340,13 +340,13 @@ export class FilterHelper {
   }
 
   public static getRealFilters<T>(
-    filters: FilterDescriptorBase[]
-  ): FilterDescriptorBase[] {
+    filters: BaseFilterDescriptor[]
+  ): BaseFilterDescriptor[] {
     if (ArrayUtils.isEmpty(filters)) {
       return [];
     }
 
-    const result: FilterDescriptorBase[] = [];
+    const result: BaseFilterDescriptor[] = [];
     for (const filterBase of filters || []) {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {

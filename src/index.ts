@@ -3,7 +3,7 @@ import { FilterOperator } from "./enums/filterOperator";
 import { SortDirection } from "./enums/sortDirection";
 import { DynamicQuery } from "./models/dynamicQuery";
 import { FilterDescriptor } from "./models/filterDescriptor";
-import { FilterDescriptorBase } from "./models/filterDescriptorBase";
+import { BaseFilterDescriptor } from "./models/baseFilterDescriptor";
 import { FilterGroupDescriptor } from "./models/filterGroupDescriptor";
 import { FilterGroupOptions } from "./models/filterGroupOptions";
 import { FilterOptions } from "./models/filterOptions";
@@ -18,7 +18,7 @@ export {
   SortDirection,
   DynamicQuery,
   FilterDescriptor,
-  FilterDescriptorBase,
+  BaseFilterDescriptor as FilterDescriptorBase,
   FilterGroupDescriptor,
   FilterGroupOptions,
   FilterOptions,
