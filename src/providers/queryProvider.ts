@@ -1,7 +1,7 @@
-import { DynamicQuery } from "../models/dynamicQuery";
+import { DynamicQuery } from "../models/DynamicQuery";
 import { ArrayUtils, ObjectUtils } from "ts-commons";
-import { FilterHelper } from "../helpers/filterHelper";
-import { SortHelper } from "../helpers/sortHelper";
+import { FilterHelper } from "../helpers/FilterHelper";
+import { SortHelper } from "../helpers/SortHelper";
 
 export class QueryProvider {
   public static query<T>(datas: T[], query: DynamicQuery<T>): T[] {

@@ -1,4 +1,4 @@
-import { SortDirection } from "../enums/sortDirection";
+import { SortDirection } from "../enums/SortDirection";
 
 /**
  * Base class for all SortDescriptor.

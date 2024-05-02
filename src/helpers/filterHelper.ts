@@ -1,8 +1,8 @@
-import { FilterDescriptor } from "../models/filterDescriptor";
-import { BaseFilterDescriptor } from "../models/baseFilterDescriptor";
-import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
-import { FilterOperator } from "../enums/filterOperator";
-import { FilterCondition } from "../enums/filterCondition";
+import { FilterDescriptor } from "../models/FilterDescriptor";
+import { BaseFilterDescriptor } from "../models/BaseFilterDescriptor";
+import { FilterGroupDescriptor } from "../models/FilterGroupDescriptor";
+import { FilterOperator } from "../enums/FilterOperator";
+import { FilterCondition } from "../enums/FilterCondition";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
 import { serialize } from "class-transformer";
 

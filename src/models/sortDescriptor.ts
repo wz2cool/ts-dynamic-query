@@ -1,6 +1,6 @@
-import { SortDescriptorBase } from "./sortDescriptorBase";
-import { SortDirection } from "../enums/sortDirection";
-import { SortOptions } from "./sortOptions";
+import { SortDescriptorBase } from "./SortDescriptorBase";
+import { SortDirection } from "../enums/SortDirection";
+import { SortOptions } from "./SortOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 

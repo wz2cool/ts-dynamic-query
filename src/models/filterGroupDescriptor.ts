@@ -1,8 +1,8 @@
-import { BaseFilterDescriptor } from "./baseFilterDescriptor";
+import { BaseFilterDescriptor } from "./BaseFilterDescriptor";
 import { deserialize, serialize } from "class-transformer";
-import { FilterDescriptor } from "./filterDescriptor";
-import { FilterHelper } from "../helpers/filterHelper";
-import { FilterOptions } from "./filterOptions";
+import { FilterDescriptor } from "./FilterDescriptor";
+import { FilterHelper } from "../helpers/FilterHelper";
+import { FilterOptions } from "./FilterOptions";
 
 /**
  * Initializes a new instance of the FilterGroupDescriptor class.

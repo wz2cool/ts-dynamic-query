@@ -1,4 +1,4 @@
-import { FilterCondition } from "../enums/filterCondition";
+import { FilterCondition } from "../enums/FilterCondition";
 
 /**
  * Base class for all FilterDescriptor.
