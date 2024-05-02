@@ -1,17 +1,17 @@
 import { expect } from "chai";
-import { FilterHelper } from "../../src/helpers/filterHelper";
-import { FilterOperator } from "../../src/enums/filterOperator";
+import { FilterHelper } from "../../src/helpers/FilterHelper";
+import { FilterOperator } from "../../src/enums/FilterOperator";
 import { ArrayUtils } from "ts-commons";
-import { FilterDescriptor } from "../../src/models/filterDescriptor";
-import { FilterGroupDescriptor } from "../../src/models/filterGroupDescriptor";
-import { FilterCondition } from "../../src/enums/filterCondition";
+import { FilterDescriptor } from "../../src/models/FilterDescriptor";
+import { FilterGroupDescriptor } from "../../src/models/FilterGroupDescriptor";
+import { FilterCondition } from "../../src/enums/FilterCondition";
 
 describe(".filterHelper", () => {
   enum Flag {
     FLAG_1 = 1,
     FLAG_2 = 2,
     FLAG_3 = 4,
-    FLAG_4 = 8
+    FLAG_4 = 8,
   }
 
   class Student {
@@ -549,12 +549,11 @@ describe(".filterHelper", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
-      const result = FilterHelper.predicateIn<Student>(student, "age", [
-        16,
-        17,
-        18,
-        19
-      ]);
+      const result = FilterHelper.predicateIn<Student>(
+        student,
+        "age",
+        [16, 17, 18, 19]
+      );
       expect(true).to.be.eq(result);
     });
 
@@ -562,24 +561,22 @@ describe(".filterHelper", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
-      const result = FilterHelper.predicateIn<Student>(student, "age", [
-        1,
-        2,
-        3,
-        4
-      ]);
+      const result = FilterHelper.predicateIn<Student>(
+        student,
+        "age",
+        [1, 2, 3, 4]
+      );
       expect(false).to.be.eq(result);
     });
 
     it("should return false if undefined in [1, 2, 3, 4]", () => {
       const student = new Student();
       student.name = "Jack";
-      const result = FilterHelper.predicateIn<Student>(student, "age", [
-        1,
-        2,
-        3,
-        4
-      ]);
+      const result = FilterHelper.predicateIn<Student>(
+        student,
+        "age",
+        [1, 2, 3, 4]
+      );
       expect(false).to.be.eq(result);
     });
 
@@ -599,12 +596,11 @@ describe(".filterHelper", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
-      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
-        16,
-        17,
-        18,
-        19
-      ]);
+      const result = FilterHelper.predicateNotIn<Student>(
+        student,
+        "age",
+        [16, 17, 18, 19]
+      );
       expect(false).to.be.eq(result);
     });
 
@@ -612,24 +608,22 @@ describe(".filterHelper", () => {
       const student = new Student();
       student.name = "Jack";
       student.age = 18;
-      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
-        1,
-        2,
-        3,
-        4
-      ]);
+      const result = FilterHelper.predicateNotIn<Student>(
+        student,
+        "age",
+        [1, 2, 3, 4]
+      );
       expect(true).to.be.eq(result);
     });
 
     it("should return true if undefined not in [1, 2, 3, 4]", () => {
       const student = new Student();
       student.name = "Jack";
-      const result = FilterHelper.predicateNotIn<Student>(student, "age", [
-        1,
-        2,
-        3,
-        4
-      ]);
+      const result = FilterHelper.predicateNotIn<Student>(
+        student,
+        "age",
+        [1, 2, 3, 4]
+      );
       expect(true).to.be.eq(result);
     });
 
@@ -698,10 +692,10 @@ describe(".filterHelper", () => {
       const test = {
         type: "FilterDescriptor",
         operator: 1,
-        propertyPath: "name"
+        propertyPath: "name",
       };
       const result = FilterHelper.getRealFilters([
-        test as FilterDescriptor<Student>
+        test as FilterDescriptor<Student>,
       ]);
 
       expect(true).to.be.eq(result[0] instanceof FilterDescriptor);
@@ -709,10 +703,10 @@ describe(".filterHelper", () => {
 
     it("should return FilterGroupDescriptor type", () => {
       const test = {
-        type: "FilterGroupDescriptor"
+        type: "FilterGroupDescriptor",
       };
       const result = FilterHelper.getRealFilters([
-        test as FilterGroupDescriptor<Student>
+        test as FilterGroupDescriptor<Student>,
       ]);
 
       expect(true).to.be.eq(result[0] instanceof FilterGroupDescriptor);
@@ -746,7 +740,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.EQUAL,
-        value: 18
+        value: 18,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -756,7 +750,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.EQUAL,
-        value: 15
+        value: 15,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -766,7 +760,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.NOT_EQUAL,
-        value: 18
+        value: 18,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -776,7 +770,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.NOT_EQUAL,
-        value: 15
+        value: 15,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -786,7 +780,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN,
-        value: 20
+        value: 20,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -796,7 +790,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN_OR_EQUAL,
-        value: 20
+        value: 20,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -806,7 +800,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN_OR_EQUAL,
-        value: 18
+        value: 18,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -816,7 +810,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN_OR_EQUAL,
-        value: 18
+        value: 18,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -826,7 +820,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN_OR_EQUAL,
-        value: 12
+        value: 12,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -836,7 +830,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
-        value: 12
+        value: 12,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -846,7 +840,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.START_WITH,
-        value: "Ma"
+        value: "Ma",
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -856,7 +850,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.END_WITH,
-        value: "ry"
+        value: "ry",
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -866,7 +860,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.CONTAINS,
-        value: "ar"
+        value: "ar",
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -876,7 +870,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.IN,
-        value: [1, 18, 20]
+        value: [1, 18, 20],
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -886,7 +880,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.NOT_IN,
-        value: [1, 17, 20]
+        value: [1, 17, 20],
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -896,7 +890,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.BETWEEN,
-        value: [1, 17]
+        value: [1, 17],
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -906,7 +900,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.BETWEEN,
-        value: [1, 20]
+        value: [1, 20],
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -916,7 +910,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: undefined,
-        value: [1, 17, 20]
+        value: [1, 17, 20],
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -926,7 +920,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ANY,
-        value: Flag.FLAG_3 | Flag.FLAG_4
+        value: Flag.FLAG_3 | Flag.FLAG_4,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -936,7 +930,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ANY,
-        value: Flag.FLAG_1 | Flag.FLAG_4
+        value: Flag.FLAG_1 | Flag.FLAG_4,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -946,7 +940,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ZERO,
-        value: Flag.FLAG_1 | Flag.FLAG_4
+        value: Flag.FLAG_1 | Flag.FLAG_4,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -956,7 +950,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ZERO,
-        value: Flag.FLAG_3 | Flag.FLAG_4
+        value: Flag.FLAG_3 | Flag.FLAG_4,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -966,7 +960,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ALL,
-        value: Flag.FLAG_3
+        value: Flag.FLAG_3,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(true).to.be.eq(result);
@@ -976,7 +970,7 @@ describe(".filterHelper", () => {
       const filter = new FilterDescriptor<Student>({
         propertyPath: "flag",
         operator: FilterOperator.BITWISE_ALL,
-        value: Flag.FLAG_1
+        value: Flag.FLAG_1,
       });
       const result = FilterHelper.predicateByFilterDescriptor(student, filter);
       expect(false).to.be.eq(result);
@@ -992,19 +986,19 @@ describe(".filterHelper", () => {
       const ageFilter1 = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
-        value: 10
+        value: 10,
       });
       const ageFilter2 = new FilterDescriptor<Student>({
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN,
-        value: 20
+        value: 20,
       });
       ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
 
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.START_WITH,
-        value: "Ma"
+        value: "Ma",
       });
 
       const filterGroup = new FilterGroupDescriptor<Student>();
@@ -1022,20 +1016,20 @@ describe(".filterHelper", () => {
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
-        value: 20
+        value: 20,
       });
       const ageFilter2 = new FilterDescriptor<Student>({
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN,
-        value: 1
+        value: 1,
       });
       ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
 
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.START_WITH,
-        value: "Ma"
+        value: "Ma",
       });
 
       const filterGroup = new FilterGroupDescriptor<Student>();
@@ -1053,20 +1047,20 @@ describe(".filterHelper", () => {
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
-        value: 1
+        value: 1,
       });
       const ageFilter2 = new FilterDescriptor<Student>({
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN,
-        value: 20
+        value: 20,
       });
       ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
 
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.START_WITH,
-        value: "Ma"
+        value: "Ma",
       });
 
       const filterGroup = new FilterGroupDescriptor<Student>();
@@ -1093,20 +1087,20 @@ describe(".filterHelper", () => {
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.GREATER_THAN,
-        value: 1
+        value: 1,
       });
       const ageFilter2 = new FilterDescriptor<Student>({
         condition: FilterCondition.OR,
         propertyPath: "age",
         operator: FilterOperator.LESS_THAN,
-        value: 20
+        value: 20,
       });
       ageFilterGroup.addFilters([ageFilter1, ageFilter2]);
 
       const nameFilter = new FilterDescriptor<Student>({
         propertyPath: "name",
         operator: FilterOperator.START_WITH,
-        value: "Ma"
+        value: "Ma",
       });
 
       const filterGroup = new FilterGroupDescriptor<Student>();

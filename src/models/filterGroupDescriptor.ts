@@ -3,15 +3,21 @@ import { deserialize, serialize } from "class-transformer";
 import { FilterDescriptor } from "./FilterDescriptor";
 import { FilterHelper } from "../helpers/FilterHelper";
 import { FilterOptions } from "./FilterOptions";
+import { FilterCondition } from "../enums/FilterCondition";
 
 /**
  * Initializes a new instance of the FilterGroupDescriptor class.
  */
-export class FilterGroupDescriptor<T> extends BaseFilterDescriptor {
+export class FilterGroupDescriptor<T> implements BaseFilterDescriptor {
+  public condition: FilterCondition = FilterCondition.AND;
+  public readonly type: string = "FilterGroupDescriptor";
   public filters: BaseFilterDescriptor[];
   constructor() {
-    super("FilterGroupDescriptor");
     this.filters = [];
+  }
+
+  public getCondition(): FilterCondition {
+    return this.condition;
   }
 
   /**

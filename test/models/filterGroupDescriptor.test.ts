@@ -5,7 +5,7 @@ import {
   FilterOperator,
   FilterCondition
 } from "../../src";
-import { ObjectUtils, ArrayUtils } from "ts-commons";
+import { ArrayUtils } from "ts-commons";
 
 describe(".FilterGroupDescriptor", () => {
   class Student {

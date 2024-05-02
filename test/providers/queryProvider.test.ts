@@ -1,12 +1,12 @@
-import { QueryProvider } from "../../src/providers/queryProvider";
+import { QueryProvider } from "../../src/providers/QueryProvider";
 import { expect } from "chai";
 import { ArrayUtils, ObjectUtils } from "ts-commons";
-import { FilterDescriptor } from "../../src/models/filterDescriptor";
-import { FilterOperator } from "../../src/enums/filterOperator";
-import { SortDescriptor } from "../../src/models/sortDescriptor";
+import { FilterDescriptor } from "../../src/models/FilterDescriptor";
+import { FilterOperator } from "../../src/enums/FilterOperator";
+import { SortDescriptor } from "../../src/models/SortDescriptor";
 import { DynamicQuery } from "../../src/models/dynamicQuery";
 
-describe(".queryProvider", () => {
+describe(".QueryProvider", () => {
   class Student {
     name: string;
     age: number;

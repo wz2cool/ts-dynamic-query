@@ -29,7 +29,7 @@ export class FilterHelper {
       if (
         result === false &&
         !ObjectUtils.isNullOrUndefined(filter) &&
-        filter.condition === FilterCondition.AND
+        filter.getCondition() === FilterCondition.AND
       ) {
         continue;
       }
@@ -37,7 +37,7 @@ export class FilterHelper {
       if (
         result === true &&
         !ObjectUtils.isNullOrUndefined(filter) &&
-        filter.condition === FilterCondition.OR
+        filter.getCondition() === FilterCondition.OR
       ) {
         continue;
       }
@@ -54,7 +54,7 @@ export class FilterHelper {
       if (ObjectUtils.isNullOrUndefined(result)) {
         result = predictResult;
       } else {
-        switch (filter.condition) {
+        switch (filter.getCondition()) {
           case FilterCondition.AND:
             result = result && predictResult;
             break;
@@ -69,12 +69,12 @@ export class FilterHelper {
 
   public static predicateByFilterDescriptor<T>(
     obj: T,
-    filterDescriptor: FilterDescriptor<T>
+    FilterDescriptor: FilterDescriptor<T>
   ): boolean {
-    const operator = filterDescriptor.operator;
-    const propertyPath = filterDescriptor.propertyPath;
-    const filterValue = filterDescriptor.value;
-    const ignoreCase = filterDescriptor.ignoreCase;
+    const operator = FilterDescriptor.operator;
+    const propertyPath = FilterDescriptor.propertyPath;
+    const filterValue = FilterDescriptor.value;
+    const ignoreCase = FilterDescriptor.ignoreCase;
     switch (operator) {
       case FilterOperator.EQUAL:
         return this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);

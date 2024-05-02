@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { DynamicQuery } from "../../src/models/dynamicQuery";
-import { SortDescriptor } from "../../src/models/sortDescriptor";
-import { QueryProvider } from "../../src/providers/queryProvider";
-import { SortDirection } from "../../src/enums/sortDirection";
+import { SortDescriptor } from "../../src/models/SortDescriptor";
+import { QueryProvider } from "../../src/providers/QueryProvider";
+import { SortDirection } from "../../src/enums/SortDirection";
 
 describe(".sortDemo", () => {
   class Model1 {

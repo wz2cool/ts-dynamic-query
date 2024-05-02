@@ -37,10 +37,10 @@ export class SortHelper {
   public static predicateBySortDescriptor<T>(
     obj1: T,
     obj2: T,
-    sortDescriptor: SortDescriptor<T>
+    SortDescriptor: SortDescriptor<T>
   ): number {
-    const propertyPath = sortDescriptor.propertyPath;
-    const direction = sortDescriptor.direction;
+    const propertyPath = SortDescriptor.propertyPath;
+    const direction = SortDescriptor.direction;
     const propValue1 = obj1[propertyPath];
     const propValue2 = obj2[propertyPath];
     const result = this.compareTo(direction, propValue1, propValue2);
