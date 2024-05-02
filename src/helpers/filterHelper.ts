@@ -9,7 +9,7 @@ import { serialize } from "class-transformer";
 export class FilterHelper {
   public static predicateByFilters<T>(
     obj: T,
-    filters: BaseFilterDescriptor[]
+    filters: BaseFilterDescriptor<T>[]
   ): boolean {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
     filterGroupDescriptor.addFilters(filters);
@@ -20,7 +20,7 @@ export class FilterHelper {
     obj: T,
     filterGroupDescriptor: FilterGroupDescriptor<T>
   ): boolean {
-    const filters = filterGroupDescriptor.filters;
+    const filters = filterGroupDescriptor.getFilters();
     if (ArrayUtils.isEmpty(filters)) {
       return true;
     }
@@ -340,13 +340,13 @@ export class FilterHelper {
   }
 
   public static getRealFilters<T>(
-    filters: BaseFilterDescriptor[]
-  ): BaseFilterDescriptor[] {
+    filters: BaseFilterDescriptor<T>[]
+  ): BaseFilterDescriptor<T>[] {
     if (ArrayUtils.isEmpty(filters)) {
       return [];
     }
 
-    const result: BaseFilterDescriptor[] = [];
+    const result: BaseFilterDescriptor<T>[] = [];
     for (const filterBase of filters || []) {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {

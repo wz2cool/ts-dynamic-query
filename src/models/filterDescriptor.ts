@@ -8,7 +8,7 @@ import { FilterCondition } from "../enums/FilterCondition";
 /**
  * Initializes a new instance of the FilterDescriptor class.
  */
-export class FilterDescriptor<T> implements BaseFilterDescriptor {
+export class FilterDescriptor<T> implements BaseFilterDescriptor<T> {
   public condition: FilterCondition = FilterCondition.AND;
   public readonly type: string = "FilterDescriptor";
   public operator: FilterOperator = FilterOperator.EQUAL;

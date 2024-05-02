@@ -15,7 +15,7 @@ import { SortHelper } from "../helpers/SortHelper";
 
 export class DynamicQuery<T> {
   public type: new () => T;
-  public filters: BaseFilterDescriptor[];
+  public filters: BaseFilterDescriptor<T>[];
   public sorts: SortDescriptorBase[];
   public selectedProperties: string[];
   constructor() {
@@ -30,7 +30,7 @@ export class DynamicQuery<T> {
     return instance;
   }
 
-  public addFilters(filters: BaseFilterDescriptor[]): DynamicQuery<T> {
+  public addFilters(filters: BaseFilterDescriptor<T>[]): DynamicQuery<T> {
     this.filters = this.filters.concat(filters);
     return this;
   }
@@ -51,7 +51,7 @@ export class DynamicQuery<T> {
       ? FilterCondition.AND
       : option.condition;
     for (const subOption of option.options) {
-      filterGroupDescriptor.filters.push(new FilterDescriptor<T>(subOption));
+      filterGroupDescriptor.addFilter(new FilterDescriptor<T>(subOption));
     }
     this.filters.push(filterGroupDescriptor);
     return this;

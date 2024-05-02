@@ -4,39 +4,20 @@ import { FilterDescriptor } from "./FilterDescriptor";
 import { FilterHelper } from "../helpers/FilterHelper";
 import { FilterOptions } from "./FilterOptions";
 import { FilterCondition } from "../enums/FilterCondition";
+import { BaseFilterGroup } from "./BaseFilterGroup";
 
 /**
  * Initializes a new instance of the FilterGroupDescriptor class.
  */
-export class FilterGroupDescriptor<T> implements BaseFilterDescriptor {
+export class FilterGroupDescriptor<T>
+  extends BaseFilterGroup<T>
+  implements BaseFilterDescriptor<T>
+{
   public condition: FilterCondition = FilterCondition.AND;
   public readonly type: string = "FilterGroupDescriptor";
-  public filters: BaseFilterDescriptor[];
-  constructor() {
-    this.filters = [];
-  }
 
   public getCondition(): FilterCondition {
     return this.condition;
-  }
-
-  /**
-   * Add filter array to group.
-   * @param filters
-   */
-  public addFilters(filters: BaseFilterDescriptor[]): FilterGroupDescriptor<T> {
-    this.filters = this.filters.concat(filters);
-    return this;
-  }
-
-  /**
-   * Add filter item to group
-   * @param filterOptions
-   */
-  public addFilter(filterOptions: FilterOptions<T>): FilterGroupDescriptor<T> {
-    const filter = new FilterDescriptor<T>(filterOptions);
-    this.filters.push(filter);
-    return this;
   }
 
   /**
