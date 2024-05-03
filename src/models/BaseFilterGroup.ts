@@ -12,6 +12,7 @@ type SingleValueOperator =
   | FilterOperator.EQUAL
   | FilterOperator.NOT_EQUAL
   | FilterOperator.GREATER_THAN_OR_EQUAL
+  | FilterOperator.GREATER_THAN
   | FilterOperator.START_WITH
   | FilterOperator.END_WITH
   | FilterOperator.CONTAINS

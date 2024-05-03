@@ -4,7 +4,7 @@ import { ArrayUtils, ObjectUtils } from "ts-commons";
 import { FilterDescriptor } from "../../src/models/FilterDescriptor";
 import { FilterOperator } from "../../src/enums/FilterOperator";
 import { SortDescriptor } from "../../src/models/SortDescriptor";
-import { DynamicQuery } from "../../src/models/dynamicQuery";
+import { DynamicQuery } from "../../src/models/DynamicQuery";
 
 describe(".QueryProvider", () => {
   class Student {

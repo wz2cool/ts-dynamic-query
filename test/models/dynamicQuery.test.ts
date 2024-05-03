@@ -8,6 +8,11 @@ import {
   FilterCondition,
   SortDirection,
   _greaterThan,
+  _in,
+  _equal,
+  _endWith,
+  _lessThan,
+  _notEqual,
 } from "../../src";
 import { ObjectUtils } from "ts-commons";
 
@@ -220,6 +225,7 @@ describe(".dynamicQuery", () => {
       const query = DynamicQuery.createQuery<Student>(Student)
         .selectProperty("name")
         .selectProperty("age")
+        .and("age", _greaterThan, 1)
         .addFilterDescriptor({
           propertyPath: "age",
           operator: FilterOperator.GREATER_THAN,

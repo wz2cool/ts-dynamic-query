@@ -1,9 +1,8 @@
 import { expect } from "chai";
-import { DynamicQuery } from "../../src/models/dynamicQuery";
+import { DynamicQuery } from "../../src/models/DynamicQuery";
 import { SortDescriptor } from "../../src/models/SortDescriptor";
 import { QueryProvider } from "../../src/providers/QueryProvider";
 import { SortDirection } from "../../src/enums/SortDirection";
-import { FilterOperator } from "../../src/enums/FilterOperator";
 import {
   _between,
   _contains,
