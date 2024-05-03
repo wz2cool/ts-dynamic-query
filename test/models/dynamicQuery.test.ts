@@ -7,6 +7,7 @@ import {
   FilterOperator,
   FilterCondition,
   SortDirection,
+  _greaterThan,
 } from "../../src";
 import { ObjectUtils } from "ts-commons";
 
@@ -26,7 +27,7 @@ describe(".dynamicQuery", () => {
   describe("#init", () => {
     it("should have default value", () => {
       const query = new DynamicQuery();
-      expect(true).to.be.eq(ObjectUtils.isArray(query.filters));
+      expect(true).to.be.eq(ObjectUtils.isArray(query.getFilters()));
       expect(true).to.be.eq(ObjectUtils.isArray(query.sorts));
     });
   });
@@ -42,7 +43,7 @@ describe(".dynamicQuery", () => {
       const query = DynamicQuery.createQuery<Student>(Student).addFilters([
         nameFilter,
       ]);
-      expect(nameFilter).to.be.eq(query.filters[0]);
+      expect(nameFilter).to.be.eq(query.getFilters()[0]);
     });
   });
 
@@ -66,12 +67,10 @@ describe(".dynamicQuery", () => {
         value: true,
       });
 
-      const filter = query.filters[0] as FilterDescriptor<any>;
+      const filter = query.getFilters()[0] as FilterDescriptor<any>;
       expect("name").to.be.eq(filter.propertyPath);
       expect(FilterOperator.EQUAL).to.be.eq(filter.operator);
       expect(true).to.be.eq(filter.value);
-
-      console.log("========================", query.toJSON());
     });
   });
 
@@ -92,7 +91,8 @@ describe(".dynamicQuery", () => {
         ],
       });
 
-      const groupFilter = query.filters[0] as FilterGroupDescriptor<Student>;
+      const groupFilter =
+        query.getFilters()[0] as FilterGroupDescriptor<Student>;
       const filter1 = groupFilter.getFilters()[0] as FilterDescriptor<Student>;
       const filter2 = groupFilter.getFilters()[1] as FilterDescriptor<Student>;
       expect(2).to.be.eq(groupFilter.getFilters().length);
@@ -122,7 +122,8 @@ describe(".dynamicQuery", () => {
         ],
       });
 
-      const groupFilter = query.filters[0] as FilterGroupDescriptor<Student>;
+      const groupFilter =
+        query.getFilters()[0] as FilterGroupDescriptor<Student>;
       const filter1 = groupFilter.getFilters()[0] as FilterDescriptor<Student>;
       const filter2 = groupFilter.getFilters()[1] as FilterDescriptor<Student>;
 
@@ -176,7 +177,7 @@ describe(".dynamicQuery", () => {
       const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":5,"propertyPath":"age","ignoreCase":false,"value":20},{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"test"},{"condition":0,"type":"FilterDescriptor","operator":6,"propertyPath":"name","ignoreCase":false,"value":"aa"}]}],"sorts":[{"direction":1,"type":"SortDescriptor","propertyPath":"age"}]}`;
       const query = new DynamicQuery<Student>().fromJSON(json);
       const sort = query.sorts[0] as SortDescriptor<Student>;
-      const filter = query.filters[0] as FilterDescriptor<Student>;
+      const filter = query.getFilters()[0] as FilterDescriptor<Student>;
 
       expect("age").to.be.eq(sort.propertyPath);
       expect(SortDirection.DESC).to.be.eq(sort.direction);

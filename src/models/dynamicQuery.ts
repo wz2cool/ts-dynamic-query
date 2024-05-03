@@ -1,5 +1,4 @@
 import { SortDescriptorBase } from "./SortDescriptorBase";
-import { BaseFilterDescriptor } from "./BaseFilterDescriptor";
 import { deserialize, serialize } from "class-transformer";
 import { FilterHelper } from "../helpers/FilterHelper";
 import { FilterDescriptor } from "./FilterDescriptor";
@@ -16,7 +15,6 @@ import { BaseFilterGroup } from "./BaseFilterGroup";
 
 export class DynamicQuery<T> extends BaseFilterGroup<T> {
   public type: new () => T;
-  public filters: BaseFilterDescriptor<T>[];
   public sorts: SortDescriptorBase[];
   public selectedProperties: string[];
   constructor() {
@@ -30,11 +28,6 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
     const instance = new DynamicQuery<T>();
     instance.type = type;
     return instance;
-  }
-
-  public addFilters(filters: BaseFilterDescriptor<T>[]): DynamicQuery<T> {
-    this.filters = this.filters.concat(filters);
-    return this;
   }
 
   public addFilterDescriptor(option: FilterOptions<T>): DynamicQuery<T> {

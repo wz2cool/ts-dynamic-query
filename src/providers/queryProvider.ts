@@ -14,9 +14,9 @@ export class QueryProvider {
       return cloneDatas;
     }
 
-    if (ArrayUtils.isNotEmpty(query.filters)) {
+    if (ArrayUtils.isNotEmpty(query.getFilters())) {
       cloneDatas = cloneDatas.filter((x) => {
-        return FilterHelper.predicateByFilters(x, query.filters);
+        return FilterHelper.predicateByFilters(x, query.getFilters());
       });
     }
 

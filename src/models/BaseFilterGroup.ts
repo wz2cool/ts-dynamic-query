@@ -29,10 +29,12 @@ export abstract class BaseFilterGroup<T> {
 
   public addFilter(filter: BaseFilterDescriptor<T>) {
     this.filters.push(filter);
+    return this;
   }
 
   public addFilters(filters: BaseFilterDescriptor<T>[]) {
     this.filters = this.filters.concat(filters);
+    return this;
   }
 
   public removeFilters(...filters: BaseFilterDescriptor<T>[]) {

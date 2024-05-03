@@ -1082,10 +1082,9 @@ describe(".sortDemo", () => {
   describe(".test", () => {
     it("test", () => {
       const query = DynamicQuery.createQuery(Model1)
-
         .and("p2", _equal, "must string")
         .and("p2", _between, ["1", "2"])
-        .and((g) => g.and("p1", _equal, 1));
+        .and((g) => g.and("p1", _equal, 1).or("p2", _equal, "1"));
     });
   });
 });
