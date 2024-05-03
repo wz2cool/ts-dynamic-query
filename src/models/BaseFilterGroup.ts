@@ -38,10 +38,11 @@ export abstract class BaseFilterGroup<T> {
     return this;
   }
 
-  public removeFilters(...filters: BaseFilterDescriptor<T>[]) {
+  public removeFilters(filters: BaseFilterDescriptor<T>[]) {
     for (const filter of filters) {
       ArrayUtils.remove(this.filters, filter);
     }
+    return this;
   }
 
   public getFilters(): BaseFilterDescriptor<T>[] {
@@ -84,7 +85,7 @@ export abstract class BaseFilterGroup<T> {
 
     if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
       this.andForFilter(p1, p2, p3, p4);
-    } else if (p2Type === "string" && p3Type === "number") {
+    } else if (p1Type === "string" && p2Type === "number") {
       this.andForFilter(true, p1, p2, p3);
     } else if (p1Type === "boolean" && p2Type === "function") {
       this.andForFilterGroup(p1, p2);

@@ -17,6 +17,7 @@ const _lessThanOrEqual = FilterOperator.LESS_THAN_OR_EQUAL;
 const _equal = FilterOperator.EQUAL;
 const _notEqual = FilterOperator.NOT_EQUAL;
 const _greaterThan = FilterOperator.GREATER_THAN;
+const _greaterThanOrEqual = FilterOperator.GREATER_THAN_OR_EQUAL;
 const _startWith = FilterOperator.START_WITH;
 const _endWith = FilterOperator.END_WITH;
 const _contains = FilterOperator.CONTAINS;
@@ -46,6 +47,7 @@ export {
   _equal,
   _notEqual,
   _greaterThan,
+  _greaterThanOrEqual,
   _startWith,
   _endWith,
   _contains,
