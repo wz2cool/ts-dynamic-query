@@ -4,6 +4,7 @@ import { SortDescriptor } from "../../src/models/SortDescriptor";
 import { QueryProvider } from "../../src/providers/QueryProvider";
 import { SortDirection } from "../../src/enums/SortDirection";
 import { FilterOperator } from "../../src/enums/FilterOperator";
+import { _contains, _equal, _greaterThan, _in, _lessThan } from "../../src";
 
 describe(".sortDemo", () => {
   class Model1 {
@@ -1074,8 +1075,15 @@ describe(".sortDemo", () => {
   describe(".test", () => {
     it("test", () => {
       const query = DynamicQuery.createQuery(Model1)
-        .and("p2", FilterOperator.EQUAL, "1")
-        .and(true, "p1", FilterOperator.EQUAL, 1);
+        .and((g) =>
+          g
+            .and("p1", _greaterThan, 1)
+            .or(true, "p2", _contains, "frank")
+            .and((g1) => g1.and("p1", _lessThan, 1))
+        )
+        .and("p2", _equal, "must string")
+        .and("p2", _in, ["1"])
+        .and(true, "p1", _lessThan, "1");
     });
   });
 });

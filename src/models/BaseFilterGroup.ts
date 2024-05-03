@@ -6,19 +6,6 @@ import { FilterDescriptor } from "./FilterDescriptor";
 import { ComparableType } from "./ComparableType";
 import { FilterGroupDescriptor } from "./FilterGroupDescriptor";
 
-interface FilterDescriptorOption<T, TProp extends keyof T> {
-  readonly kind?: "FilterDescriptorOption";
-  enable?: boolean;
-  propertyPath: TProp;
-  operator: FilterOperator;
-  filterValue: T[TProp] & ComparableType;
-}
-
-interface FilterGroupOption<T> {
-  readonly kind?: "FilterGroupOption";
-  group: (g: FilterGroupDescriptor<T>) => void;
-}
-
 export abstract class BaseFilterGroup<T> {
   protected filters: BaseFilterDescriptor<T>[] = [];
 
@@ -40,31 +27,85 @@ export abstract class BaseFilterGroup<T> {
     return this.filters;
   }
 
-  // public or<TProp extends keyof T>(
-  //   option: FilterDescriptorOption<T, TProp> | FilterGroupOption<T>
-  // ): this {
-  //   if (option.kind === "FilterDescriptorOption") {
-  //     this.orForFilterDescriptor(option);
-  //   }
-  //   return this;
-  // }
+  public and<TProp extends keyof T>(
+    propertyPath: TProp,
+    operator: FilterOperator,
+    filterValue: T[TProp] & ComparableType
+  ): this;
+  public and<TProp extends keyof T>(
+    enable: boolean,
+    propertyPath: TProp,
+    operator: FilterOperator,
+    filterValue: T[TProp] & ComparableType
+  ): this;
+  public and<TProp extends keyof T>(
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ): this;
+  public and<TProp extends keyof T>(
+    enable: boolean,
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ): this;
+  public and(p1: any, p2?: any, p3?: any, p4?: any) {
+    const p1Type = typeof p1;
+    const p2Type = typeof p2;
+    const p3Type = typeof p3;
+    
+    if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
+      this.andForFilter(p1, p2, p3, p4);
+    } else if (p2Type === "string" && p3Type === "number") {
+      this.andForFilter(true, p1, p2, p3);
+    } else if (p1Type === "boolean" && p2Type === "function") {
+      this.andForFilterGroup(p1, p2);
+    } else if (p1Type === "function") {
+      this.andForFilterGroup(true, p1);
+    }
 
-  // public and<TProp extends keyof T>(
-  //   option: FilterDescriptorOption<T, TProp> | FilterGroupOption<T>
-  // ): this {
-  //   if (option.kind === "FilterDescriptorOption") {
-  //     this.andForFilterDescriptor(option);
-  //   }
-  //   return this;
-  // }
+    return this;
+  }
 
-  private andForFilterDescriptor<TProp extends keyof T>(
+  public or<TProp extends keyof T>(
+    propertyPath: TProp,
+    operator: FilterOperator,
+    filterValue: T[TProp] & ComparableType
+  ): this;
+  public or<TProp extends keyof T>(
+    enable: boolean,
+    propertyPath: TProp,
+    operator: FilterOperator,
+    filterValue: T[TProp] & ComparableType
+  ): this;
+  public or<TProp extends keyof T>(
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ): this;
+  public or<TProp extends keyof T>(
+    enable: boolean,
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ): this;
+  public or(p1: any, p2?: any, p3?: any, p4?: any) {
+    const p1Type = typeof p1;
+    const p2Type = typeof p2;
+    const p3Type = typeof p3;
+
+    if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
+      this.orForFilter(p1, p2, p3, p4);
+    } else if (p2Type === "string" && p3Type === "number") {
+      this.orForFilter(true, p1, p2, p3);
+    } else if (p1Type === "boolean" && p2Type === "function") {
+      this.orForFilterGroup(p1, p2);
+    } else if (p1Type === "function") {
+      this.orForFilterGroup(true, p1);
+    }
+
+    return this;
+  }
+
+  private andForFilter<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
     operator: FilterOperator,
     filterValue: T[TProp] & ComparableType
   ) {
-    if (ObjectUtils.isNullOrUndefined(enable)) {
+    if (enable) {
       const filter = new FilterDescriptor<T>();
       filter.propertyPath = propertyPath.toString();
       filter.condition = FilterCondition.AND;
@@ -74,13 +115,13 @@ export abstract class BaseFilterGroup<T> {
     }
   }
 
-  private orForFilterDescriptor<TProp extends keyof T>(
+  private orForFilter<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
     operator: FilterOperator,
     filterValue: T[TProp] & ComparableType
   ) {
-    if (ObjectUtils.isNullOrUndefined(enable)) {
+    if (enable) {
       const filter = new FilterDescriptor<T>();
       filter.propertyPath = propertyPath.toString();
       filter.condition = FilterCondition.OR;
@@ -90,53 +131,25 @@ export abstract class BaseFilterGroup<T> {
     }
   }
 
-  public and<TProp extends keyof T>(
-    propertyPath: TProp,
-    operator: FilterOperator,
-    filterValue: T[TProp]
-  ): this;
-  public and<TProp extends keyof T>(
+  private andForFilterGroup(
     enable: boolean,
-    propertyPath: TProp,
-    operator: FilterOperator,
-    filterValue: T[TProp]
-  ): this;
-  public and(p1: any, p2: any, p3: any, p4?: any) {
-    const p1Type = typeof p1;
-    const p2Type = typeof p2;
-    const p3Type = typeof p3;
-
-    if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
-      this.andForFilterDescriptor(p1, p2, p3, p4);
-    } else if (p2Type === "string" && p3Type === "number") {
-      this.andForFilterDescriptor(true, p1, p2, p3);
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ) {
+    if (enable) {
+      const filterGroup = new FilterGroupDescriptor<T>();
+      filterGroup.condition = FilterCondition.AND;
+      group(filterGroup);
     }
-
-    return this;
   }
 
-  public or<TProp extends keyof T>(
-    propertyPath: TProp,
-    operator: FilterOperator,
-    filterValue: T[TProp]
-  ): this;
-  public or<TProp extends keyof T>(
+  private orForFilterGroup(
     enable: boolean,
-    propertyPath: TProp,
-    operator: FilterOperator,
-    filterValue: T[TProp]
-  ): this;
-  public or(p1: any, p2: any, p3: any, p4?: any) {
-    const p1Type = typeof p1;
-    const p2Type = typeof p2;
-    const p3Type = typeof p3;
-
-    if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
-      this.orForFilterDescriptor(p1, p2, p3, p4);
-    } else if (p2Type === "string" && p3Type === "number") {
-      this.orForFilterDescriptor(true, p1, p2, p3);
+    group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
+  ) {
+    if (enable) {
+      const filterGroup = new FilterGroupDescriptor<T>();
+      filterGroup.condition = FilterCondition.OR;
+      group(filterGroup);
     }
-
-    return this;
   }
 }
