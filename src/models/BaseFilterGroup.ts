@@ -6,6 +6,24 @@ import { FilterDescriptor } from "./FilterDescriptor";
 import { ComparableType } from "./ComparableType";
 import { FilterGroupDescriptor } from "./FilterGroupDescriptor";
 
+type SingleValueOperator =
+  | FilterOperator.LESS_THAN
+  | FilterOperator.LESS_THAN_OR_EQUAL
+  | FilterOperator.EQUAL
+  | FilterOperator.NOT_EQUAL
+  | FilterOperator.GREATER_THAN_OR_EQUAL
+  | FilterOperator.START_WITH
+  | FilterOperator.END_WITH
+  | FilterOperator.CONTAINS
+  | FilterOperator.BITWISE_ANY
+  | FilterOperator.BITWISE_ZERO
+  | FilterOperator.BITWISE_ALL;
+
+type collectionValueOperator =
+  | FilterOperator.IN
+  | FilterOperator.NOT_IN
+  | FilterOperator.BETWEEN;
+
 export abstract class BaseFilterGroup<T> {
   protected filters: BaseFilterDescriptor<T>[] = [];
 
@@ -29,14 +47,25 @@ export abstract class BaseFilterGroup<T> {
 
   public and<TProp extends keyof T>(
     propertyPath: TProp,
-    operator: FilterOperator,
+    operator: SingleValueOperator,
     filterValue: T[TProp] & ComparableType
   ): this;
   public and<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
-    operator: FilterOperator,
+    operator: SingleValueOperator,
     filterValue: T[TProp] & ComparableType
+  ): this;
+  public and<TProp extends keyof T>(
+    propertyPath: TProp,
+    operator: collectionValueOperator,
+    filterValue: Array<T[TProp] & ComparableType>
+  ): this;
+  public and<TProp extends keyof T>(
+    enable: boolean,
+    propertyPath: TProp,
+    operator: collectionValueOperator,
+    filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public and<TProp extends keyof T>(
     group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
@@ -49,7 +78,7 @@ export abstract class BaseFilterGroup<T> {
     const p1Type = typeof p1;
     const p2Type = typeof p2;
     const p3Type = typeof p3;
-    
+
     if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
       this.andForFilter(p1, p2, p3, p4);
     } else if (p2Type === "string" && p3Type === "number") {
@@ -65,14 +94,25 @@ export abstract class BaseFilterGroup<T> {
 
   public or<TProp extends keyof T>(
     propertyPath: TProp,
-    operator: FilterOperator,
+    operator: SingleValueOperator,
     filterValue: T[TProp] & ComparableType
   ): this;
   public or<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
-    operator: FilterOperator,
+    operator: SingleValueOperator,
     filterValue: T[TProp] & ComparableType
+  ): this;
+  public or<TProp extends keyof T>(
+    propertyPath: TProp,
+    operator: collectionValueOperator,
+    filterValue: Array<T[TProp] & ComparableType>
+  ): this;
+  public or<TProp extends keyof T>(
+    enable: boolean,
+    propertyPath: TProp,
+    operator: collectionValueOperator,
+    filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public or<TProp extends keyof T>(
     group: (g: BaseFilterGroup<T>) => BaseFilterGroup<T>
@@ -103,7 +143,7 @@ export abstract class BaseFilterGroup<T> {
     enable: boolean,
     propertyPath: TProp,
     operator: FilterOperator,
-    filterValue: T[TProp] & ComparableType
+    filterValue: any
   ) {
     if (enable) {
       const filter = new FilterDescriptor<T>();
@@ -119,7 +159,7 @@ export abstract class BaseFilterGroup<T> {
     enable: boolean,
     propertyPath: TProp,
     operator: FilterOperator,
-    filterValue: T[TProp] & ComparableType
+    filterValue: any
   ) {
     if (enable) {
       const filter = new FilterDescriptor<T>();
