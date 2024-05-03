@@ -69,6 +69,8 @@ describe(".FilterGroupDescriptor", () => {
     // });
     const json = `{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":8,"propertyPath":"name","ignoreCase":false,"value":"a"}]}`;
     const groupFilter = new FilterGroupDescriptor<Student>().fromJSON(json);
+    groupFilter.and(true, "age", FilterOperator.EQUAL, 1);
+
     const resultFilter = groupFilter.getFilters()[0] as FilterDescriptor<any>;
     expect("name").to.be.eq(resultFilter.propertyPath);
     expect(FilterOperator.CONTAINS).to.be.eq(resultFilter.operator);

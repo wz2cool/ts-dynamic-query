@@ -12,13 +12,15 @@ import { ObjectUtils } from "ts-commons";
 import { FilterCondition } from "../enums/FilterCondition";
 import { QueryProvider } from "../providers/QueryProvider";
 import { SortHelper } from "../helpers/SortHelper";
+import { BaseFilterGroup } from "./BaseFilterGroup";
 
-export class DynamicQuery<T> {
+export class DynamicQuery<T> extends BaseFilterGroup<T> {
   public type: new () => T;
   public filters: BaseFilterDescriptor<T>[];
   public sorts: SortDescriptorBase[];
   public selectedProperties: string[];
   constructor() {
+    super();
     this.filters = [];
     this.sorts = [];
     this.selectedProperties = [];

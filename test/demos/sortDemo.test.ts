@@ -3,6 +3,7 @@ import { DynamicQuery } from "../../src/models/dynamicQuery";
 import { SortDescriptor } from "../../src/models/SortDescriptor";
 import { QueryProvider } from "../../src/providers/QueryProvider";
 import { SortDirection } from "../../src/enums/SortDirection";
+import { FilterOperator } from "../../src/enums/FilterOperator";
 
 describe(".sortDemo", () => {
   class Model1 {
@@ -1067,6 +1068,14 @@ describe(".sortDemo", () => {
       expect(undefined).to.be.eq(result[1].p2);
       expect("b").to.be.eq(result[2].p2);
       expect("a").to.be.eq(result[3].p2);
+    });
+  });
+
+  describe(".test", () => {
+    it("test", () => {
+      const query = DynamicQuery.createQuery(Model1)
+        .and("p2", FilterOperator.EQUAL, "1")
+        .and(true, "p1", FilterOperator.EQUAL, 1);
     });
   });
 });
