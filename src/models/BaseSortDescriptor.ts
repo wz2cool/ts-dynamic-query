@@ -3,7 +3,7 @@ import { SortDirection } from "../enums/SortDirection";
 /**
  * Base class for all SortDescriptor.
  */
-export abstract class SortDescriptorBase {
+export abstract class BaseSortDescriptor {
   public direction: SortDirection = SortDirection.ASC;
   public readonly type: string;
   constructor(type: string) {
@@ -11,5 +11,5 @@ export abstract class SortDescriptorBase {
   }
 
   public abstract toJSON(): string;
-  public abstract fromJSON(json: string): SortDescriptorBase;
+  public abstract fromJSON(json: string): BaseSortDescriptor;
 }

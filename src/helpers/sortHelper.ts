@@ -1,5 +1,5 @@
 import { SortDescriptor } from "../models/SortDescriptor";
-import { SortDescriptorBase } from "../models/SortDescriptorBase";
+import { BaseSortDescriptor } from "../models/BaseSortDescriptor";
 import { SortDirection } from "../enums/SortDirection";
 import { ArrayUtils, ObjectUtils } from "ts-commons";
 import { serialize } from "class-transformer";
@@ -8,7 +8,7 @@ export class SortHelper {
   public static predicateBySorts<T>(
     obj1: T,
     obj2: T,
-    sorts: SortDescriptorBase[]
+    sorts: BaseSortDescriptor[]
   ): number {
     let result = 0;
     for (const sort of sorts) {
@@ -23,7 +23,7 @@ export class SortHelper {
   public static predicateBySortDescriptorBase<T>(
     obj1: T,
     obj2: T,
-    sort: SortDescriptorBase
+    sort: BaseSortDescriptor
   ): number {
     let result = 0;
     if (sort instanceof SortDescriptor) {
@@ -48,13 +48,13 @@ export class SortHelper {
   }
 
   public static getRealSorts<T>(
-    sorts: SortDescriptorBase[]
-  ): SortDescriptorBase[] {
+    sorts: BaseSortDescriptor[]
+  ): BaseSortDescriptor[] {
     if (ArrayUtils.isEmpty(sorts)) {
       return [];
     }
 
-    const result: SortDescriptorBase[] = [];
+    const result: BaseSortDescriptor[] = [];
     for (const filterBase of sorts || []) {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {

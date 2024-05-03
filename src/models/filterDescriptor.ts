@@ -4,6 +4,7 @@ import { FilterOptions } from "./FilterOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 import { FilterCondition } from "../enums/FilterCondition";
+import { ComparableType } from "./ComparableType";
 
 /**
  * Initializes a new instance of the FilterDescriptor class.
@@ -14,13 +15,7 @@ export class FilterDescriptor<T> implements BaseFilterDescriptor<T> {
   public operator: FilterOperator = FilterOperator.EQUAL;
   public propertyPath: string = null;
   public ignoreCase: boolean = false;
-  public value:
-    | string
-    | number
-    | Date
-    | boolean
-    | Array<string | number | Date | boolean>
-    | null = null;
+  public value: ComparableType = null;
 
   constructor(options?: FilterOptions<T>) {
     if (options) {

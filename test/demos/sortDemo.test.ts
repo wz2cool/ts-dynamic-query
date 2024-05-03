@@ -218,6 +218,7 @@ describe(".sortDemo", () => {
       const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
         nameSort,
       ]);
+
       let result = QueryProvider.query([m1, m2, m3, m4], query);
       expect("a").to.be.eq(result[0].p2);
       expect("b").to.be.eq(result[1].p2);

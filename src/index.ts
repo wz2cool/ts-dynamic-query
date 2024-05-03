@@ -8,7 +8,7 @@ import { FilterGroupDescriptor } from "./models/FilterGroupDescriptor";
 import { FilterGroupOptions } from "./models/FilterGroupOptions";
 import { FilterOptions } from "./models/FilterOptions";
 import { SortDescriptor } from "./models/SortDescriptor";
-import { SortDescriptorBase } from "./models/SortDescriptorBase";
+import { BaseSortDescriptor } from "./models/BaseSortDescriptor";
 import { SortOptions } from "./models/SortOptions";
 import { QueryProvider } from "./providers/QueryProvider";
 
@@ -38,7 +38,7 @@ export {
   FilterGroupOptions,
   FilterOptions,
   SortDescriptor,
-  SortDescriptorBase,
+  BaseSortDescriptor as SortDescriptorBase,
   SortOptions,
   QueryProvider,
   _lessThan,
