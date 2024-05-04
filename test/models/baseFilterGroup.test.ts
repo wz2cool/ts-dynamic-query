@@ -167,7 +167,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.AND).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_in).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(3).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(notIn) filterValue", () => {
@@ -180,7 +180,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.AND).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_notIn).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(3).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(BETWEEN) filterValue", () => {
@@ -193,7 +193,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.AND).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_between).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(2).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(BITWISE_ANY) filterValue", () => {
@@ -228,7 +228,7 @@ describe(".BaseFilterGroup", () => {
     it("propertyPath operator(lessThan) filterValue", () => {
       const query = DynamicQuery.createQuery(Model1).or("p1", _lessThan, 1);
       const filter = query.getFilters()[0] as FilterDescriptor<Model1>;
-      expect(FilterCondition.AND).to.eq(filter.condition);
+      expect(FilterCondition.OR).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_lessThan).to.eq(filter.operator);
       expect(1).to.eq(filter.value);
@@ -320,7 +320,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.OR).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_in).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(3).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(notIn) filterValue", () => {
@@ -333,7 +333,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.OR).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_notIn).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(3).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(BETWEEN) filterValue", () => {
@@ -342,7 +342,7 @@ describe(".BaseFilterGroup", () => {
       expect(FilterCondition.OR).to.eq(filter.condition);
       expect("p1").to.eq(filter.propertyPath);
       expect(_between).to.eq(filter.operator);
-      expect(1).to.eq(filter.value);
+      expect(2).to.eq((filter.value as []).length);
     });
 
     it("propertyPath operator(BITWISE_ANY) filterValue", () => {

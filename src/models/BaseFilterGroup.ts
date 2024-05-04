@@ -129,10 +129,9 @@ export abstract class BaseFilterGroup<T> {
     const p1Type = typeof p1;
     const p2Type = typeof p2;
     const p3Type = typeof p3;
-
     if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
       this.orForFilter(p1, p2, p3, p4);
-    } else if (p2Type === "string" && p3Type === "number") {
+    } else if (p1Type === "string" && p2Type === "number") {
       this.orForFilter(true, p1, p2, p3);
     } else if (p1Type === "boolean" && p2Type === "function") {
       this.orForFilterGroup(p1, p2);
