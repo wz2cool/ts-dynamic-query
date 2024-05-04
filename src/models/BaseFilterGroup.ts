@@ -182,6 +182,7 @@ export abstract class BaseFilterGroup<T> {
       const filterGroup = new FilterGroupDescriptor<T>();
       filterGroup.condition = FilterCondition.AND;
       group(filterGroup);
+      this.addFilter(filterGroup);
     }
   }
 
@@ -193,6 +194,7 @@ export abstract class BaseFilterGroup<T> {
       const filterGroup = new FilterGroupDescriptor<T>();
       filterGroup.condition = FilterCondition.OR;
       group(filterGroup);
+      this.addFilter(filterGroup);
     }
   }
 }

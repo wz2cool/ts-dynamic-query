@@ -3,6 +3,7 @@ import {
   DynamicQuery,
   FilterCondition,
   FilterDescriptor,
+  FilterGroupDescriptor,
   FilterOperator,
   _between,
   _bitwiseAll,
@@ -20,6 +21,7 @@ import {
   _notIn,
   _startWith,
 } from "../../src";
+import { BaseFilterGroup } from "../../src/models/BaseFilterGroup";
 
 describe(".BaseFilterGroup", () => {
   class Model1 {
@@ -222,6 +224,26 @@ describe(".BaseFilterGroup", () => {
       expect(_bitwiseAll).to.eq(filter.operator);
       expect(5).to.eq(filter.value);
     });
+
+    it("enable(true) propertyPath operator(equal) filterValue", () => {
+      const query = DynamicQuery.createQuery(Model1).and(true, "p1", _equal, 5);
+      const filter = query.getFilters()[0] as FilterDescriptor<Model1>;
+      expect(FilterCondition.AND).to.eq(filter.condition);
+      expect("p1").to.eq(filter.propertyPath);
+      expect(_equal).to.eq(filter.operator);
+      expect(5).to.eq(filter.value);
+    });
+
+    it("enable(false) propertyPath operator(equal) filterValue", () => {
+      const query = DynamicQuery.createQuery(Model1).and(
+        false,
+        "p1",
+        _equal,
+        5
+      );
+
+      expect(0).to.eq(query.getFilters().length);
+    });
   });
 
   describe("#or", () => {
@@ -370,6 +392,41 @@ describe(".BaseFilterGroup", () => {
       expect("p1").to.eq(filter.propertyPath);
       expect(_bitwiseAll).to.eq(filter.operator);
       expect(5).to.eq(filter.value);
+    });
+
+    it("enable(true) propertyPath operator(equal) filterValue", () => {
+      const query = DynamicQuery.createQuery(Model1).or(true, "p1", _equal, 5);
+      const filter = query.getFilters()[0] as FilterDescriptor<Model1>;
+      expect(FilterCondition.OR).to.eq(filter.condition);
+      expect("p1").to.eq(filter.propertyPath);
+      expect(_equal).to.eq(filter.operator);
+      expect(5).to.eq(filter.value);
+    });
+
+    it("enable(false) propertyPath operator(equal) filterValue", () => {
+      const query = DynamicQuery.createQuery(Model1).or(false, "p1", _equal, 5);
+      expect(0).to.eq(query.getFilters().length);
+    });
+
+    it("group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).and((g) =>
+        g.or("p1", _greaterThan, 1).or("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.OR).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.OR).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
     });
   });
 });
