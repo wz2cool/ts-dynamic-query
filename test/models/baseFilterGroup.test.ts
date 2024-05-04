@@ -244,6 +244,93 @@ describe(".BaseFilterGroup", () => {
 
       expect(0).to.eq(query.getFilters().length);
     });
+
+    it("group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).and((g) =>
+        g.and("p1", _greaterThan, 1).and("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.AND).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.AND).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
+    });
+
+    it("enable(true) group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).and(true, (g) =>
+        g.and("p1", _greaterThan, 1).and("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.AND).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.AND).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
+    });
+
+    it("enable(false) group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).and(false, (g) =>
+        g.and("p1", _greaterThan, 1).and("p1", _lessThan, 5)
+      );
+
+      expect(0).to.eq(query.getFilters().length);
+    });
+
+    it("group filter partial enable(true)", () => {
+      const query = DynamicQuery.createQuery(Model1).and(true, (g) =>
+        g.and(true, "p1", _greaterThan, 1).and("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.AND).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.AND).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
+    });
+
+    it("group filter partial enable(false)", () => {
+      const query = DynamicQuery.createQuery(Model1).and(true, (g) =>
+        g.and(false, "p1", _greaterThan, 1).and("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.AND).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_lessThan).to.eq(filter1.operator);
+      expect(5).to.eq(filter1.value);
+    });
   });
 
   describe("#or", () => {
@@ -409,7 +496,7 @@ describe(".BaseFilterGroup", () => {
     });
 
     it("group filter", () => {
-      const query = DynamicQuery.createQuery(Model1).and((g) =>
+      const query = DynamicQuery.createQuery(Model1).or((g) =>
         g.or("p1", _greaterThan, 1).or("p1", _lessThan, 5)
       );
 
@@ -427,6 +514,72 @@ describe(".BaseFilterGroup", () => {
       expect("p1").to.eq(filter2.propertyPath);
       expect(_lessThan).to.eq(filter2.operator);
       expect(5).to.eq(filter2.value);
+    });
+
+    it("enable(true) group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).or(true, (g) =>
+        g.or("p1", _greaterThan, 1).or("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.OR).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.OR).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
+    });
+
+    it("enable(false) group filter", () => {
+      const query = DynamicQuery.createQuery(Model1).or(false, (g) =>
+        g.or("p1", _greaterThan, 1).or("p1", _lessThan, 5)
+      );
+
+      expect(0).to.eq(query.getFilters().length);
+    });
+
+    it("group filter partial enable(true)", () => {
+      const query = DynamicQuery.createQuery(Model1).or(true, (g) =>
+        g.or(true, "p1", _greaterThan, 1).or("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.OR).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_greaterThan).to.eq(filter1.operator);
+      expect(1).to.eq(filter1.value);
+      const filter2 = filters[1] as FilterDescriptor<Model1>;
+      expect(FilterCondition.OR).to.eq(filter2.condition);
+      expect("p1").to.eq(filter2.propertyPath);
+      expect(_lessThan).to.eq(filter2.operator);
+      expect(5).to.eq(filter2.value);
+    });
+
+    it("group filter partial enable(false)", () => {
+      const query = DynamicQuery.createQuery(Model1).or(true, (g) =>
+        g.or(false, "p1", _greaterThan, 1).or("p1", _lessThan, 5)
+      );
+
+      const filterGroup =
+        query.getFilters()[0] as FilterGroupDescriptor<Model1>;
+      const filters = filterGroup.getFilters();
+      const filter1 = filters[0] as FilterDescriptor<Model1>;
+
+      expect(FilterCondition.OR).to.eq(filter1.condition);
+      expect("p1").to.eq(filter1.propertyPath);
+      expect(_lessThan).to.eq(filter1.operator);
+      expect(5).to.eq(filter1.value);
     });
   });
 });
