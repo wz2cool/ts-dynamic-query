@@ -145,7 +145,7 @@ export class FilterHelper {
     obj: T,
     propertyPath: string,
     filterValue: any,
-    ignoreCase
+    ignoreCase: boolean
   ): boolean {
     const propValue = obj[propertyPath];
     if (typeof propValue === "string" && typeof filterValue === "string") {
@@ -163,7 +163,7 @@ export class FilterHelper {
     obj: T,
     propertyPath: string,
     filterValue: any,
-    ignoreCase
+    ignoreCase: boolean
   ): boolean {
     return !this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);
   }
