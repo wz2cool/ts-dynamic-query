@@ -20,7 +20,7 @@ type SingleValueOperator =
   | FilterOperator.BITWISE_ZERO
   | FilterOperator.BITWISE_ALL;
 
-type collectionValueOperator =
+type CollectionValueOperator =
   | FilterOperator.IN
   | FilterOperator.NOT_IN
   | FilterOperator.BETWEEN;
@@ -62,13 +62,13 @@ export abstract class BaseFilterGroup<T> {
   ): this;
   public and<TProp extends keyof T>(
     propertyPath: TProp,
-    operator: collectionValueOperator,
+    operator: CollectionValueOperator,
     filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public and<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
-    operator: collectionValueOperator,
+    operator: CollectionValueOperator,
     filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public and<TProp extends keyof T>(
@@ -82,6 +82,7 @@ export abstract class BaseFilterGroup<T> {
     const p1Type = typeof p1;
     const p2Type = typeof p2;
     const p3Type = typeof p3;
+    const p4Type = typeof p4;
 
     if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
       this.andForFilter(p1, p2, p3, p4);
@@ -91,6 +92,10 @@ export abstract class BaseFilterGroup<T> {
       this.andForFilterGroup(p1, p2);
     } else if (p1Type === "function") {
       this.andForFilterGroup(true, p1);
+    } else {
+      throw new TypeError(
+        `[ts-dynamic-query.BaseFilterGroup#and] can't resolve type. p1Type: ${p1Type}, p2Type: ${p2Type}, p3Type: ${p3Type}, p4Type: ${p4Type}`
+      );
     }
 
     return this;
@@ -109,13 +114,13 @@ export abstract class BaseFilterGroup<T> {
   ): this;
   public or<TProp extends keyof T>(
     propertyPath: TProp,
-    operator: collectionValueOperator,
+    operator: CollectionValueOperator,
     filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public or<TProp extends keyof T>(
     enable: boolean,
     propertyPath: TProp,
-    operator: collectionValueOperator,
+    operator: CollectionValueOperator,
     filterValue: Array<T[TProp] & ComparableType>
   ): this;
   public or<TProp extends keyof T>(
@@ -129,6 +134,7 @@ export abstract class BaseFilterGroup<T> {
     const p1Type = typeof p1;
     const p2Type = typeof p2;
     const p3Type = typeof p3;
+    const p4Type = typeof p4;
     if (p1Type === "boolean" && p2Type === "string" && p3Type === "number") {
       this.orForFilter(p1, p2, p3, p4);
     } else if (p1Type === "string" && p2Type === "number") {
@@ -137,6 +143,10 @@ export abstract class BaseFilterGroup<T> {
       this.orForFilterGroup(p1, p2);
     } else if (p1Type === "function") {
       this.orForFilterGroup(true, p1);
+    } else {
+      throw new TypeError(
+        `[ts-dynamic-query.BaseFilterGroup#or] can't resolve type. p1Type: ${p1Type}, p2Type: ${p2Type}, p3Type: ${p3Type}, p4Type: ${p4Type}`
+      );
     }
 
     return this;

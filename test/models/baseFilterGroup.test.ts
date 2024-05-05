@@ -21,7 +21,6 @@ import {
   _notIn,
   _startWith,
 } from "../../src";
-import { BaseFilterGroup } from "../../src/models/BaseFilterGroup";
 
 describe(".BaseFilterGroup", () => {
   class Model1 {
@@ -331,6 +330,14 @@ describe(".BaseFilterGroup", () => {
       expect(_lessThan).to.eq(filter1.operator);
       expect(5).to.eq(filter1.value);
     });
+
+    it("throw exception if and not match", () => {
+      const anyValue: any = "anyValue";
+
+      expect(() => {
+        const query = DynamicQuery.createQuery(Model1).and(anyValue);
+      }).to.throw(TypeError);
+    });
   });
 
   describe("#or", () => {
@@ -580,6 +587,14 @@ describe(".BaseFilterGroup", () => {
       expect("p1").to.eq(filter1.propertyPath);
       expect(_lessThan).to.eq(filter1.operator);
       expect(5).to.eq(filter1.value);
+    });
+
+    it("throw exception if and not match", () => {
+      const anyValue: any = "anyValue";
+
+      expect(() => {
+        const query = DynamicQuery.createQuery(Model1).or(anyValue);
+      }).to.throw(TypeError);
     });
   });
 });
