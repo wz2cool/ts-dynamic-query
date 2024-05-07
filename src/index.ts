@@ -41,12 +41,12 @@ export {
   SortDirection,
   DynamicQuery,
   FilterDescriptor,
-  BaseFilterDescriptor as FilterDescriptorBase,
+  BaseFilterDescriptor,
   FilterGroupDescriptor,
   FilterGroupOptions,
   FilterOptions,
   SortDescriptor,
-  BaseSortDescriptor as SortDescriptorBase,
+  BaseSortDescriptor,
   SortOptions,
   QueryProvider,
   _lessThan,
@@ -69,5 +69,5 @@ export {
   _ascNullLast,
   _desc,
   _descNullFirst,
-  _descNullLast
+  _descNullLast,
 };
