@@ -1,8 +1,8 @@
-import { SortHelper } from "../../src/helpers/sortHelper";
+import { SortHelper } from "../../src/helpers/SortHelper";
 import { expect } from "chai";
 import { ArrayUtils } from "ts-commons";
-import { SortDescriptor } from "../../src/models/sortDescriptor";
-import { SortDirection } from "../../src/enums/sortDirection";
+import { SortDescriptor } from "../../src/models/SortDescriptor";
+import { SortDirection } from "../../src/enums/SortDirection";
 
 describe(".SortHelper", () => {
   class Student {

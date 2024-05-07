@@ -3,9 +3,9 @@ import {
   FilterDescriptor,
   FilterGroupDescriptor,
   FilterOperator,
-  FilterCondition
+  FilterCondition,
 } from "../../src";
-import { ObjectUtils, ArrayUtils } from "ts-commons";
+import { ArrayUtils } from "ts-commons";
 
 describe(".FilterGroupDescriptor", () => {
   class Student {
@@ -17,7 +17,7 @@ describe(".FilterGroupDescriptor", () => {
     it("test defaultValue", () => {
       const nameFilter = new FilterGroupDescriptor();
       expect(FilterCondition.AND).to.be.eq(nameFilter.condition);
-      expect(true).to.be.eq(ArrayUtils.isEmpty(nameFilter.filters));
+      expect(true).to.be.eq(ArrayUtils.isEmpty(nameFilter.getFilters()));
     });
   });
 
@@ -26,19 +26,21 @@ describe(".FilterGroupDescriptor", () => {
       const filter = new FilterDescriptor();
       const groupFilter = new FilterGroupDescriptor();
       groupFilter.addFilters([filter]);
-      expect(filter).to.be.eq(groupFilter.filters[0]);
+      expect(filter).to.be.eq(groupFilter.getFilters()[0]);
     });
   });
 
   describe("#addFilter", () => {
     it("filter can be added", () => {
       const groupFilter = new FilterGroupDescriptor<Student>();
-      groupFilter.addFilter({
-        propertyPath: "name",
-        operator: FilterOperator.CONTAINS,
-        value: "a"
-      });
-      const resultFilter = groupFilter.filters[0] as FilterDescriptor<any>;
+      groupFilter.addFilter(
+        new FilterDescriptor({
+          propertyPath: "name",
+          operator: FilterOperator.CONTAINS,
+          value: "a",
+        })
+      );
+      const resultFilter = groupFilter.getFilters()[0] as FilterDescriptor<any>;
       expect("name").to.be.eq(resultFilter.propertyPath);
       expect(FilterOperator.CONTAINS).to.be.eq(resultFilter.operator);
       expect("a").to.be.eq(resultFilter.value);
@@ -47,13 +49,15 @@ describe(".FilterGroupDescriptor", () => {
 
   describe("#toJSON", () => {
     const groupFilter = new FilterGroupDescriptor<Student>();
-    groupFilter.addFilter({
-      propertyPath: "name",
-      operator: FilterOperator.CONTAINS,
-      value: "a"
-    });
+    groupFilter.addFilter(
+      new FilterDescriptor({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "a",
+      })
+    );
     expect(
-      `{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":8,"propertyPath":"name","ignoreCase":false,"value":"a"}]}`
+      `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":8,"propertyPath":"name","ignoreCase":false,"value":"a"}],"condition":0,"type":"FilterGroupDescriptor"}`
     ).to.be.eq(groupFilter.toJSON());
   });
 
@@ -65,7 +69,9 @@ describe(".FilterGroupDescriptor", () => {
     // });
     const json = `{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":8,"propertyPath":"name","ignoreCase":false,"value":"a"}]}`;
     const groupFilter = new FilterGroupDescriptor<Student>().fromJSON(json);
-    const resultFilter = groupFilter.filters[0] as FilterDescriptor<any>;
+    groupFilter.and(true, "age", FilterOperator.EQUAL, 1);
+
+    const resultFilter = groupFilter.getFilters()[0] as FilterDescriptor<any>;
     expect("name").to.be.eq(resultFilter.propertyPath);
     expect(FilterOperator.CONTAINS).to.be.eq(resultFilter.operator);
     expect("a").to.be.eq(resultFilter.value);

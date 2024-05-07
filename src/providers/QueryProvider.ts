@@ -1,7 +1,7 @@
-import { DynamicQuery } from "../models/dynamicQuery";
+import { DynamicQuery } from "../models/DynamicQuery";
 import { ArrayUtils, ObjectUtils } from "ts-commons";
-import { FilterHelper } from "../helpers/filterHelper";
-import { SortHelper } from "../helpers/sortHelper";
+import { FilterHelper } from "../helpers/FilterHelper";
+import { SortHelper } from "../helpers/SortHelper";
 
 export class QueryProvider {
   public static query<T>(datas: T[], query: DynamicQuery<T>): T[] {
@@ -14,21 +14,21 @@ export class QueryProvider {
       return cloneDatas;
     }
 
-    if (ArrayUtils.isNotEmpty(query.filters)) {
+    if (ArrayUtils.isNotEmpty(query.getFilters())) {
       cloneDatas = cloneDatas.filter((x) => {
-        return FilterHelper.predicateByFilters(x, query.filters);
+        return FilterHelper.predicateByFilters(x, query.getFilters());
       });
     }
 
-    if (ArrayUtils.isNotEmpty(query.sorts)) {
+    if (ArrayUtils.isNotEmpty(query.getSorts())) {
       cloneDatas = cloneDatas.sort((obj1, obj2) => {
-        return SortHelper.predicateBySorts(obj1, obj2, query.sorts);
+        return SortHelper.predicateBySorts(obj1, obj2, query.getSorts());
       });
     }
 
-    if (ArrayUtils.isNotEmpty(query.selectedProperties)) {
+    if (ArrayUtils.isNotEmpty(query.getSelectedProperties())) {
       cloneDatas = cloneDatas.map((x) =>
-        this.pick(query.type, x, query.selectedProperties)
+        this.pick(query.type, x, query.getSelectedProperties())
       );
     }
 

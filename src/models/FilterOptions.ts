@@ -1,5 +1,5 @@
-import { FilterCondition } from "../enums/filterCondition";
-import { FilterOperator } from "../enums/filterOperator";
+import { FilterCondition } from "../enums/FilterCondition";
+import { FilterOperator } from "../enums/FilterOperator";
 
 /**
  * The option for creating new instance of FilterDescriptor class.

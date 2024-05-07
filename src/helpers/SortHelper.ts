@@ -1,6 +1,6 @@
-import { SortDescriptor } from "../models/sortDescriptor";
-import { SortDescriptorBase } from "../models/sortDescriptorBase";
-import { SortDirection } from "../enums/sortDirection";
+import { SortDescriptor } from "../models/SortDescriptor";
+import { BaseSortDescriptor } from "../models/BaseSortDescriptor";
+import { SortDirection } from "../enums/SortDirection";
 import { ArrayUtils, ObjectUtils } from "ts-commons";
 import { serialize } from "class-transformer";
 
@@ -8,7 +8,7 @@ export class SortHelper {
   public static predicateBySorts<T>(
     obj1: T,
     obj2: T,
-    sorts: SortDescriptorBase[]
+    sorts: BaseSortDescriptor[]
   ): number {
     let result = 0;
     for (const sort of sorts) {
@@ -23,7 +23,7 @@ export class SortHelper {
   public static predicateBySortDescriptorBase<T>(
     obj1: T,
     obj2: T,
-    sort: SortDescriptorBase
+    sort: BaseSortDescriptor
   ): number {
     let result = 0;
     if (sort instanceof SortDescriptor) {
@@ -37,10 +37,10 @@ export class SortHelper {
   public static predicateBySortDescriptor<T>(
     obj1: T,
     obj2: T,
-    sortDescriptor: SortDescriptor<T>
+    SortDescriptor: SortDescriptor<T>
   ): number {
-    const propertyPath = sortDescriptor.propertyPath;
-    const direction = sortDescriptor.direction;
+    const propertyPath = SortDescriptor.propertyPath;
+    const direction = SortDescriptor.direction;
     const propValue1 = obj1[propertyPath];
     const propValue2 = obj2[propertyPath];
     const result = this.compareTo(direction, propValue1, propValue2);
@@ -48,13 +48,13 @@ export class SortHelper {
   }
 
   public static getRealSorts<T>(
-    sorts: SortDescriptorBase[]
-  ): SortDescriptorBase[] {
+    sorts: BaseSortDescriptor[]
+  ): BaseSortDescriptor[] {
     if (ArrayUtils.isEmpty(sorts)) {
       return [];
     }
 
-    const result: SortDescriptorBase[] = [];
+    const result: BaseSortDescriptor[] = [];
     for (const filterBase of sorts || []) {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {

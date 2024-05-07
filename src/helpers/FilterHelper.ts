@@ -1,15 +1,15 @@
-import { FilterDescriptor } from "../models/filterDescriptor";
-import { FilterDescriptorBase } from "../models/filterDescriptorBase";
-import { FilterGroupDescriptor } from "../models/filterGroupDescriptor";
-import { FilterOperator } from "../enums/filterOperator";
-import { FilterCondition } from "../enums/filterCondition";
+import { FilterDescriptor } from "../models/FilterDescriptor";
+import { BaseFilterDescriptor } from "../models/BaseFilterDescriptor";
+import { FilterGroupDescriptor } from "../models/FilterGroupDescriptor";
+import { FilterOperator } from "../enums/FilterOperator";
+import { FilterCondition } from "../enums/FilterCondition";
 import { ObjectUtils, StringUtils, ArrayUtils } from "ts-commons";
 import { serialize } from "class-transformer";
 
 export class FilterHelper {
   public static predicateByFilters<T>(
     obj: T,
-    filters: FilterDescriptorBase[]
+    filters: BaseFilterDescriptor<T>[]
   ): boolean {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
     filterGroupDescriptor.addFilters(filters);
@@ -20,7 +20,7 @@ export class FilterHelper {
     obj: T,
     filterGroupDescriptor: FilterGroupDescriptor<T>
   ): boolean {
-    const filters = filterGroupDescriptor.filters;
+    const filters = filterGroupDescriptor.getFilters();
     if (ArrayUtils.isEmpty(filters)) {
       return true;
     }
@@ -29,7 +29,7 @@ export class FilterHelper {
       if (
         result === false &&
         !ObjectUtils.isNullOrUndefined(filter) &&
-        filter.condition === FilterCondition.AND
+        filter.getCondition() === FilterCondition.AND
       ) {
         continue;
       }
@@ -37,7 +37,7 @@ export class FilterHelper {
       if (
         result === true &&
         !ObjectUtils.isNullOrUndefined(filter) &&
-        filter.condition === FilterCondition.OR
+        filter.getCondition() === FilterCondition.OR
       ) {
         continue;
       }
@@ -54,7 +54,7 @@ export class FilterHelper {
       if (ObjectUtils.isNullOrUndefined(result)) {
         result = predictResult;
       } else {
-        switch (filter.condition) {
+        switch (filter.getCondition()) {
           case FilterCondition.AND:
             result = result && predictResult;
             break;
@@ -69,12 +69,12 @@ export class FilterHelper {
 
   public static predicateByFilterDescriptor<T>(
     obj: T,
-    filterDescriptor: FilterDescriptor<T>
+    FilterDescriptor: FilterDescriptor<T>
   ): boolean {
-    const operator = filterDescriptor.operator;
-    const propertyPath = filterDescriptor.propertyPath;
-    const filterValue = filterDescriptor.value;
-    const ignoreCase = filterDescriptor.ignoreCase;
+    const operator = FilterDescriptor.operator;
+    const propertyPath = FilterDescriptor.propertyPath;
+    const filterValue = FilterDescriptor.value;
+    const ignoreCase = FilterDescriptor.ignoreCase;
     switch (operator) {
       case FilterOperator.EQUAL:
         return this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);
@@ -145,7 +145,7 @@ export class FilterHelper {
     obj: T,
     propertyPath: string,
     filterValue: any,
-    ignoreCase
+    ignoreCase: boolean
   ): boolean {
     const propValue = obj[propertyPath];
     if (typeof propValue === "string" && typeof filterValue === "string") {
@@ -163,7 +163,7 @@ export class FilterHelper {
     obj: T,
     propertyPath: string,
     filterValue: any,
-    ignoreCase
+    ignoreCase: boolean
   ): boolean {
     return !this.predicateEqual(obj, propertyPath, filterValue, ignoreCase);
   }
@@ -340,13 +340,13 @@ export class FilterHelper {
   }
 
   public static getRealFilters<T>(
-    filters: FilterDescriptorBase[]
-  ): FilterDescriptorBase[] {
+    filters: BaseFilterDescriptor<T>[]
+  ): BaseFilterDescriptor<T>[] {
     if (ArrayUtils.isEmpty(filters)) {
       return [];
     }
 
-    const result: FilterDescriptorBase[] = [];
+    const result: BaseFilterDescriptor<T>[] = [];
     for (const filterBase of filters || []) {
       const filterJson = serialize(filterBase);
       switch (filterBase.type) {

@@ -1,27 +1,23 @@
-import { FilterDescriptorBase } from "./filterDescriptorBase";
-import { FilterOperator } from "../enums/filterOperator";
-import { FilterOptions } from "./filterOptions";
+import { BaseFilterDescriptor } from "./BaseFilterDescriptor";
+import { FilterOperator } from "../enums/FilterOperator";
+import { FilterOptions } from "./FilterOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
+import { FilterCondition } from "../enums/FilterCondition";
+import { ComparableType } from "./ComparableType";
 
 /**
  * Initializes a new instance of the FilterDescriptor class.
  */
-export class FilterDescriptor<T> extends FilterDescriptorBase {
+export class FilterDescriptor<T> implements BaseFilterDescriptor<T> {
+  public condition: FilterCondition = FilterCondition.AND;
+  public readonly type: string = "FilterDescriptor";
   public operator: FilterOperator = FilterOperator.EQUAL;
   public propertyPath: string = null;
   public ignoreCase: boolean = false;
-  public value:
-    | string
-    | number
-    | Date
-    | boolean
-    | Array<string | number | Date | boolean>
-    | null = null;
+  public value: ComparableType = null;
 
   constructor(options?: FilterOptions<T>) {
-    super("FilterDescriptor");
-
     if (options) {
       this.condition = ObjectUtils.isNullOrUndefined(options.condition)
         ? this.condition
@@ -33,6 +29,10 @@ export class FilterDescriptor<T> extends FilterDescriptorBase {
       this.value = options.value;
       this.propertyPath = options.propertyPath.toString();
     }
+  }
+
+  public getCondition(): FilterCondition {
+    return this.condition;
   }
 
   /**

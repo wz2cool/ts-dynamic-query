@@ -1,5 +1,5 @@
-import { FilterCondition } from "../enums/filterCondition";
-import { FilterOptions } from "./filterOptions";
+import { FilterCondition } from "../enums/FilterCondition";
+import { FilterOptions } from "./FilterOptions";
 
 /**
  * The option for creating new instance of FilterGroupDescriptor class.

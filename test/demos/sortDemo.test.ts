@@ -1,8 +1,16 @@
 import { expect } from "chai";
-import { DynamicQuery } from "../../src/models/dynamicQuery";
-import { SortDescriptor } from "../../src/models/sortDescriptor";
-import { QueryProvider } from "../../src/providers/queryProvider";
-import { SortDirection } from "../../src/enums/sortDirection";
+import { DynamicQuery } from "../../src/models/DynamicQuery";
+import { SortDescriptor } from "../../src/models/SortDescriptor";
+import { QueryProvider } from "../../src/providers/QueryProvider";
+import { SortDirection } from "../../src/enums/SortDirection";
+import {
+  _between,
+  _contains,
+  _equal,
+  _greaterThan,
+  _in,
+  _lessThan,
+} from "../../src";
 
 describe(".sortDemo", () => {
   class Model1 {
@@ -210,6 +218,7 @@ describe(".sortDemo", () => {
       const query = DynamicQuery.createQuery<Model1>(Model1).addSorts([
         nameSort,
       ]);
+
       let result = QueryProvider.query([m1, m2, m3, m4], query);
       expect("a").to.be.eq(result[0].p2);
       expect("b").to.be.eq(result[1].p2);
@@ -1067,6 +1076,15 @@ describe(".sortDemo", () => {
       expect(undefined).to.be.eq(result[1].p2);
       expect("b").to.be.eq(result[2].p2);
       expect("a").to.be.eq(result[3].p2);
+    });
+  });
+
+  describe(".test", () => {
+    it("test", () => {
+      const query = DynamicQuery.createQuery(Model1)
+        .and("p2", _equal, "must string")
+        .and("p2", _between, ["1", "2"])
+        .and((g) => g.and("p1", _equal, 1).or("p2", _equal, "1"));
     });
   });
 });

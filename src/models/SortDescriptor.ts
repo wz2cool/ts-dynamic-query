@@ -1,13 +1,13 @@
-import { SortDescriptorBase } from "./sortDescriptorBase";
-import { SortDirection } from "../enums/sortDirection";
-import { SortOptions } from "./sortOptions";
+import { BaseSortDescriptor } from "./BaseSortDescriptor";
+import { SortDirection } from "../enums/SortDirection";
+import { SortOptions } from "./SortOptions";
 import { deserialize, serialize } from "class-transformer";
 import { ObjectUtils } from "ts-commons";
 
 /**
  * Initializes a new instance of the SortDescriptor class.
  */
-export class SortDescriptor<T> extends SortDescriptorBase {
+export class SortDescriptor<T> extends BaseSortDescriptor {
   public propertyPath: string = null;
   public direction: SortDirection = SortDirection.ASC;
 
