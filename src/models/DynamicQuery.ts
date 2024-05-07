@@ -31,15 +31,13 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
     return instance;
   }
 
-  public addFilterDescriptor(option: FilterOptions<T>): DynamicQuery<T> {
+  public addFilterDescriptor(option: FilterOptions<T>): this {
     const filter = new FilterDescriptor<T>(option);
     this.filters.push(filter);
     return this;
   }
 
-  public addFilterGroupDescriptor(
-    option: FilterGroupOptions<T>
-  ): DynamicQuery<T> {
+  public addFilterGroupDescriptor(option: FilterGroupOptions<T>): this {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
     filterGroupDescriptor.condition = ObjectUtils.isNullOrUndefined(
       option.condition
@@ -51,6 +49,10 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
     }
     this.filters.push(filterGroupDescriptor);
     return this;
+  }
+
+  public addSort(sort: BaseSortDescriptor): this {
+    return this.addSorts([sort]);
   }
 
   public addSorts(sorts: BaseSortDescriptor[]): this {
