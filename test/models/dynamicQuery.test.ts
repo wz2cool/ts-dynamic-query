@@ -33,7 +33,7 @@ describe(".dynamicQuery", () => {
     it("should have default value", () => {
       const query = new DynamicQuery();
       expect(true).to.be.eq(ObjectUtils.isArray(query.getFilters()));
-      expect(true).to.be.eq(ObjectUtils.isArray(query.sorts));
+      expect(true).to.be.eq(ObjectUtils.isArray(query.getSorts()));
     });
   });
 
@@ -60,7 +60,7 @@ describe(".dynamicQuery", () => {
       });
 
       const query = new DynamicQuery<Student>().addSorts([ageSort]);
-      expect(ageSort).to.be.eq(query.sorts[0]);
+      expect(ageSort).to.be.eq(query.getSorts()[0]);
     });
   });
 
@@ -181,7 +181,7 @@ describe(".dynamicQuery", () => {
     it("get from json", () => {
       const json = `{"filters":[{"condition":0,"type":"FilterDescriptor","operator":5,"propertyPath":"age","ignoreCase":false,"value":20},{"condition":0,"type":"FilterGroupDescriptor","filters":[{"condition":0,"type":"FilterDescriptor","operator":2,"propertyPath":"name","ignoreCase":false,"value":"test"},{"condition":0,"type":"FilterDescriptor","operator":6,"propertyPath":"name","ignoreCase":false,"value":"aa"}]}],"sorts":[{"direction":1,"type":"SortDescriptor","propertyPath":"age"}]}`;
       const query = new DynamicQuery<Student>().fromJSON(json);
-      const sort = query.sorts[0] as SortDescriptor<Student>;
+      const sort = query.getSorts()[0] as SortDescriptor<Student>;
       const filter = query.getFilters()[0] as FilterDescriptor<Student>;
 
       expect("age").to.be.eq(sort.propertyPath);
@@ -231,7 +231,7 @@ describe(".dynamicQuery", () => {
           operator: FilterOperator.GREATER_THAN,
           value: 1,
         });
-      const selectedProperties = query.selectedProperties;
+      const selectedProperties = query.getSelectedProperties();
       expect(2).to.be.eq(selectedProperties.length);
       expect("name").to.be.eq(selectedProperties[0]);
       expect("age").to.be.eq(selectedProperties[1]);
@@ -247,10 +247,19 @@ describe(".dynamicQuery", () => {
           operator: FilterOperator.GREATER_THAN,
           value: 1,
         });
-      const selectedProperties = query.selectedProperties;
+      const selectedProperties = query.getSelectedProperties();
       expect(2).to.be.eq(selectedProperties.length);
       expect("name").to.be.eq(selectedProperties[0]);
       expect("age").to.be.eq(selectedProperties[1]);
+    });
+  });
+
+  describe("#orderBy", () => {
+    it("order by default asc", () => {
+      const query = DynamicQuery.createQuery(Student).orderBy("age");
+      const sort = query.getSorts()[0] as SortDescriptor<Student>;
+      expect("age").to.be.eq(sort.propertyPath);
+      expect(SortDirection.ASC).to.be.eq(sort.direction);
     });
   });
 });

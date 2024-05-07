@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { DynamicQuery, _equal, _greaterThan, _lessThan } from "../../src";
+import { DynamicQuery, _ascNullFirst, _equal, _greaterThan, _lessThan } from "../../src";
 
 describe(".queryDemo", () => {
   class Model1 {
@@ -35,7 +35,7 @@ describe(".queryDemo", () => {
 
       const query = DynamicQuery.createQuery(Model1)
         .and((g) => g.and("p1", _greaterThan, 1).and("p1", _lessThan, 3))
-        .or("p1", _equal, 5);
+        .or("p1", _equal, 5).orderBy("p1", _ascNullFirst);
       const result = query.query([m1, m2, m3, m4, m5]);
       expect(2).to.be.eq(result.length);
       expect(2).to.be.eq(result[0].p1);
@@ -67,7 +67,7 @@ describe(".queryDemo", () => {
         "p1",
         _greaterThan,
         3
-      );
+      ).orderBy("p1");
       const result2 = query2.query([m1, m2, m3, m4, m5]);
       expect(5).to.be.eq(result2.length);
     });

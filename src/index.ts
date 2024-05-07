@@ -28,6 +28,13 @@ const _bitwiseAny = FilterOperator.BITWISE_ANY;
 const _bitwiseZero = FilterOperator.BITWISE_ZERO;
 const _bitwiseAll = FilterOperator.BITWISE_ALL;
 
+const _asc = SortDirection.ASC;
+const _ascNullFirst = SortDirection.ASC_NULL_FIRST;
+const _ascNullLast = SortDirection.ASC_NULL_LAST;
+const _desc = SortDirection.DESC;
+const _descNullFirst = SortDirection.DESC_NULL_FIRST;
+const _descNullLast = SortDirection.DESC_NULL_LAST;
+
 export {
   FilterCondition,
   FilterOperator,
@@ -57,4 +64,10 @@ export {
   _bitwiseAny,
   _bitwiseZero,
   _bitwiseAll,
+  _asc,
+  _ascNullFirst,
+  _ascNullLast,
+  _desc,
+  _descNullFirst,
+  _descNullLast
 };

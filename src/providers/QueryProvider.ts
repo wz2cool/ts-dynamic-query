@@ -20,15 +20,15 @@ export class QueryProvider {
       });
     }
 
-    if (ArrayUtils.isNotEmpty(query.sorts)) {
+    if (ArrayUtils.isNotEmpty(query.getSorts())) {
       cloneDatas = cloneDatas.sort((obj1, obj2) => {
-        return SortHelper.predicateBySorts(obj1, obj2, query.sorts);
+        return SortHelper.predicateBySorts(obj1, obj2, query.getSorts());
       });
     }
 
-    if (ArrayUtils.isNotEmpty(query.selectedProperties)) {
+    if (ArrayUtils.isNotEmpty(query.getSelectedProperties())) {
       cloneDatas = cloneDatas.map((x) =>
-        this.pick(query.type, x, query.selectedProperties)
+        this.pick(query.type, x, query.getSelectedProperties())
       );
     }
 

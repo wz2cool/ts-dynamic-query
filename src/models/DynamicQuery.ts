@@ -12,11 +12,12 @@ import { FilterCondition } from "../enums/FilterCondition";
 import { QueryProvider } from "../providers/QueryProvider";
 import { SortHelper } from "../helpers/SortHelper";
 import { BaseFilterGroup } from "./BaseFilterGroup";
+import { SortDirection } from "../enums/SortDirection";
 
 export class DynamicQuery<T> extends BaseFilterGroup<T> {
   public type: new () => T;
-  public sorts: BaseSortDescriptor[];
-  public selectedProperties: string[];
+  private sorts: BaseSortDescriptor[];
+  private selectedProperties: string[];
   constructor() {
     super();
     this.filters = [];
@@ -52,27 +53,43 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
     return this;
   }
 
-  public addSorts(sorts: BaseSortDescriptor[]): DynamicQuery<T> {
+  public addSorts(sorts: BaseSortDescriptor[]): this {
     this.sorts = this.sorts.concat(sorts);
     return this;
   }
 
-  public addSortDescriptor(sortOption: SortOptions<T>): DynamicQuery<T> {
+  public addSortDescriptor(sortOption: SortOptions<T>): this {
     const sort = new SortDescriptor<T>(sortOption);
     this.sorts.push(sort);
     return this;
   }
 
-  public selectProperty(property: keyof T): DynamicQuery<T> {
+  public selectProperty(property: keyof T): this {
     const propertyStr = property.toString();
     this.selectedProperties.push(propertyStr);
     return this;
   }
 
-  public selectProperties(...properties: (keyof T)[]): DynamicQuery<T> {
+  public selectProperties(...properties: (keyof T)[]): this {
     const propertyStrs = properties.map((x) => x.toString());
     this.selectedProperties = this.selectedProperties.concat(propertyStrs);
     return this;
+  }
+
+  public orderBy(propertyPath: keyof T, direction?: SortDirection): this {
+    return this.addSortDescriptor({
+      propertyPath: propertyPath,
+      // 默认升序
+      direction: ObjectUtils.getOrDefault(direction, SortDirection.ASC),
+    });
+  }
+
+  public getSorts(): BaseSortDescriptor[] {
+    return this.sorts;
+  }
+
+  public getSelectedProperties(): string[] {
+    return this.selectedProperties;
   }
 
   public query(datas: T[]): T[] {
