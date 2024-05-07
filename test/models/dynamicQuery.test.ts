@@ -13,6 +13,7 @@ import {
   _endWith,
   _lessThan,
   _notEqual,
+  _descNullLast,
 } from "../../src";
 import { ObjectUtils } from "ts-commons";
 
@@ -260,6 +261,13 @@ describe(".dynamicQuery", () => {
       const sort = query.getSorts()[0] as SortDescriptor<Student>;
       expect("age").to.be.eq(sort.propertyPath);
       expect(SortDirection.ASC).to.be.eq(sort.direction);
+    });
+
+    it("order by desc null last", () => {
+      const query = DynamicQuery.createQuery(Student).orderBy("age", _descNullLast);
+      const sort = query.getSorts()[0] as SortDescriptor<Student>;
+      expect("age").to.be.eq(sort.propertyPath);
+      expect(SortDirection.DESC_NULL_LAST).to.be.eq(sort.direction);
     });
   });
 });
