@@ -53,6 +53,18 @@ describe(".dynamicQuery", () => {
     });
   });
 
+  describe("#addSort", () => {
+    it("should add sort", () => {
+      const ageSort = new SortDescriptor<Student>({
+        propertyPath: "age",
+        direction: SortDirection.DESC,
+      });
+
+      const query = new DynamicQuery<Student>().addSort(ageSort);
+      expect(ageSort).to.be.eq(query.getSorts()[0]);
+    });
+  });
+
   describe("#addSorts", () => {
     it("should add sorts", () => {
       const ageSort = new SortDescriptor<Student>({
@@ -264,7 +276,10 @@ describe(".dynamicQuery", () => {
     });
 
     it("order by desc null last", () => {
-      const query = DynamicQuery.createQuery(Student).orderBy("age", _descNullLast);
+      const query = DynamicQuery.createQuery(Student).orderBy(
+        "age",
+        _descNullLast
+      );
       const sort = query.getSorts()[0] as SortDescriptor<Student>;
       expect("age").to.be.eq(sort.propertyPath);
       expect(SortDirection.DESC_NULL_LAST).to.be.eq(sort.direction);
