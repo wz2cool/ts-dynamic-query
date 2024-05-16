@@ -67,7 +67,7 @@ describe(".QueryProvider", () => {
     s3.name = "ABC";
     s3.age = 20;
 
-    const query = DynamicQuery.createQuery<Student>(Student).selectProperty(
+    const query = DynamicQuery.createQuery<Student>(Student).select(
       "name"
     );
     let result = QueryProvider.query([s1, s2, s3], query);

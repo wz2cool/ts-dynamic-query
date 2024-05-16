@@ -236,8 +236,8 @@ describe(".dynamicQuery", () => {
   describe("#selectProperty", () => {
     it("selectProperty should be added", () => {
       const query = DynamicQuery.createQuery<Student>(Student)
-        .selectProperty("name")
-        .selectProperty("age")
+        .select("name")
+        .select("age")
         .and("age", _greaterThan, 1)
         .addFilterDescriptor({
           propertyPath: "age",
@@ -254,7 +254,7 @@ describe(".dynamicQuery", () => {
   describe("#selectProperties", () => {
     it("selectProperties should be added", () => {
       const query = DynamicQuery.createQuery<Student>(Student)
-        .selectProperties("name", "age")
+        .select("name", "age")
         .addFilterDescriptor({
           propertyPath: "age",
           operator: FilterOperator.GREATER_THAN,

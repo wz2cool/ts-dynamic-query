@@ -18,7 +18,7 @@ describe(".queryDemo", () => {
       const m2 = new Model1(2, "2");
       const m3 = new Model1(3, "3");
 
-      const query = DynamicQuery.createQuery(Model1).and((g) =>
+      const query = DynamicQuery.createQuery(Model1).select("p1").and((g) =>
         g.and("p1", _greaterThan, 1).and("p1", _lessThan, 3)
       );
       const result = query.query([m1, m2, m3]);

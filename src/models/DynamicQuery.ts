@@ -66,13 +66,7 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
     return this;
   }
 
-  public selectProperty(property: keyof T): this {
-    const propertyStr = property.toString();
-    this.selectedProperties.push(propertyStr);
-    return this;
-  }
-
-  public selectProperties(...properties: (keyof T)[]): this {
+  public select(...properties: (keyof T)[]): this {
     const propertyStrs = properties.map((x) => x.toString());
     this.selectedProperties = this.selectedProperties.concat(propertyStrs);
     return this;
