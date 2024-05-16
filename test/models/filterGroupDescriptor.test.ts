@@ -45,6 +45,19 @@ describe(".FilterGroupDescriptor", () => {
       expect(FilterOperator.CONTAINS).to.be.eq(resultFilter.operator);
       expect("a").to.be.eq(resultFilter.value);
     });
+
+    it("filter option can be added", () => {
+      const groupFilter = new FilterGroupDescriptor<Student>();
+      groupFilter.addFilter({
+        propertyPath: "name",
+        operator: FilterOperator.CONTAINS,
+        value: "a",
+      });
+      const resultFilter = groupFilter.getFilters()[0] as FilterDescriptor<any>;
+      expect("name").to.be.eq(resultFilter.propertyPath);
+      expect(FilterOperator.CONTAINS).to.be.eq(resultFilter.operator);
+      expect("a").to.be.eq(resultFilter.value);
+    });
   });
 
   describe("#toJSON", () => {

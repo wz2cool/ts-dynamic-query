@@ -5,6 +5,7 @@ import { BaseFilterDescriptor } from "./BaseFilterDescriptor";
 import { FilterDescriptor } from "./FilterDescriptor";
 import { ComparableType } from "./ComparableType";
 import { FilterGroupDescriptor } from "./FilterGroupDescriptor";
+import { FilterOptions } from "./FilterOptions";
 
 type SingleValueOperator =
   | FilterOperator.LESS_THAN
@@ -28,8 +29,16 @@ type CollectionValueOperator =
 export abstract class BaseFilterGroup<T> {
   protected filters: BaseFilterDescriptor<T>[] = [];
 
-  public addFilter(filter: BaseFilterDescriptor<T>) {
-    this.filters.push(filter);
+  public addFilter(filter: BaseFilterDescriptor<T>): this;
+  public addFilter(option: FilterOptions<T>): this;
+  public addFilter(value: any): this {
+    const type = value["type"];
+    if (!ObjectUtils.isNullOrUndefined(type)) {
+      this.filters.push(value);
+    } else {
+      const filter = new FilterDescriptor<T>(value);
+      this.filters.push(filter);
+    }
     return this;
   }
 
