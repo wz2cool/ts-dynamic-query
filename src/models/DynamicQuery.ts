@@ -39,11 +39,7 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
 
   public addFilterGroupDescriptor(option: FilterGroupOptions<T>): this {
     const filterGroupDescriptor = new FilterGroupDescriptor<T>();
-    filterGroupDescriptor.condition = ObjectUtils.isNullOrUndefined(
-      option.condition
-    )
-      ? FilterCondition.AND
-      : option.condition;
+    filterGroupDescriptor.condition = ObjectUtils.isNullOrUndefined(option.condition) ? FilterCondition.AND : option.condition;
     for (const subOption of option.options) {
       filterGroupDescriptor.addFilter(new FilterDescriptor<T>(subOption));
     }
@@ -90,6 +86,10 @@ export class DynamicQuery<T> extends BaseFilterGroup<T> {
 
   public query(datas: T[]): T[] {
     return QueryProvider.query(datas, this);
+  }
+
+  public findFirst(datas: T[]): T | undefined {
+    return QueryProvider.findFirst(datas, this);
   }
 
   public toJSON(): string {

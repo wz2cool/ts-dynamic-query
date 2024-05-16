@@ -1,7 +1,7 @@
-import { expect } from "chai";
-import { DynamicQuery, _ascNullFirst, _equal, _greaterThan, _lessThan } from "../../src";
+import { expect } from 'chai';
+import { DynamicQuery, _ascNullFirst, _desc, _equal, _greaterThan, _lessThan } from '../../src';
 
-describe(".queryDemo", () => {
+describe('.queryDemo', () => {
   class Model1 {
     p1?: number;
     p2?: string;
@@ -12,49 +12,71 @@ describe(".queryDemo", () => {
     }
   }
 
-  describe("#test", () => {
-    it("group >1 and < 3", () => {
-      const m1 = new Model1(1, "1");
-      const m2 = new Model1(2, "2");
-      const m3 = new Model1(3, "3");
+  describe('#findFirst', () => {
+    it('should return underfind, if not found', () => {
+      const m1 = new Model1(1, '1');
+      const m2 = new Model1(2, '2');
+      const m3 = new Model1(3, '3');
+      const firstItem = DynamicQuery.createQuery(Model1)
+        .and("p1", _greaterThan, 5)
+        .orderBy("p1", _desc)
+        .findFirst([m1, m2, m3])
+      expect(undefined).to.be.eq(firstItem);
+    });
 
-      const query = DynamicQuery.createQuery(Model1).select("p1").and((g) =>
-        g.and("p1", _greaterThan, 1).and("p1", _lessThan, 3)
-      );
+    it('should return 3, if found', () => {
+      const m1 = new Model1(1, '1');
+      const m2 = new Model1(2, '2');
+      const m3 = new Model1(3, '3');
+      const firstItem = DynamicQuery.createQuery(Model1)
+        .and("p1", _greaterThan, 1)
+        .orderBy("p1", _desc)
+        .findFirst([m1, m2, m3])
+      expect(3).to.be.eq(firstItem!.p1);
+    });
+  });
+
+  describe('#test', () => {
+    it('group >1 and < 3', () => {
+      const m1 = new Model1(1, '1');
+      const m2 = new Model1(2, '2');
+      const m3 = new Model1(3, '3');
+      // prettier-ignore
+      const query = DynamicQuery.createQuery(Model1)
+        .select('p1')
+        .and(g => g
+          .and('p1', _greaterThan, 1)
+          .and('p1', _lessThan, 3));
       const result = query.query([m1, m2, m3]);
       expect(1).to.be.eq(result.length);
       expect(2).to.be.eq(result[0].p1);
     });
 
-    it("group (>1 and < 3) or (= 5)", () => {
-      const m1 = new Model1(1, "1");
-      const m2 = new Model1(2, "2");
-      const m3 = new Model1(3, "3");
-      const m4 = new Model1(4, "4");
-      const m5 = new Model1(5, "5");
+    it('group (>1 and < 3) or (= 5)', () => {
+      const m1 = new Model1(1, '1');
+      const m2 = new Model1(2, '2');
+      const m3 = new Model1(3, '3');
+      const m4 = new Model1(4, '4');
+      const m5 = new Model1(5, '5');
 
       const query = DynamicQuery.createQuery(Model1)
-        .and((g) => g.and("p1", _greaterThan, 1).and("p1", _lessThan, 3))
-        .or("p1", _equal, 5).orderBy("p1", _ascNullFirst);
+        .and(g => g.and('p1', _greaterThan, 1).and('p1', _lessThan, 3))
+        .or('p1', _equal, 5)
+        .orderBy('p1', _ascNullFirst);
       const result = query.query([m1, m2, m3, m4, m5]);
       expect(2).to.be.eq(result.length);
       expect(2).to.be.eq(result[0].p1);
       expect(5).to.be.eq(result[1].p1);
     });
 
-    it("enable demo", () => {
-      const m1 = new Model1(1, "1");
-      const m2 = new Model1(2, "2");
-      const m3 = new Model1(3, "3");
-      const m4 = new Model1(4, "4");
-      const m5 = new Model1(5, "5");
+    it('enable demo', () => {
+      const m1 = new Model1(1, '1');
+      const m2 = new Model1(2, '2');
+      const m3 = new Model1(3, '3');
+      const m4 = new Model1(4, '4');
+      const m5 = new Model1(5, '5');
       let enable = true;
-      const query = DynamicQuery.createQuery(Model1).and(
-        enable,
-        "p1",
-        _greaterThan,
-        3
-      );
+      const query = DynamicQuery.createQuery(Model1).and(enable, 'p1', _greaterThan, 3);
 
       const result = query.query([m1, m2, m3, m4, m5]);
       for (const item of result) {
@@ -62,12 +84,7 @@ describe(".queryDemo", () => {
       }
       // 改变不启用筛选
       enable = false;
-      const query2 = DynamicQuery.createQuery(Model1).and(
-        enable,
-        "p1",
-        _greaterThan,
-        3
-      ).orderBy("p1");
+      const query2 = DynamicQuery.createQuery(Model1).and(enable, 'p1', _greaterThan, 3).orderBy('p1');
       const result2 = query2.query([m1, m2, m3, m4, m5]);
       expect(5).to.be.eq(result2.length);
     });
