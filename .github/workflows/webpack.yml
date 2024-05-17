@@ -1,6 +1,6 @@
 on: ["push", "pull_request"]
 
-name: Test1 Coveralls
+name: Test Coveralls
 
 jobs:
 
