@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Sun Sep 09 2018 15:28:39 GMT+0800 (China Standard Time)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "dist",
@@ -20,16 +20,22 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "src/**/*.js": ["browserify"],
-      "test/**/*.test.js": ["browserify"]
+      "test/**/*.test.js": ["browserify"],
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ["mocha"],
-
+    plugins: [
+      "karma-mocha",
+      "karma-browserify",
+      "karma-chai",
+      "karma-mocha-reporter",
+      "karma-firefox-launcher",
+    ],
     coverageReporter: {
-      reporters: [{ type: "text" }]
+      reporters: [{ type: "text" }],
     },
 
     // web server port
@@ -55,6 +61,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
   });
 };
