@@ -41,7 +41,7 @@
     "posttest": "karma start && npm run removenyc && del-cli coverage",
     "prepublish": "tsc",
     "cover": "tsc -p tsconfig.test.json && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/**/*.test.js --recursive",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && del-cli ./coverage",
+    "coveralls": "npm run cover -- --report lcovonly && del-cli ./coverage",
     "removenyc": "del-cli .nyc_output",
     "deletedist": "del-cli dist",
     "build": "npm run deletedist && cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack"
